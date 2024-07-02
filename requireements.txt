@@ -1,0 +1,9 @@
+gallery Photos/Videos/About Us
+Login/Register Functionality ?
+Admin Dashboard?
+Contact Details/Address/Email
+Customer Reviews if with Profile Photo possible
+Blogs Functionality?
+Pakages Details
+Counters Total Trips/Total Client/Years Experience
+any more features want to add.
