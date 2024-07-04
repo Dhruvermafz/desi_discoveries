@@ -9,7 +9,7 @@ const initial_state = {
   error: false,
 };
 
-export default AuthContext = createContext(initial_state);
+const AuthContext = createContext(initial_state);
 
 const AuthReducer = (state, action) => {
   switch (action.type) {
@@ -54,6 +54,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(state.user));
   }, [state.user]);
+
   return (
     <AuthContext.Provider
       value={{
@@ -67,3 +68,5 @@ export const AuthContextProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+export default AuthContext;
