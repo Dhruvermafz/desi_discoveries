@@ -3,7 +3,6 @@ import { Button, Col, Nav, Spinner } from "react-bootstrap";
 import useFetch from "../../hooks/useFetch";
 import TourCard from "../TourCard/TourCard";
 import { NavLink } from "react-router-dom";
-import Tour from "../../../../backend/models/Tour";
 
 const FeaturedToursList = () => {
   const { data: featuredTours, loading } = useFetch(`tours/featured`);

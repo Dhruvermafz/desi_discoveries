@@ -4,7 +4,7 @@ import Subtitle from "../components/Subtitle";
 import "../styles/About.css";
 import worldImg from "../assets/images/world.png";
 import logo1 from "../assets/images/logo1.png";
-
+import Newsletter from "../components/Newsletter";
 const About = () => {
   return (
     <>
@@ -35,6 +35,7 @@ const About = () => {
           </Row>
         </Container>
       </section>
+      <Newsletter />
     </>
   );
 };

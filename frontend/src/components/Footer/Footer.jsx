@@ -123,7 +123,7 @@ const Footer = () => {
                   <h6 className="mb-0">Phone:</h6>
                 </div>
                 <p className="mb-0">
-                  <Link to="tel:9876543210">+91 9876543210</Link>
+                  <Link to="tel:9876543210">7838686544</Link>
                 </p>
               </ListGroupItem>
 
@@ -134,14 +134,16 @@ const Footer = () => {
                   </span>
                   <h6 className="mb-0">Address:</h6>
                 </div>
-                <p className="mb-0">Pune, Maharashtra, India</p>
+                <p className="mb-0">
+                  H-82, Kunwar Singh Nagar, Nangloi, New Delhi-110041
+                </p>
               </ListGroupItem>
             </ListGroup>
           </Col>
 
           <Col lg="12" className="text-center pt-5">
             <p className="copyright">
-              &copy; {year} Travel World. All Rights Reserved. Designed and
+              &copy; {year} Desi Discoveries. All Rights Reserved. Designed and
               Developed By{" "}
               <Link to="https://shuence.netlify.app">Picky Vibe LLP.</Link>
             </p>

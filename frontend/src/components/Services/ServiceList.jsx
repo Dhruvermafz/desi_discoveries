@@ -1,10 +1,10 @@
 import React from "react";
 import ServiceCard from "./ServiceCard";
 import { Col, Row } from "react-bootstrap";
-import weatherImg from "../assets/images/weather.png";
-import guideImg from "../assets/images/guide.png";
-import customizationImg from "../assets/images/customization.png";
-import toursImg from "../assets/images/tours.png";
+import weatherImg from "../../assets/images/weather.png";
+import guideImg from "../../assets/images/guide.png";
+import customizationImg from "../../assets/images/customization.png";
+import toursImg from "../../assets/images/tours.png";
 
 const serviceData = [
   {

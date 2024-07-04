@@ -4,6 +4,7 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import AuthContext from "../../context/AuthContext";
 import "./header.css";
+
 const nav__links = [
   {
     path: "/",
@@ -56,14 +57,15 @@ const Header = () => {
   });
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
   return (
     <header className="header" ref={headerRef}>
-      <Container>
+      <Container className="container-contained">
         <Row>
           <div className="nav__wrapper d-flex align-items-center justify-content-between">
             <div className="logo">
               <Link to="/">
-                <img src={logo} alt="" />
+                <img src={logo} alt="Logo" />
               </Link>
             </div>
 
@@ -73,20 +75,18 @@ const Header = () => {
               onClick={toggleMenu}
             >
               <ul className="menu d-flex align-items-center gap-5">
-                {nav__links.map((item, index) => {
-                  return (
-                    <li className="nav__item" key={index}>
-                      <NavLink
-                        to={item.path}
-                        className={(navClass) =>
-                          navClass.isActive ? "active__link" : ""
-                        }
-                      >
-                        {item.display}
-                      </NavLink>
-                    </li>
-                  );
-                })}
+                {nav__links.map((item, index) => (
+                  <li className="nav__item" key={index}>
+                    <NavLink
+                      to={item.path}
+                      className={(navClass) =>
+                        navClass.isActive ? "active__link" : ""
+                      }
+                    >
+                      {item.display}
+                    </NavLink>
+                  </li>
+                ))}
               </ul>
             </div>
 

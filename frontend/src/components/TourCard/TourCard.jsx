@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardBody } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./TourCard.css";
-import calculateAvgRating from "../utils/avgRating";
+import calculateAvgRating from "../../utils/avgRating";
 import { useEffect } from "react";
 
 const TourCard = ({ tour }) => {
