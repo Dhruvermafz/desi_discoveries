@@ -6,6 +6,15 @@ import Contact from "../pages/Contact";
 import Home from "../pages/Home";
 import PageNotFound from "../pages/PageNotFound";
 import ThankYou from "../pages/ThankYou";
+import Tours from "../pages/Tours";
+import Login from "../pages/Login";
+import FAQ from "../components/FAQ";
+import Gallery from "../pages/Gallery";
+import SearchResultList from "../pages/SearchResultList";
+import TourDetails from "../pages/TourDetails";
+import BlogDetails from "../pages/BlogDetails";
+import Blogs from "../pages/Blogs";
+import Register from "../pages/Register";
 const Router = () => {
   return (
     <>

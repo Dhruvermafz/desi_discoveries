@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstraps";
+import { Container, Row, Col } from "react-bootstrap";
 import "./Commonsection.css";
 
 const CommonSection = ({ title }) => {
