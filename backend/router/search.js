@@ -5,4 +5,4 @@ const searchRouter = express.Router();
 
 searchRouter.get("/", getTourBySearch);
 
-export default searchRouter;
+module.exports = searchRouter;

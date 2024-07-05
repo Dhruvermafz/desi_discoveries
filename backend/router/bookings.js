@@ -12,4 +12,4 @@ bookingRouter.post("/", createBooking);
 bookingRouter.get("/:id", getBooking);
 bookingRouter.post("/", verifyAdmin, getAllBookings);
 
-export default bookingRouter;
+module.exports = bookingRouter;

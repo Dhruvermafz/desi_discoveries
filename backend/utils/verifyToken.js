@@ -21,28 +21,33 @@ const verifyToken = async (req, res, next) => {
     if (!user) {
       return errorHandler(res, 401, "Invalid token!");
     }
+
     req.user = user;
     next();
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return errorHandler(res, 401, "Invalid token!");
   }
 };
 
-export const verifyUser = (req, res, next) => {
-  if (req.user && req.user.role === "user") {
+const verifyAdmin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
     next();
   } else {
-    return errorHandler(res, 403, "Access denied!");
+    return errorHandler(res, 403, "Access denied");
   }
 };
 
-export const verifyAdmin = (req, res, next) => {
-  if (req.user && req.user.role === "admin") {
+const verifyUser = (req, res, next) => {
+  if (req.user) {
     next();
   } else {
-    return errorHandler(res, 403, "Access denied!");
+    return errorHandler(res, 403, "Access denied");
   }
 };
 
-export default verifyToken;
+module.exports = {
+  verifyToken,
+  verifyAdmin,
+  verifyUser,
+};

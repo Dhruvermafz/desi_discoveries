@@ -15,4 +15,4 @@ userRouter.get("/:id", verifyUser, getUserById);
 userRouter.put("/:id", verifyUser, updateUser);
 userRouter.delete("/:id", verifyUser, deleteUser);
 
-export default userRouter;
+module.exports = userRouter;

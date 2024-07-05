@@ -12,4 +12,4 @@ contactRouter.post("/", createContact);
 contactRouter.get("/:id", verifyAdmin, getSingleContact);
 contactRouter.get("/", verifyAdmin, getAllContacts);
 
-export default contactRouter;
+module.exports = contactRouter;

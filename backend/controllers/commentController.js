@@ -1,10 +1,9 @@
 const Comment = require("../models/Comment");
 const Blog = require("../models/Blog");
 
-export const createComment = async (req, res) => {
+const createComment = async (req, res) => {
   const { username, comment } = req.body;
   const { BlogId } = req.params;
-  const userId = req.userId;
 
   if (!username || !comment) {
     return res
@@ -34,7 +33,7 @@ export const createComment = async (req, res) => {
   }
 };
 
-export const getCommentsByBlogId = async (req, res) => {
+const getCommentsByBlogId = async (req, res) => {
   const { BlogId } = req.params;
 
   try {
@@ -47,7 +46,7 @@ export const getCommentsByBlogId = async (req, res) => {
 
     res.status(200).json({
       count: comments.length,
-      message: "Comment retrieved successfully",
+      message: "Comments retrieved successfully",
       data: comments,
     });
   } catch (err) {
@@ -56,7 +55,7 @@ export const getCommentsByBlogId = async (req, res) => {
   }
 };
 
-export const deleteComment = async (req, res) => {
+const deleteComment = async (req, res) => {
   const { commentId } = req.params;
 
   try {
@@ -78,4 +77,10 @@ export const deleteComment = async (req, res) => {
     console.log(err);
     res.status(500).json({ message: "Failed to delete comment!" });
   }
+};
+
+module.exports = {
+  createComment,
+  getCommentsByBlogId,
+  deleteComment,
 };

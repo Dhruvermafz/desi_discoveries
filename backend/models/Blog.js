@@ -1,41 +1,15 @@
 const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
-const blogSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      required: true,
-    },
-    content: {
-      type: String,
-      required: true,
-    },
-    author: {
-      type: String,
-      required: true,
-    },
-    photo: {
-      type: String,
-      required: true,
-    },
-    comments: [
-      {
-        username: {
-          type: String,
-          required: true,
-        },
-        comment: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
-    featured: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  { timestamps: { createdAt: "createdAt" } }
-);
+const blogSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  featured: { type: Boolean, default: false },
+  createdAt: { type: Date, default: Date.now },
+});
 
-export default mongoose.model("Blog", blogSchema);
+blogSchema.plugin(mongoosePaginate);
+
+const Blog = mongoose.model("Blog", blogSchema);
+
+module.exports = Blog;

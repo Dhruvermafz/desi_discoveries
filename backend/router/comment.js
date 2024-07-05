@@ -12,4 +12,4 @@ commentRouter.post("/:BlogId", createComment);
 commentRouter.get("/:BlogId", getCommentsByBlogId);
 commentRouter.get("/:commentId", verifyUser, deleteComment);
 
-export default commentRouter;
+module.exports = commentRouter;

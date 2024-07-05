@@ -28,14 +28,22 @@ const Register = () => {
       ...prevCredentials,
       [id]: value,
     }));
+    if (id === "email") {
+      setIsEmailValid(validateEmail(value)); // Validate email on change
+    }
   };
 
   const handleClick = async (e) => {
     e.preventDefault();
 
+    if (!isEmailValid) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
     dispatch({ type: "REGISTER_START" });
     setError(null); // Reset the error on each registration attempt
-    setIsEmailValid(true); // Reset email validation status
+
     try {
       const res = await fetch(`${BASE_URL}/auth/register`, {
         method: "POST",
@@ -69,15 +77,10 @@ const Register = () => {
     return emailRegex.test(email);
   };
 
-  const handleEmailChange = (e) => {
-    const { value } = e.target;
-    setIsEmailValid(validateEmail(value)); // Set email validation status
-    handleChange(e); // Call the regular handleChange function
-  };
-
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
   return (
     <section>
       <Container>
@@ -85,12 +88,12 @@ const Register = () => {
           <Col lg="8" className="m-auto">
             <div className="login__container d-flex justify-content-between">
               <div className="login__img">
-                <img src={registerImg} alt="" />
+                <img src={registerImg} alt="Register" />
               </div>
 
               <div className="login__form">
                 <div className="user">
-                  <img src={userIcon} alt="" />
+                  <img src={userIcon} alt="User Icon" />
                 </div>
                 <h2>Register</h2>
                 {error && <div className="alert alert-danger">{error}</div>}
@@ -105,6 +108,7 @@ const Register = () => {
                       required
                       id="username"
                       onChange={handleChange}
+                      autoFocus
                     />
                   </FormGroup>
                   <FormGroup>
@@ -114,9 +118,9 @@ const Register = () => {
                       required
                       autoComplete="true"
                       id="email"
-                      onChange={handleEmailChange} // Use handleEmailChange for email input
+                      onChange={handleChange}
                     />
-                    {!isEmailValid && (
+                    {!isEmailValid && credentials.email && (
                       <div className="alert alert-danger">
                         Please enter a valid email address
                       </div>
@@ -133,7 +137,7 @@ const Register = () => {
                         onChange={handleChange}
                       />
                       <i
-                        className={`ri-eye-line${showPassword ? "-slash" : ""}`}
+                        className={`ri-eye${showPassword ? "-off" : ""}-line`}
                         onClick={togglePasswordVisibility}
                       ></i>
                     </div>
@@ -141,7 +145,6 @@ const Register = () => {
                   <Button
                     className="btn secondary__btn auth__btn"
                     type="submit"
-                    onClick={handleClick}
                   >
                     Create Account
                   </Button>

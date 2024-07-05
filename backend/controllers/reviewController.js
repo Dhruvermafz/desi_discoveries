@@ -1,14 +1,13 @@
 const Review = require("../models/Review");
 const Tour = require("../models/Tour");
 
-export const createReview = async (req, res) => {
+const createReview = async (req, res) => {
   const { username, rating, reviewText } = req.body;
   const { TourId } = req.params;
-  const userId = req.userId;
 
   if (!username || !rating || !reviewText) {
     return res.status(400).json({
-      message: "Username, rating and review text are required fields!",
+      message: "Username, rating, and review text are required fields!",
     });
   }
 
@@ -37,7 +36,7 @@ export const createReview = async (req, res) => {
   }
 };
 
-export const getTourReviews = async (req, res) => {
+const getTourReviews = async (req, res) => {
   const { TourId } = req.params;
 
   try {
@@ -59,7 +58,7 @@ export const getTourReviews = async (req, res) => {
   }
 };
 
-export const deleteReview = async (req, res) => {
+const deleteReview = async (req, res) => {
   const { reviewId } = req.params;
 
   try {
@@ -88,4 +87,10 @@ export const deleteReview = async (req, res) => {
     console.log(err);
     res.status(500).json({ message: "Failed to delete review." });
   }
+};
+
+module.exports = {
+  createReview,
+  getTourReviews,
+  deleteReview,
 };

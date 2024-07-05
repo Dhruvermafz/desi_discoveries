@@ -1,6 +1,6 @@
 const User = require("../models/User");
 
-export const createUser = async (req, res) => {
+const createUser = async (req, res) => {
   try {
     const newUser = new User(req.body);
     const savedUser = await newUser.save();
@@ -15,12 +15,12 @@ export const createUser = async (req, res) => {
   }
 };
 
-export const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
     res.status(200).json({
       success: true,
-      message: "Users retrived successfully",
+      message: "Users retrieved successfully",
       data: users,
     });
   } catch (err) {
@@ -29,7 +29,7 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-export const getUserById = async (req, res) => {
+const getUserById = async (req, res) => {
   const userId = req.params.id;
   try {
     const user = await User.findById(userId);
@@ -50,7 +50,7 @@ export const getUserById = async (req, res) => {
   }
 };
 
-export const updateUser = async (req, res) => {
+const updateUser = async (req, res) => {
   const userId = req.params.id;
   try {
     const updatedUser = await User.findByIdAndUpdate(
@@ -61,7 +61,7 @@ export const updateUser = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "User updated successfully",
-      data: updateUser,
+      data: updatedUser,
     });
   } catch (err) {
     console.log(err);
@@ -69,7 +69,7 @@ export const updateUser = async (req, res) => {
   }
 };
 
-export const deleteUser = async (req, res) => {
+const deleteUser = async (req, res) => {
   const userId = req.params.id;
   try {
     await User.findByIdAndDelete(userId);
@@ -83,7 +83,7 @@ export const deleteUser = async (req, res) => {
   }
 };
 
-export default {
+module.exports = {
   createUser,
   getAllUsers,
   getUserById,

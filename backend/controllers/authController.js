@@ -2,12 +2,12 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-export const registerUser = async (req, res) => {
+const registerUser = async (req, res) => {
   const { username, fullName, email, password, photo } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
-    if (!existingUser) {
+    if (existingUser) {
       return res.status(400).json({ message: "Email already exists!" });
     }
 
@@ -33,7 +33,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-export const loginUser = async (req, res) => {
+const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -63,8 +63,8 @@ export const loginUser = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ mesage: "Failed to login" });
+    res.status(500).json({ message: "Failed to login" });
   }
 };
 
-export default { registerUser, loginUser };
+module.exports = { registerUser, loginUser };

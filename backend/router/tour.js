@@ -19,4 +19,4 @@ tourRouter.delete("/:id", deleteTour);
 tourRouter.get("/", getAllTour);
 tourRouter.get("/count", getTourCount);
 
-export default tourRouter;
+module.exports = tourRouter;

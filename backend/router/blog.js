@@ -9,10 +9,10 @@ const {
 
 const blogRouter = express.Router();
 
-blogRouter.get("/featured", getFeaturedBlogs);
-blogRouter.get("/:id", getSingleBlog);
-blogRouter.get("/", getAllBlogs);
 blogRouter.post("/", createBlog);
 blogRouter.put("/:id", updateBlog);
+blogRouter.get("/:id", getSingleBlog);
+blogRouter.get("/", getAllBlogs);
+blogRouter.get("/featured", getFeaturedBlogs);
 
-export default blogRouter;
+module.exports = blogRouter;

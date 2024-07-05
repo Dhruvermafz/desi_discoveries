@@ -1,7 +1,7 @@
 const Tour = require("../models/Tour");
 
 // create new tour
-export const createTour = async (req, res) => {
+const createTour = async (req, res) => {
   try {
     const newTour = new Tour(req.body);
     const savedTour = await newTour.save();
@@ -17,7 +17,7 @@ export const createTour = async (req, res) => {
 };
 
 // update tour
-export const updateTour = async (req, res) => {
+const updateTour = async (req, res) => {
   const id = req.params.id;
   try {
     const updatedTour = await Tour.findByIdAndUpdate(
@@ -37,7 +37,7 @@ export const updateTour = async (req, res) => {
 };
 
 // delete tour
-export const deleteTour = async (req, res) => {
+const deleteTour = async (req, res) => {
   const id = req.params.id;
   try {
     await Tour.findByIdAndDelete(id);
@@ -52,7 +52,7 @@ export const deleteTour = async (req, res) => {
 };
 
 // get single tour
-export const getSingleTour = async (req, res) => {
+const getSingleTour = async (req, res) => {
   const id = req.params.id;
   try {
     const tour = await Tour.findById(id);
@@ -74,7 +74,7 @@ export const getSingleTour = async (req, res) => {
 };
 
 // get all tours
-export const getAllTour = async (req, res) => {
+const getAllTour = async (req, res) => {
   try {
     const tours = await Tour.find();
     res.status(200).json({
@@ -89,7 +89,8 @@ export const getAllTour = async (req, res) => {
   }
 };
 
-export const getFeaturedTour = async (req, res) => {
+// get featured tours
+const getFeaturedTour = async (req, res) => {
   try {
     const tours = await Tour.find({ featured: true });
     res.status(200).json({
@@ -103,7 +104,8 @@ export const getFeaturedTour = async (req, res) => {
   }
 };
 
-export const getTourCount = async (req, res) => {
+// get tours count
+const getTourCount = async (req, res) => {
   try {
     const tourCount = await Tour.estimatedDocumentCount();
     res.status(200).json({
@@ -119,7 +121,7 @@ export const getTourCount = async (req, res) => {
   }
 };
 
-export default {
+module.exports = {
   createTour,
   deleteTour,
   updateTour,

@@ -2,12 +2,8 @@ const express = require("express");
 const asyncHandler = require("express-async-handler");
 const Blog = require("../models/Blog");
 
-// Adding pagination to the Blog model
-const mongoosePaginate = require("mongoose-paginate-v2");
-Blog.plugin(mongoosePaginate);
-
 // Create a new blog
-export const createBlog = asyncHandler(async (req, res) => {
+const createBlog = asyncHandler(async (req, res) => {
   console.log(req.body);
   const newBlog = await Blog.create(req.body);
   console.log(newBlog);
@@ -15,7 +11,7 @@ export const createBlog = asyncHandler(async (req, res) => {
 });
 
 // Update an existing blog
-export const updateBlog = asyncHandler(async (req, res) => {
+const updateBlog = asyncHandler(async (req, res) => {
   const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
@@ -23,7 +19,7 @@ export const updateBlog = asyncHandler(async (req, res) => {
 });
 
 // Get a single blog by ID
-export const getSingleBlog = asyncHandler(async (req, res) => {
+const getSingleBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
   if (blog) {
     res.status(200).json(blog);
@@ -33,14 +29,14 @@ export const getSingleBlog = asyncHandler(async (req, res) => {
 });
 
 // Get all blogs with pagination
-export const getAllBlogs = asyncHandler(async (req, res) => {
+const getAllBlogs = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
   const blogs = await Blog.paginate({}, { page, limit });
   res.status(200).json(blogs);
 });
 
 // Get all featured blogs
-export const getFeaturedBlogs = asyncHandler(async (req, res) => {
+const getFeaturedBlogs = asyncHandler(async (req, res) => {
   const featuredBlogs = await Blog.find({ featured: true });
   if (featuredBlogs.length > 0) {
     res.status(200).json({
@@ -54,3 +50,11 @@ export const getFeaturedBlogs = asyncHandler(async (req, res) => {
       .json({ success: false, message: "No featured blogs found" });
   }
 });
+
+module.exports = {
+  createBlog,
+  updateBlog,
+  getSingleBlog,
+  getAllBlogs,
+  getFeaturedBlogs,
+};

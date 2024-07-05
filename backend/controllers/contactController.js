@@ -1,6 +1,6 @@
 const Contact = require("../models/Contact");
 
-export const createContact = async (req, res) => {
+const createContact = async (req, res) => {
   const { name, email, phone, message } = req.body;
 
   if (!name || !email || !phone || !message) {
@@ -25,7 +25,7 @@ export const createContact = async (req, res) => {
   }
 };
 
-export const getAllContacts = async (req, res) => {
+const getAllContacts = async (req, res) => {
   try {
     const contacts = await Contact.find();
     res.status(200).json({
@@ -40,7 +40,7 @@ export const getAllContacts = async (req, res) => {
   }
 };
 
-export const getSingleContact = async (req, res) => {
+const getSingleContact = async (req, res) => {
   const id = req.params.id;
   try {
     const contact = await Contact.findById(id);
@@ -61,4 +61,10 @@ export const getSingleContact = async (req, res) => {
       .status(500)
       .json({ success: false, message: "Failed to get the contact" });
   }
+};
+
+module.exports = {
+  createContact,
+  getAllContacts,
+  getSingleContact,
 };

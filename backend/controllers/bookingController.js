@@ -1,6 +1,6 @@
 const Booking = require("../models/Booking");
 
-export const createBooking = async (req, res) => {
+const createBooking = async (req, res) => {
   const newBooking = new Booking(req.body);
 
   try {
@@ -15,18 +15,18 @@ export const createBooking = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: er.message,
+      error: err.message,
     });
   }
 };
 
-export const getBooking = async (req, res) => {
+const getBooking = async (req, res) => {
   const bookingId = req.params.id;
 
   try {
     const booking = await Booking.findById(bookingId);
     if (!booking) {
-      return res.status(401).json({
+      return res.status(404).json({
         success: false,
         message: "Booking not found",
       });
@@ -42,7 +42,7 @@ export const getBooking = async (req, res) => {
   }
 };
 
-export const getAllBookings = async (req, res) => {
+const getAllBookings = async (req, res) => {
   try {
     const bookings = await Booking.find();
     res.status(200).json({
@@ -50,13 +50,13 @@ export const getAllBookings = async (req, res) => {
       message: "Bookings retrieved successfully",
       data: bookings,
     });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ success: false, message: "Failed to get bookings" });
   }
 };
 
-export default {
+module.exports = {
   createBooking,
   getBooking,
   getAllBookings,

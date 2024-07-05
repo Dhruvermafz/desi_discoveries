@@ -1,11 +1,11 @@
 const Tour = require("../models/Tour");
 
-export const getTourBySearch = async (req, res) => {
+const getTourBySearch = async (req, res) => {
   const { city, distance, maxGroupSize } = req.query;
 
   const query = {};
   if (city) {
-    query.city = { $regex: new parseInt(city, "i") };
+    query.city = { $regex: new RegExp(city, "i") };
   }
 
   if (distance) {
@@ -27,8 +27,13 @@ export const getTourBySearch = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    res
-      .status(500)
-      .json({ success: false, message: "Failed to search for tours" });
+    res.status(500).json({
+      success: false,
+      message: "Failed to search for tours",
+    });
   }
+};
+
+module.exports = {
+  getTourBySearch,
 };

@@ -12,4 +12,4 @@ reviewRouter.post("/:ToutId", createReview);
 reviewRouter.get("/:TourId", getTourReviews);
 reviewRouter.delete("/:reviewId", verifyUser, deleteReview);
 
-export default reviewRouter;
+module.exports = reviewRouter;

@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const authRouter = require("./router/auth");
 const userRouter = require("./router/users");
 const tourRouter = require("./router/tour");
+const contactRouter = require("./router/contact");
 const reviewRouter = require("./router/review");
 const bookingRouter = require("./router/bookings");
 const searchRouter = require("./router/search");
