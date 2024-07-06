@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "../styles/ThankYou.css";
 
 const ThankYou = () => {
   return (

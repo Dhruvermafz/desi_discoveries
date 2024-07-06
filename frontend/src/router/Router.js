@@ -15,6 +15,8 @@ import TourDetails from "../pages/TourDetails";
 import BlogDetails from "../pages/BlogDetails";
 import Blogs from "../pages/Blogs";
 import Register from "../pages/Register";
+import ForgotPassword from "../pages/ForgotPassword";
+import AdminWrapper from "../components/admin/AdminWrapper";
 const Router = () => {
   return (
     <>
@@ -23,10 +25,14 @@ const Router = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/" element={<Home />} />
+        <Route path="/thankyou" element={<ThankYou />} />
         <Route path="*" element={<PageNotFound />} />
+        <Route path="/admin/*" element={<AdminWrapper />} />
+        <Route path="/me/profile" element={<AdminWrapper />} />
         <Route path="/tours" element={<Tours />} />
         <Route path="/tours/:id" element={<TourDetails />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/register" element={<Register />} />
         <Route path="/thank-you" element={<ThankYou />} />
         <Route path="/search" element={<SearchResultList />} />

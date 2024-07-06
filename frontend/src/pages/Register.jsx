@@ -149,9 +149,7 @@ const Register = () => {
                     Create Account
                   </Button>
                 </Form>
-                <p>
-                  <Link to="/forgotpassword">Forgot Password?</Link>
-                </p>
+
                 <p>
                   Already have an account? <Link to="/login">Login</Link>
                 </p>
