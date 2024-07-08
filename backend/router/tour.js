@@ -18,5 +18,5 @@ tourRouter.put("/:id", verifyAdmin, updateTour);
 tourRouter.delete("/:id", deleteTour);
 tourRouter.get("/", getAllTour);
 tourRouter.get("/count", getTourCount);
-
+tourRouter.get("/create", createTour);
 module.exports = tourRouter;

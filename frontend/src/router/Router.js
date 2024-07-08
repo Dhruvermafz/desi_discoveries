@@ -1,3 +1,4 @@
+// src/routes/Router.js
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import About from "../pages/About";
@@ -16,7 +17,11 @@ import BlogDetails from "../pages/BlogDetails";
 import Blogs from "../pages/Blogs";
 import Register from "../pages/Register";
 import ForgotPassword from "../pages/ForgotPassword";
+import AdminRoutes from "./adminRouter";
 import AdminWrapper from "../components/admin/AdminWrapper";
+import TourList from "../components/admin/Tours/TourList";
+import TourCreate from "../components/admin/Tours/TourCreate";
+import Profile from "../components/Profile/Profile";
 const Router = () => {
   return (
     <>
@@ -27,7 +32,10 @@ const Router = () => {
         <Route path="/" element={<Home />} />
         <Route path="/thankyou" element={<ThankYou />} />
         <Route path="*" element={<PageNotFound />} />
-        <Route path="/admin/*" element={<AdminWrapper />} />
+        <Route path="/admin/tours" element={<TourList />} />
+        <Route path="/admin" element={<AdminWrapper />} />
+        <Route path="/admin/tours/create" element={<TourCreate />} />
+        <Route path="/profile/:id" element={<Profile />} />
         <Route path="/me/profile" element={<AdminWrapper />} />
         <Route path="/tours" element={<Tours />} />
         <Route path="/tours/:id" element={<TourDetails />} />
@@ -38,7 +46,6 @@ const Router = () => {
         <Route path="/search" element={<SearchResultList />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/gallery" element={<Gallery />} />
-        <Route path="/contact" element={<Contact />} />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/blogs/:id" element={<BlogDetails />} />
       </Routes>

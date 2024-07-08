@@ -1,27 +1,4 @@
-:root {
-   
-    --sidebar-width: 16.6667%; 
-  }
-  
-  html, body, #root, .app {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .header {
-    
-    height: var(--header-height);
-  }
-  
-  .footer {
-    height: var(--footer-height);
-  }
-  
-
-  .admin-wrapper {
+.admin-wrapper {
     min-height: calc(100vh - var(--header-height) - var(--footer-height));
     margin-top: var(--header-height);
   }

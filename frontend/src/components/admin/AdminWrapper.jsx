@@ -1,18 +1,15 @@
 import React, { useContext } from "react";
 import { BsPeopleFill } from "react-icons/bs";
 import { MdDashboard } from "react-icons/md";
+import { FaQuestionCircle, FaGlobe, FaBlog, FaStar } from "react-icons/fa"; // Import additional icons
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Container, Row, Col, Nav } from "react-bootstrap";
 import "../../styles/admin.css";
 import AuthContext from "../../context/AuthContext";
+
 const AdminWrapper = (props) => {
   const { user } = useContext(AuthContext);
-  const checkActive = (match, location) => {
-    if (!location) return false;
-    const { pathname } = location;
-    return pathname === `/profile/${user.id}`;
-  };
 
   const renderAdminNav = () => {
     if (!user) {
@@ -22,8 +19,12 @@ const AdminWrapper = (props) => {
         <>
           <h5 className="mt-4">Admin</h5>
           <Nav className="flex-column">
-            <NavLink to="/admin/tours" className="nav-link">
-              <BsPeopleFill /> Manage tours
+            <NavLink
+              to="/admin/tours"
+              className="nav-link"
+              activeClassName="active"
+            >
+              <BsPeopleFill /> Manage Tours
             </NavLink>
           </Nav>
         </>
@@ -41,22 +42,38 @@ const AdminWrapper = (props) => {
               <NavLink
                 to={`/profile/${user.id}`}
                 className="nav-link"
-                isActive={checkActive}
+                activeClassName="active"
               >
                 <MdDashboard /> Profile
               </NavLink>
             )}
-            <NavLink to="/contacted" className="nav-link">
-              Queries
+            <NavLink
+              to="/admin/queries"
+              className="nav-link"
+              activeClassName="active"
+            >
+              <FaQuestionCircle /> Queries
             </NavLink>
-            <NavLink to="/tours" className="nav-link">
-              Tours
+            <NavLink
+              to="/admin/tours"
+              className="nav-link"
+              activeClassName="active"
+            >
+              <FaGlobe /> Tours
             </NavLink>
-            <NavLink to="/blogs" className="nav-link">
-              Blogs
+            <NavLink
+              to="/admin/blogs"
+              className="nav-link"
+              activeClassName="active"
+            >
+              <FaBlog /> Blogs
             </NavLink>
-            <NavLink to="/reviews" className="nav-link">
-              Reviews
+            <NavLink
+              to="/admin/reviews"
+              className="nav-link"
+              activeClassName="active"
+            >
+              <FaStar /> Reviews
             </NavLink>
           </Nav>
           {renderAdminNav()}

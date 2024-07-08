@@ -75,7 +75,6 @@ const FAQ = () => {
             </Col>
           </Row>
         </Container>
-        <Newsletter />
       </section>
     </>
   );

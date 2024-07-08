@@ -1,18 +1,68 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import { createTour } from "../../redux/actions/tourActions";
+import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { createTour } from "../../../redux/actions/tourActions";
 
-const TourCreateBootstrap = () => {
+const TourCreate = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, error } = useSelector((state) => state.tour);
 
-  const onSubmit = async (formValues) => {
-    // Dispatch createTour action creator to initiate API call
-    await dispatch(createTour(formValues));
-    // Handle success or failure in Redux store (not shown in this snippet)
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const formValues = {
+      name: form.name.value,
+      summary: form.summary.value,
+      description: form.description.value,
+      difficulty: form.difficulty.value,
+      price: form.price.value,
+      maxGroupSize: form.maxGroupSize.value,
+      duration: form.duration.value,
+      startLocation: form.startLocation.value,
+      startDates: form.startDates.value,
+      imageCover: form.imageCover.files[0],
+      image1: form.image1.files[0],
+      image2: form.image2.files[0],
+      image3: form.image3.files[0],
+    };
+
+    try {
+      await dispatch(createTour(formValues));
+      navigate("/admin/tours");
+    } catch (error) {
+      console.error("Error creating tour:", error);
+    }
   };
+
+  if (loading) {
+    return (
+      <Container
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "100vh" }}
+      >
+        <Row>
+          <Col className="text-center">
+            <h3>Loading...</h3>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container className="mt-4">
+        <Row>
+          <Col>
+            <Alert variant="danger">{error}</Alert>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -42,4 +92,4 @@ const TourCreateBootstrap = () => {
   );
 };
 
-export default TourCreateBootstrap;
+export default TourCreate;
