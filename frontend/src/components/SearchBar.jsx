@@ -7,20 +7,20 @@ import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
   const locationRef = useRef(null);
-  const distanceRef = useRef(null);
+  const dateRef = useRef(null);
   const maxGroupSizeRef = useRef(null);
   const navigate = useNavigate();
 
   const searchHandler = async (e) => {
-    e.preventDefault(); // Prevent form submission
+    e.preventDefault();
 
     const location = locationRef.current.value;
-    const distance = distanceRef.current.value;
+    const date = dateRef.current.value;
     const maxGroupSize = maxGroupSizeRef.current.value;
 
     const searchParams = new URLSearchParams();
     if (location) searchParams.append("city", location);
-    if (distance) searchParams.append("distance", distance);
+    if (date) searchParams.append("date", date);
     if (maxGroupSize) searchParams.append("maxGroupSize", maxGroupSize);
 
     try {
@@ -57,15 +57,11 @@ const SearchBar = () => {
           </FormGroup>
           <FormGroup className="d-flex gap-3 form__group form__group-fast">
             <span>
-              <i className="ri-map-pin-time-line" />
+              <i className="ri-calendar-line" />
             </span>
             <div>
-              <h6>Distance</h6>
-              <input
-                type="number"
-                placeholder="Distance k/m"
-                ref={distanceRef}
-              />
+              <h6>Date</h6>
+              <input type="date" ref={dateRef} />
             </div>
           </FormGroup>
           <FormGroup className="d-flex gap-3 form__group form__group-fast">

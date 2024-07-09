@@ -21,7 +21,10 @@ import AdminRoutes from "./adminRouter";
 import AdminWrapper from "../components/admin/AdminWrapper";
 import TourList from "../components/admin/Tours/TourList";
 import TourCreate from "../components/admin/Tours/TourCreate";
-import Profile from "../components/Profile/Profile";
+import Profile from "../components/Profile/ProfilePage";
+import RatingsReviews from "../components/admin/Reviews/Reviews";
+import AddTourPackage from "../components/admin/Tours/AddTourPackage";
+import UpdateTour from "../components/admin/Tours/UpdateTour";
 const Router = () => {
   return (
     <>
@@ -34,9 +37,11 @@ const Router = () => {
         <Route path="*" element={<PageNotFound />} />
         <Route path="/admin/tours" element={<TourList />} />
         <Route path="/admin" element={<AdminWrapper />} />
-        <Route path="/admin/tours/create" element={<TourCreate />} />
+        <Route path="/admin/tours/create" element={<AddTourPackage />} />
+        <Route path="/admin/tours/update" element={<UpdateTour />} />
+        <Route path="/admin/reviews" element={<RatingsReviews />} />
         <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/me/profile" element={<AdminWrapper />} />
+        <Route path="/profile/:id/edit" element={<Profile />} />
         <Route path="/tours" element={<Tours />} />
         <Route path="/tours/:id" element={<TourDetails />} />
         <Route path="/login" element={<Login />} />

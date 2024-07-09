@@ -95,8 +95,10 @@ const Header = () => {
                 {user ? (
                   <>
                     <h5 className="mb-0 p-2 logged__in_h5">
-                      {user.username.charAt(0).toUpperCase() +
-                        user.username.slice(1)}
+                      <Link to={`/profile/${user.id}`}>
+                        {user.username.charAt(0).toUpperCase() +
+                          user.username.slice(1)}
+                      </Link>
                     </h5>
                     <Button className="btn btn-dark" onClick={logout}>
                       Logout

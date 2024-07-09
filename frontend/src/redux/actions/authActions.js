@@ -18,12 +18,12 @@ import { BASE_URL } from "../../utils/config";
 const API_URL = `${BASE_URL}/api/v1`;
 
 // LOAD USER
-export const loadUser = () => async (dispatch) => {
+export const loadUser = (user) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
   try {
-    const response = await axios.get(`${API_URL}/users/me`);
+    const response = await axios.get(`${API_URL}/users/${user}`);
     dispatch({ type: USER_LOADED, payload: response.data });
   } catch (err) {
     dispatch({ type: AUTH_ERROR });
@@ -41,9 +41,9 @@ export const logIn = (formValues, navigate) => async (dispatch) => {
   const body = JSON.stringify(formValues);
 
   try {
-    const response = await axios.post(`${API_URL}/users/login`, body, config);
+    const response = await axios.post(`${API_URL}/auth/login`, body, config);
     dispatch({ type: LOGIN_SUCCESS, payload: response.data });
-    dispatch(loadUser());
+    dispatch(loadUser(response.data.user.id));
 
     navigate("/");
   } catch (err) {
@@ -56,7 +56,7 @@ export const logIn = (formValues, navigate) => async (dispatch) => {
 // LOG OUT USER
 export const logout = (navigate) => async (dispatch) => {
   try {
-    await axios.get(`${API_URL}/users/logout`);
+    await axios.get(`${API_URL}/auth/logout`);
     dispatch({ type: LOG_OUT });
     navigate("/");
   } catch (err) {
@@ -75,9 +75,9 @@ export const signUp = (formValues, navigate) => async (dispatch) => {
   const body = JSON.stringify(formValues);
 
   try {
-    const response = await axios.post(`${API_URL}/users/signup`, body, config);
+    const response = await axios.post(`${API_URL}/auth/signup`, body, config);
     dispatch({ type: SIGNUP_SUCCESS, payload: response.data });
-    dispatch(loadUser());
+    dispatch(loadUser(response.data.user.id));
 
     navigate("/");
   } catch (err) {
@@ -125,7 +125,7 @@ export const updateUserProfile =
 
       const response = await axios.patch(url, form);
       dispatch({ type: UPDATE_USER_SUCCESS, payload: response.data });
-      dispatch(loadUser());
+      dispatch(loadUser(response.data.user.id));
     } catch (err) {
       dispatch({ type: UPDATE_USER_FAIL });
       console.log(err);

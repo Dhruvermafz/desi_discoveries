@@ -4,7 +4,7 @@ import { MdDashboard } from "react-icons/md";
 import { FaQuestionCircle, FaGlobe, FaBlog, FaStar } from "react-icons/fa"; // Import additional icons
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { Container, Row, Col, Nav } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import "../../styles/admin.css";
 import AuthContext from "../../context/AuthContext";
 
@@ -18,68 +18,53 @@ const AdminWrapper = (props) => {
       return (
         <>
           <h5 className="mt-4">Admin</h5>
-          <Nav className="flex-column">
-            <NavLink
-              to="/admin/tours"
-              className="nav-link"
-              activeClassName="active"
-            >
-              <BsPeopleFill /> Manage Tours
-            </NavLink>
-          </Nav>
+          <Row className="gx-3 gy-3">
+            <AdminCard
+              to={`/admin/tours`}
+              icon={<BsPeopleFill />}
+              title="Manage Tours"
+            />
+          </Row>
         </>
       );
     }
   };
 
+  const AdminCard = ({ to, icon, title }) => (
+    <Col xs={6} md={4} lg={3} className="admin-card">
+      <Card className="h-100">
+        <Card.Body className="d-flex flex-column justify-content-center align-items-center">
+          {icon}
+          <Card.Title className="mt-3">{title}</Card.Title>
+        </Card.Body>
+        <NavLink to={to} className="stretched-link"></NavLink>
+      </Card>
+    </Col>
+  );
+
   return (
     <Container fluid className="admin-wrapper">
       <Row>
-        <Col md={3} lg={2} className="sidebar p-4">
+        <Col md={12} className="main-content p-4">
           <h5>{user ? user.username : "User"}</h5>
-          <Nav className="flex-column">
+          <Row className="gx-3 gy-3 ">
             {user && (
-              <NavLink
+              <AdminCard
                 to={`/profile/${user.id}`}
-                className="nav-link"
-                activeClassName="active"
-              >
-                <MdDashboard /> Profile
-              </NavLink>
+                icon={<MdDashboard />}
+                title="Profile"
+              />
             )}
-            <NavLink
+            <AdminCard
               to="/admin/queries"
-              className="nav-link"
-              activeClassName="active"
-            >
-              <FaQuestionCircle /> Queries
-            </NavLink>
-            <NavLink
-              to="/admin/tours"
-              className="nav-link"
-              activeClassName="active"
-            >
-              <FaGlobe /> Tours
-            </NavLink>
-            <NavLink
-              to="/admin/blogs"
-              className="nav-link"
-              activeClassName="active"
-            >
-              <FaBlog /> Blogs
-            </NavLink>
-            <NavLink
-              to="/admin/reviews"
-              className="nav-link"
-              activeClassName="active"
-            >
-              <FaStar /> Reviews
-            </NavLink>
-          </Nav>
+              icon={<FaQuestionCircle />}
+              title="Queries"
+            />
+            <AdminCard to="/admin/tours" icon={<FaGlobe />} title="Tours" />
+            <AdminCard to="/admin/blogs" icon={<FaBlog />} title="Blogs" />
+            <AdminCard to="/admin/reviews" icon={<FaStar />} title="Reviews" />
+          </Row>
           {renderAdminNav()}
-        </Col>
-        <Col md={9} lg={10} className="main-content p-4">
-          {/* Main content goes here */}
         </Col>
       </Row>
     </Container>

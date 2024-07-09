@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -12,10 +12,16 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTours } from "../../../redux/actions/tourActions";
 import TourItem from "./TourItem";
+import TourCreate from "./TourCreate"; // Import the TourCreate component
 
 const ToursList = () => {
   const dispatch = useDispatch();
   const { tours, loading, error } = useSelector((state) => state.tour);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShow = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
 
   useEffect(() => {
     dispatch(fetchTours());
@@ -51,9 +57,9 @@ const ToursList = () => {
           <h2>Tours List</h2>
         </Col>
         <Col className="text-end">
-          <Link to={`/admin/tours/create`}>
-            <Button variant="dark">Add Tour</Button>
-          </Link>
+          <Button variant="dark" onClick={handleShow}>
+            Add Tour
+          </Button>
         </Col>
       </Row>
 
@@ -73,6 +79,8 @@ const ToursList = () => {
         </thead>
         <tbody>{renderTours()}</tbody>
       </Table>
+
+      <TourCreate showModal={showModal} handleClose={handleClose} />
     </Container>
   );
 };
