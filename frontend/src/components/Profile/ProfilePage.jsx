@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
 import { useDispatch } from "react-redux";
-import AuthContext from "../../context/AuthContext";
 import { logout } from "../../redux/actions/authActions";
 import moment from "moment";
 import { Button, Col, Container, Row, Image } from "react-bootstrap";
 import "../../styles/profile.css";
-
+import { AuthContext } from "../../context/AuthContext";
 const Profile = () => {
   const { user } = useContext(AuthContext);
   const dispatch = useDispatch();
@@ -50,16 +49,6 @@ const Profile = () => {
                 >
                   Edit Profile
                 </Button>
-              </div>
-            </div>
-            <div className="profile-stats mt-4">
-              <div className="stat-item text-center">
-                <h1 className="stat-label">Available Points:</h1>
-                <h3 className="stat-value">1500</h3>
-              </div>
-              <div className="stat-item text-center">
-                <h1 className="stat-label">Account Status:</h1>
-                <h3 className="stat-value status-blue">Blue</h3>
               </div>
             </div>
           </div>

@@ -22,40 +22,6 @@ const Home = () => {
     <>
       <section>
         <Container>
-          <Container fluid>
-            <Row className="lg:flex-row flex-col grid-cols-2 gap-10">
-              <Col className="experience__content">
-                <Subtitle subtitle={"Explore"} />
-
-                <h1 className="text-4xl md:text-5xl font-bold">
-                  the Wonders of India
-                </h1>
-                <h1 className="text-4xl md:text-6xl font-bold text-primary">
-                  with us.
-                </h1>
-                <p className="mt-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-                <Button className="bg-primary px-2 py-3 rounded-lg hover:bg-white hover-text-primary hover-border hover-font-bold mt-4">
-                  Get started
-                </Button>
-              </Col>
-              <Col>
-                <img
-                  src="https://img.freepik.com/premium-photo/palm-tree-jungle-philippines-concept-about-wanderlust-tropical-travels-swinging-river-people-having-fun_186382-1220.jpg?w=1060"
-                  alt="heroimg"
-                  style={{
-                    width: "100%",
-                    display: "block",
-                    borderRadius: "10px",
-                  }}
-                  className="hero__img-box"
-                />
-              </Col>
-            </Row>
-          </Container>
-
           <Row>
             <Col lg="6">
               <div className="hero__content">
@@ -92,6 +58,39 @@ const Home = () => {
             </Col>
             <SearchBar />
           </Row>
+          <Container fluid>
+            <Row className="lg:flex-row flex-col grid-cols-2 gap-10">
+              <Col className="experience__content">
+                <Subtitle subtitle={"Explore"} />
+
+                <h1 className="text-4xl md:text-5xl font-bold">
+                  the Wonders of India
+                </h1>
+                <h1 className="text-4xl md:text-6xl font-bold text-primary">
+                  with us.
+                </h1>
+                <p className="mt-4">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </p>
+                <Button className="bg-primary px-2 py-3 rounded-lg hover:bg-white hover-text-primary hover-border hover-font-bold mt-4">
+                  Get started
+                </Button>
+              </Col>
+              <Col>
+                <img
+                  src="https://img.freepik.com/premium-photo/palm-tree-jungle-philippines-concept-about-wanderlust-tropical-travels-swinging-river-people-having-fun_186382-1220.jpg?w=1060"
+                  alt="heroimg"
+                  style={{
+                    width: "100%",
+                    display: "block",
+                    borderRadius: "10px",
+                  }}
+                  className="hero__img-box"
+                />
+              </Col>
+            </Row>
+          </Container>
         </Container>
       </section>
       <section>

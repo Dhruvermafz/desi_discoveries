@@ -7,7 +7,7 @@ import {
   DELETE_TOUR,
 } from "../type/types";
 import { BASE_URL } from "../../utils/config";
-const API_URL = `${BASE_URL}/api/v1`;
+const API_URL = `${BASE_URL}`;
 
 // Example of adding error handling to fetchTours action
 export const fetchTours = () => async (dispatch) => {

@@ -5,7 +5,7 @@ import "../styles/Login.css";
 import loginImg from "../assets/images/login.png";
 import userIcon from "../assets/images/user.png";
 import { BASE_URL } from "../utils/config";
-import AuthContext from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 const Login = () => {
   const [credentials, setCredentials] = useState({
     email: "",

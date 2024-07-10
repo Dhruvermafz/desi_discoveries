@@ -1,10 +1,8 @@
-import axios from 'axios';
-import { FETCH_REVIEWS } from '../type/types';
-;
-
+import axios from "axios";
+import { FETCH_REVIEWS } from "../type/types";
 // GET ALL REVIEWS
-export const fetchReviews = () => async dispatch => {
-  const response = await axios.get('/api/v1/reviews');
+export const fetchReviews = () => async (dispatch) => {
+  const response = await axios.get("/reviews");
 
-  dispatch({ type: FETCH_REVIEWS, payload: response.data })
-}
+  dispatch({ type: FETCH_REVIEWS, payload: response.data });
+};

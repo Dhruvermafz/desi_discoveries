@@ -8,8 +8,7 @@ import Subtitle from "../components/Subtitle";
 import Newsletter from "../components/Newsletter";
 import axios from "axios";
 import { BASE_URL } from "../utils/config";
-import AuthContext from "../context/AuthContext";
-
+import { AuthContext } from "../context/AuthContext";
 const BlogDetails = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState({});

@@ -15,7 +15,7 @@ import {
 import { setAuthToken } from "../../utils/setAuthToken";
 import { setAlert } from "./alertAction";
 import { BASE_URL } from "../../utils/config";
-const API_URL = `${BASE_URL}/api/v1`;
+const API_URL = `${BASE_URL}`;
 
 // LOAD USER
 export const loadUser = (user) => async (dispatch) => {
@@ -23,7 +23,7 @@ export const loadUser = (user) => async (dispatch) => {
     setAuthToken(localStorage.token);
   }
   try {
-    const response = await axios.get(`${API_URL}/users/${user}`);
+    const response = await axios.get(`${API_URL}/users/${user.id}`);
     dispatch({ type: USER_LOADED, payload: response.data });
   } catch (err) {
     dispatch({ type: AUTH_ERROR });

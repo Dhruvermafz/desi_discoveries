@@ -5,7 +5,7 @@ import { Ripple, initTE } from "tw-elements";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import AuthContext from "../../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
 const UpdateTour = () => {
   //   useEffect(() => {
   //     initTE({ Ripple });

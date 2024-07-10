@@ -1,34 +1,31 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FiEdit, FiDelete } from "react-icons/fi";
-import { Image } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+// Adjust the path as per your file structure
+import TourItem from "./TourItem";
+import { fetchTour } from "../../../redux/actions/tourActions";
+const TourList = ({ tours, fetchTour }) => {
+  useEffect(() => {
+    fetchTour();
+  }, [fetchTour]);
 
-const TourItem = ({ name, id, startLocation, imageCover }) => {
   return (
-    <>
-      <td>
-        <Link to={`/tours/${id}`}>
-          <Image
-            src={`/tours/${imageCover}`}
-            alt={name}
-            rounded
-            style={{ width: "4rem", marginRight: "1rem", display: "none" }}
-            className="d-none d-md-inline"
-          />
-          {name}
-        </Link>
-      </td>
-      <td>{startLocation}</td>
-      <td className="d-flex justify-content-end">
-        <Link to={`/admin/tours/edit/${id}`} className="me-2">
-          <FiEdit className="icon" />
-        </Link>
-        <Link to={`/admin/tours/delete/${id}`} className="ms-2">
-          <FiDelete className="icon" />
-        </Link>
-      </td>
-    </>
+    <div>
+      <h2>Tours</h2>
+      {tours.map((tour) => (
+        <TourItem
+          key={tour.id}
+          id={tour.id}
+          name={tour.name}
+          startLocation={tour.startLocation}
+          imageCover={tour.imageCover}
+        />
+      ))}
+    </div>
   );
 };
 
-export default TourItem;
+const mapStateToProps = (state) => ({
+  tours: state.tours, // Assuming your tours are stored in state.tours
+});
+
+export default connect(mapStateToProps, { fetchTour })(TourList);

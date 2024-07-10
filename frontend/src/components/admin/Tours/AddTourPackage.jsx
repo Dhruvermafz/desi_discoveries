@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, Button, Container, Row, Col, Image } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axios from "axios";
-import AuthContext from "../../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
 import { TbPhotoPlus } from "react-icons/tb";
 import moment from "moment";
 import "../../../styles/addpackage.css";

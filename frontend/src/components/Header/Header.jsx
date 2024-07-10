@@ -2,9 +2,8 @@ import React, { useRef, useEffect, useContext, useState } from "react";
 import { Container, Row, Button } from "react-bootstrap";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
-import AuthContext from "../../context/AuthContext";
 import "./header.css";
-
+import { AuthContext } from "../../context/AuthContext";
 const nav__links = [
   {
     path: "/",

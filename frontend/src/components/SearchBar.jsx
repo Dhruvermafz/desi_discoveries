@@ -1,26 +1,31 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
 import "../styles/searchbar.css";
 import { Col, Form, FormGroup } from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import { FiMapPin, FiCalendar, FiUsers, FiSearch } from "react-icons/fi";
 import axios from "axios";
 import { BASE_URL } from "../utils/config";
 import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
   const locationRef = useRef(null);
-  const dateRef = useRef(null);
   const maxGroupSizeRef = useRef(null);
   const navigate = useNavigate();
+
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
 
   const searchHandler = async (e) => {
     e.preventDefault();
 
     const location = locationRef.current.value;
-    const date = dateRef.current.value;
     const maxGroupSize = maxGroupSizeRef.current.value;
 
     const searchParams = new URLSearchParams();
     if (location) searchParams.append("city", location);
-    if (date) searchParams.append("date", date);
+    if (fromDate) searchParams.append("fromDate", fromDate.toISOString());
+    if (toDate) searchParams.append("toDate", toDate.toISOString());
     if (maxGroupSize) searchParams.append("maxGroupSize", maxGroupSize);
 
     try {
@@ -44,7 +49,7 @@ const SearchBar = () => {
         >
           <FormGroup className="d-flex gap-3 form__group form__group-fast">
             <span>
-              <i className="ri-map-pin-line" />
+              <FiMapPin />
             </span>
             <div>
               <h6>Location</h6>
@@ -57,16 +62,42 @@ const SearchBar = () => {
           </FormGroup>
           <FormGroup className="d-flex gap-3 form__group form__group-fast">
             <span>
-              <i className="ri-calendar-line" />
+              <FiCalendar />
             </span>
             <div>
-              <h6>Date</h6>
-              <input type="date" ref={dateRef} />
+              <h6>From</h6>
+              <DatePicker
+                selected={fromDate}
+                onChange={(date) => setFromDate(date)}
+                selectsStart
+                startDate={fromDate}
+                endDate={toDate}
+                placeholderText="Select start date"
+                className="form-control"
+              />
             </div>
           </FormGroup>
           <FormGroup className="d-flex gap-3 form__group form__group-fast">
             <span>
-              <i className="ri-group-line" />
+              <FiCalendar />
+            </span>
+            <div>
+              <h6>To</h6>
+              <DatePicker
+                selected={toDate}
+                onChange={(date) => setToDate(date)}
+                selectsEnd
+                startDate={fromDate}
+                endDate={toDate}
+                minDate={fromDate}
+                placeholderText="Select end date"
+                className="form-control"
+              />
+            </div>
+          </FormGroup>
+          <FormGroup className="d-flex gap-3 form__group form__group-fast">
+            <span>
+              <FiUsers />
             </span>
             <div>
               <h6>Max People</h6>
@@ -75,7 +106,7 @@ const SearchBar = () => {
           </FormGroup>
 
           <button className="search__icon" type="submit">
-            <i className="ri-search-line" />
+            <FiSearch />
           </button>
         </Form>
       </div>

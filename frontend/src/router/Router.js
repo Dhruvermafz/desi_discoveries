@@ -25,6 +25,7 @@ import Profile from "../components/Profile/ProfilePage";
 import RatingsReviews from "../components/admin/Reviews/Reviews";
 import AddTourPackage from "../components/admin/Tours/AddTourPackage";
 import UpdateTour from "../components/admin/Tours/UpdateTour";
+import UserProfile from "../components/Profile/UserProfile";
 const Router = () => {
   return (
     <>
@@ -42,6 +43,7 @@ const Router = () => {
         <Route path="/admin/reviews" element={<RatingsReviews />} />
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/profile/:id/edit" element={<Profile />} />
+        <Route path="/settings" element={<UserProfile />} />
         <Route path="/tours" element={<Tours />} />
         <Route path="/tours/:id" element={<TourDetails />} />
         <Route path="/login" element={<Login />} />

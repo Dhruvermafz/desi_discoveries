@@ -16,7 +16,7 @@ import Booking from "../components/Booking/Booking";
 import axios from "axios";
 import "../styles/TourDetails.css";
 import { BASE_URL } from "../utils/config";
-import AuthContext from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 import FAQ from "../components/FAQ";
 
 const TourDetails = () => {

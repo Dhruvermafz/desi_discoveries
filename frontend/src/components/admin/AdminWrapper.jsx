@@ -6,8 +6,7 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import "../../styles/admin.css";
-import AuthContext from "../../context/AuthContext";
-
+import { AuthContext } from "../../context/AuthContext";
 const AdminWrapper = (props) => {
   const { user } = useContext(AuthContext);
 
