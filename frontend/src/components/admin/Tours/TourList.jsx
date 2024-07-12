@@ -28,6 +28,9 @@ const ToursList = () => {
   }, [dispatch]);
 
   const renderTours = () => {
+    if (!Array.isArray(tours)) {
+      return null;
+    }
     return tours.map((tour) => <TourItem key={tour._id} {...tour} />);
   };
 
@@ -63,7 +66,7 @@ const ToursList = () => {
         </Col>
       </Row>
 
-      {!tours.length && (
+      {(!tours || tours.length === 0) && (
         <Alert variant="info" className="mt-4">
           No tours available.
         </Alert>

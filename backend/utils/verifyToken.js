@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const adminCredentials = require("./admin.json");
 
 const errorHandler = (res, statusCode, message) => {
   return res.status(statusCode).json({ message });
@@ -31,7 +32,11 @@ const verifyToken = async (req, res, next) => {
 };
 
 const verifyAdmin = (req, res, next) => {
-  if (req.user && req.user.isAdmin) {
+  if (
+    req.user &&
+    req.user.email === adminCredentials.adminEmail &&
+    req.user.password === adminCredentials.adminPassword
+  ) {
     next();
   } else {
     return errorHandler(res, 403, "Access denied");

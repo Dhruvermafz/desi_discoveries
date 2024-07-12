@@ -107,10 +107,10 @@ const Footer = () => {
                 </div>
                 <p className="mb-0">
                   <Link
-                    to="mailto:support@travelworld.com"
+                    to="mailto:support@desidiscoveries.com"
                     className="color-text"
                   >
-                    support@travelworld.com
+                    support@desidiscoveries.com
                   </Link>
                 </p>
               </ListGroupItem>
@@ -145,7 +145,9 @@ const Footer = () => {
             <p className="copyright">
               &copy; {year} Desi Discoveries. All Rights Reserved. Designed and
               Developed By{" "}
-              <Link to="https://shuence.netlify.app">Picky Vibe LLP.</Link>
+              <Link to="https://pickyvibe.com" target="_blank">
+                Picky Vibe LLP.
+              </Link>
             </p>
           </Col>
         </Row>

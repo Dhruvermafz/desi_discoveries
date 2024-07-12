@@ -4,12 +4,16 @@ import { reviewReducer } from "./reviewReducer";
 import { alertReducer } from "./alertReducer";
 import { checkoutReducer } from "./checkoutReducer";
 import tourReducer from "./tourReducer";
+import queryReducer from "./queryReducer";
+import blogReducer from "./blogReducer";
 const rootReducer = combineReducers({
   auth: authReducer,
   tour: tourReducer,
   reviews: reviewReducer,
   alert: alertReducer,
   pay: checkoutReducer,
+  query: queryReducer,
+  blog: blogReducer,
 });
 
 export default rootReducer;

@@ -62,9 +62,33 @@ const getSingleContact = async (req, res) => {
       .json({ success: false, message: "Failed to get the contact" });
   }
 };
+// @desc    Delete a contact query
+// @route   DELETE /api/contact/:id
+// @access  Private (admin)
+const deleteContact = async (req, res) => {
+  try {
+    const queryId = req.params.id;
+    const query = await Contact.findById(queryId);
+
+    if (!query) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Query not found" });
+    }
+
+    await query.remove();
+    res
+      .status(200)
+      .json({ success: true, message: "Query deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Failed to delete query" });
+  }
+};
 
 module.exports = {
   createContact,
   getAllContacts,
   getSingleContact,
+  deleteContact,
 };

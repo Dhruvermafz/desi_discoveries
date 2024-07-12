@@ -1,23 +1,34 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
 const Blog = require("../models/Blog");
+const cloudinary = require("../utils/cloudinary");
 
 // Create a new blog
 const createBlog = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  const newBlog = await Blog.create(req.body);
-  console.log(newBlog);
-  res.status(201).json(newBlog);
+  const { title, content } = req.body;
+
+  try {
+    const newBlog = await Blog.create({ title, content });
+    res.status(201).json(newBlog);
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "Failed to create blog", error: error.message });
+  }
 });
 
 // Update an existing blog
 const updateBlog = asyncHandler(async (req, res) => {
-  const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
+  const { title, content, excerpt, tags, categories, featured } = req.body;
+
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    req.params.id,
+    { title, content, excerpt, tags, categories, featured },
+    { new: true }
+  );
+
   res.status(200).json(updatedBlog);
 });
-
 // Get a single blog by ID
 const getSingleBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
@@ -51,10 +62,29 @@ const getFeaturedBlogs = asyncHandler(async (req, res) => {
   }
 });
 
+// Delete a blog
+const deleteBlog = asyncHandler(async (req, res) => {
+  const blog = await Blog.findById(req.params.id);
+
+  if (!blog) {
+    return res.status(404).json({ message: "Blog not found" });
+  }
+
+  // Remove the image from Cloudinary if it exists
+  if (blog.image) {
+    const publicId = blog.image.split("/").pop().split(".")[0];
+    await cloudinary.uploader.destroy(`blogs/${publicId}`);
+  }
+
+  await blog.remove();
+  res.status(200).json({ message: "Blog deleted successfully" });
+});
+
 module.exports = {
   createBlog,
   updateBlog,
   getSingleBlog,
   getAllBlogs,
   getFeaturedBlogs,
+  deleteBlog,
 };

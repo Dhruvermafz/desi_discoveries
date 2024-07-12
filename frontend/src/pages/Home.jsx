@@ -168,7 +168,7 @@ const Home = () => {
               </h2>
             </Col>
             <Col lg="12">
-              <ImagesGallery />
+              <ImagesGallery limit={10} />
             </Col>
           </Row>
         </Container>

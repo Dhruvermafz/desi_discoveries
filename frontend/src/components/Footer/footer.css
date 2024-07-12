@@ -1,49 +1,88 @@
-.footer{
+
+
+.footer {
     padding-top: 70px;
     padding-bottom: 30px;
+    background-color: #f8f9fa; /* Light background for contrast */
+    border-top: 1px solid #ddd; /* Subtle border for separation */
+}
+
+.footer .logo {
+    text-align: center;
+    margin-bottom: 1rem;
 }
 
 .footer .logo img {
     width: 50%;
-    margin-bottom: 1rem;
 }
 
-.footer .logo p{
+.footer .logo p {
     color: var(--text-color);
+    font-size: 1rem;
+    margin: 0; /* Remove default margin */
+}
+
+.social__links {
+    text-align: center;
+    margin-bottom: 1.5rem;
 }
 
 .social__links span a {
     text-decoration: none;
     color: var(--heading-color);
     font-size: 1.2rem;
+    margin: 0 0.5rem; /* Add spacing between social icons */
+    transition: color 0.3s ease; /* Smooth transition effect */
 }
 
-.footer__link-title{
+.social__links span a:hover {
+    color: var(--primary-color); /* Change color on hover */
+}
+
+.footer__link-title {
     color: var(--heading-color);
     margin-bottom: 1rem;
+    font-weight: bold;
 }
 
-.footer__quick-links li a{
+.footer__quick-links {
+    list-style: none;
+    padding: 0; /* Remove default padding */
+}
+
+.footer__quick-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer__quick-links li a {
     text-decoration: none;
     color: var(--text-color);
     font-size: 1.1rem;
+    transition: color 0.3s ease; /* Smooth transition effect */
 }
 
-.footer__quick-links h6 span i{
-    color:#faa935;
+.footer__quick-links li a:hover {
+    color: var(--primary-color); /* Change color on hover */
+}
+
+.footer__quick-links h6 span i {
+    color: var(--primary-color);
     font-size: 1.1rem;
 }
 
-.copyright{
+.copyright {
     color: var(--text-color);
     font-size: 1.1rem;
+    text-align: center;
+    padding-top: 20px; /* Add some spacing from the content above */
 }
 
-.copyright a{
+.copyright a {
     text-decoration: none;
     color: var(--secondary-color);
+    transition: color 0.3s ease; /* Smooth transition effect */
 }
 
-.copyright a:hover{
-    color: var(--primary-color);
+.copyright a:hover {
+    color: var(--primary-color); /* Change color on hover */
 }

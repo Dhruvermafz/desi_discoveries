@@ -26,6 +26,9 @@ import RatingsReviews from "../components/admin/Reviews/Reviews";
 import AddTourPackage from "../components/admin/Tours/AddTourPackage";
 import UpdateTour from "../components/admin/Tours/UpdateTour";
 import UserProfile from "../components/Profile/UserProfile";
+import Queries from "../pages/Queries";
+import BlogPage from "../components/admin/Blogs/BlogPage";
+import BlogCreate from "../components/admin/Blogs/BlogCreate";
 const Router = () => {
   return (
     <>
@@ -40,6 +43,9 @@ const Router = () => {
         <Route path="/admin" element={<AdminWrapper />} />
         <Route path="/admin/tours/create" element={<AddTourPackage />} />
         <Route path="/admin/tours/update" element={<UpdateTour />} />
+        <Route path="/admin/queries" element={<Queries />} />
+        <Route path="/admin/blogs" element={<BlogPage />} />
+        <Route path="/admin/blog/create" element={<BlogCreate />} />
         <Route path="/admin/reviews" element={<RatingsReviews />} />
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/profile/:id/edit" element={<Profile />} />
