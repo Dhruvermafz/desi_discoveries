@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Container, NavLink } from "react-bootstrap";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-
+import { Link } from "react-router-dom";
 const ImagesGallery = ({ limit }) => {
   const importAll = (r) => {
     return r.keys().map(r);
@@ -32,9 +32,9 @@ const ImagesGallery = ({ limit }) => {
       </ResponsiveMasonry>
       {limit && (
         <div className="viall__btn">
-          <NavLink to={"/gallery"}>
+          <Link to="/gallery">
             <Button className="btn primary__btn">View All</Button>
-          </NavLink>
+          </Link>
         </div>
       )}
     </Container>

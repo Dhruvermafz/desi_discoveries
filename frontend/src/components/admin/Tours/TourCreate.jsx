@@ -1,174 +1,199 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Modal, Form, Button, Alert } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { createTour } from "../../../redux/actions/tourActions";
+import { Modal, Form, Button, Row, Col, Image } from "react-bootstrap";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { BASE_URL } from "../../../utils/config";
 
 const TourCreate = ({ showModal, handleClose }) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { loading, error } = useSelector((state) => state.tour);
+  const [file, setFile] = useState(null);
+  const [title, setTitle] = useState("");
+  const [city, setCity] = useState("");
+  const [address, setAddress] = useState("");
+  const [distance, setDistance] = useState("");
+  const [photo, setPhoto] = useState("");
+  const [desc, setDesc] = useState("");
+  const [price, setPrice] = useState("");
+  const [maxGroupSize, setMaxGroupSize] = useState("");
 
-  const [formValues, setFormValues] = useState({
-    title: "",
-    city: "",
-    address: "",
-    distance: "",
-    photo: "",
-    desc: "",
-    price: "",
-    maxGroupSize: "",
-    featured: false,
-  });
-
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
   };
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (
+      !file ||
+      !title ||
+      !city ||
+      !address ||
+      !distance ||
+      !desc ||
+      !price ||
+      !maxGroupSize
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please fill out all fields!",
+      });
+      return;
+    }
+
     try {
-      await dispatch(createTour(formValues));
-      setShowSuccess(true);
-      setTimeout(() => {
-        setShowSuccess(false);
-        handleClose();
-        navigate("/admin/tours");
-      }, 2000);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "upload");
+      const uploadRes = await axios.post(
+        "https://api.cloudinary.com/v1_1/dpgelkpd4/image/upload",
+        formData
+      );
+      const imgUrl = uploadRes.data.url;
+
+      await axios.post(`${BASE_URL}/tours/create`, {
+        title,
+        city,
+        address,
+        distance,
+        photo: imgUrl,
+        desc,
+        price,
+        maxGroupSize,
+      });
+
+      Swal.fire("Tour added successfully!", "", "success");
+      handleClose();
     } catch (error) {
-      console.error("Error creating tour:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message,
+      });
     }
   };
 
   return (
     <Modal show={showModal} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Create New Tour</Modal.Title>
+        <Modal.Title>Add Tour Package</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {loading && (
-          <div className="d-flex justify-content-center align-items-center">
-            <h3>Loading...</h3>
+        <Form>
+          <Form.Group>
+            <Form.Label>Add a cover photo for the package</Form.Label>
+            <div className="mb-3 text-center">
+              <Image
+                src={
+                  file
+                    ? URL.createObjectURL(file)
+                    : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                }
+                alt="cover"
+                fluid
+              />
+              <Form.Control
+                type="file"
+                id="file"
+                name="file"
+                onChange={handleFileChange}
+                className="mt-2"
+              />
+            </div>
+          </Form.Group>
+          <Row>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Type Here"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>City</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Type Here"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Address</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Type Here"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Distance (in km)</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Type Here"
+                  value={distance}
+                  onChange={(e) => setDistance(e.target.value)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Price (per person)</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Type Here"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Maximum Group Size</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Type Here"
+                  value={maxGroupSize}
+                  onChange={(e) => setMaxGroupSize(e.target.value)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Group>
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  placeholder="Type Your Description Here"
+                  value={desc}
+                  onChange={(e) => setDesc(e.target.value)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <div className="mt-4 text-end">
+            <Button variant="secondary" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="primary" className="ms-2" onClick={handleSubmit}>
+              Add Tour
+            </Button>
           </div>
-        )}
-        {error && (
-          <Alert variant="danger" className="mt-4">
-            {error}
-          </Alert>
-        )}
-        {showSuccess && (
-          <Alert variant="success" className="mt-4">
-            Tour created successfully!
-          </Alert>
-        )}
-        <Form onSubmit={onSubmit}>
-          <Form.Group controlId="title" className="mb-3">
-            <Form.Label>Title</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter tour title"
-              name="title"
-              value={formValues.title}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="city" className="mb-3">
-            <Form.Label>City</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter city"
-              name="city"
-              value={formValues.city}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="address" className="mb-3">
-            <Form.Label>Address</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter address"
-              name="address"
-              value={formValues.address}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="distance" className="mb-3">
-            <Form.Label>Distance (km)</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Enter distance"
-              name="distance"
-              value={formValues.distance}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="photo" className="mb-3">
-            <Form.Label>Photo URL</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter photo URL"
-              name="photo"
-              value={formValues.photo}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="desc" className="mb-3">
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              placeholder="Enter description"
-              name="desc"
-              value={formValues.desc}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="price" className="mb-3">
-            <Form.Label>Price (INR)</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Enter price"
-              name="price"
-              value={formValues.price}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="maxGroupSize" className="mb-3">
-            <Form.Label>Max Group Size</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Enter max group size"
-              name="maxGroupSize"
-              value={formValues.maxGroupSize}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="featured" className="mb-3">
-            <Form.Check
-              type="checkbox"
-              label="Featured"
-              name="featured"
-              checked={formValues.featured}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Button variant="dark" type="submit">
-            Create Tour
-          </Button>
         </Form>
       </Modal.Body>
     </Modal>

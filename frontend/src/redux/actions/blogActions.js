@@ -24,7 +24,7 @@ import { BASE_URL } from "../../utils/config";
 export const fetchBlogs = () => async (dispatch) => {
   dispatch({ type: FETCH_BLOGS_REQUEST });
   try {
-    const response = await axios.get(`${BASE_URL}/blogs`);
+    const response = await axios.get(`${BASE_URL}/blogs/`);
     dispatch({ type: FETCH_BLOGS_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: FETCH_BLOGS_FAILURE, payload: error.message });

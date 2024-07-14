@@ -1,31 +1,35 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
-// Adjust the path as per your file structure
-import TourItem from "./TourItem";
-import { fetchTour } from "../../../redux/actions/tourActions";
-const TourList = ({ tours, fetchTour }) => {
-  useEffect(() => {
-    fetchTour();
-  }, [fetchTour]);
+import React from "react";
 
+const TourItem = ({
+  _id,
+  photo,
+  title,
+  city,
+  address,
+  distance,
+  price,
+  maxGroupSize,
+  desc,
+}) => {
   return (
-    <div>
-      <h2>Tours</h2>
-      {tours.map((tour) => (
-        <TourItem
-          key={tour.id}
-          id={tour.id}
-          name={tour.name}
-          startLocation={tour.startLocation}
-          imageCover={tour.imageCover}
+    <tr>
+      <td>{_id}</td>
+      <td>
+        <img
+          src={photo}
+          alt={title}
+          style={{ width: "100px", height: "auto" }}
         />
-      ))}
-    </div>
+      </td>
+      <td>{title}</td>
+      <td>{city}</td>
+      <td>{address}</td>
+      <td>{distance}</td>
+      <td>{price}</td>
+      <td>{maxGroupSize}</td>
+      <td>{desc}</td>
+    </tr>
   );
 };
 
-const mapStateToProps = (state) => ({
-  tours: state.tours, // Assuming your tours are stored in state.tours
-});
-
-export default connect(mapStateToProps, { fetchTour })(TourList);
+export default TourItem;

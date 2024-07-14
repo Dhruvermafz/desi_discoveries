@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import {
-  Button,
   Container,
   Table,
   Spinner,
   Row,
   Col,
   Alert,
+  Button,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTours } from "../../../redux/actions/tourActions";
@@ -60,29 +59,27 @@ const ToursList = () => {
           <h2>Tours List</h2>
         </Col>
         <Col className="text-end">
-          <Button variant="dark" onClick={handleShow}>
+          <Button variant="primary" onClick={handleShow}>
             Add Tour
           </Button>
         </Col>
       </Row>
-
-      {(!tours || tours.length === 0) && (
-        <Alert variant="info" className="mt-4">
-          No tours available.
-        </Alert>
-      )}
-
-      <Table responsive bordered hover className="mt-4">
+      <Table striped bordered hover responsive>
         <thead>
           <tr>
-            <th>Tour Name</th>
-            <th>Location</th>
-            <th>Actions</th>
+            <th>#</th>
+            <th>Image</th>
+            <th>Title</th>
+            <th>City</th>
+            <th>Address</th>
+            <th>Distance (km)</th>
+            <th>Price</th>
+            <th>Max Group Size</th>
+            <th>Description</th>
           </tr>
         </thead>
         <tbody>{renderTours()}</tbody>
       </Table>
-
       <TourCreate showModal={showModal} handleClose={handleClose} />
     </Container>
   );

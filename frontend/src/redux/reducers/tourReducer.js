@@ -1,4 +1,3 @@
-// reducers/tourReducer.js
 import {
   FETCH_TOURS,
   FETCH_TOUR,

@@ -1,3 +1,5 @@
+// src/pages/AdminBlogPage.js
+
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,8 +12,9 @@ import {
   Alert,
 } from "react-bootstrap";
 import { fetchBlogs, deleteBlog } from "../../../redux/actions/blogActions";
-import BlogCard from "../../BlogCard/BlogCard";
+import AdminBlogCard from "./AdminBlogCard";
 import { Link } from "react-router-dom";
+
 const AdminBlogPage = () => {
   const dispatch = useDispatch();
   const { blogs, loading, error } = useSelector((state) => state.blog);
@@ -69,25 +72,7 @@ const AdminBlogPage = () => {
         ) : (
           filteredBlogs.map((blog) => (
             <Col key={blog._id} md={4} className="mb-4">
-              <BlogCard blog={blog} />
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={() =>
-                  alert(`Edit ${blog.title} functionality to be implemented`)
-                }
-                className="mt-2"
-              >
-                Edit
-              </Button>
-              <Button
-                variant="danger"
-                size="sm"
-                onClick={() => handleDelete(blog._id)}
-                className="mt-2 ml-2"
-              >
-                Delete
-              </Button>
+              <AdminBlogCard blog={blog} onDelete={handleDelete} />
             </Col>
           ))
         )}

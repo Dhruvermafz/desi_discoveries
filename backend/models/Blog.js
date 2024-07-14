@@ -7,6 +7,7 @@ const blogSchema = new mongoose.Schema({
   excerpt: { type: String, maxlength: 100 }, // Limiting excerpt to 100 characters
   tags: { type: [String], default: [] },
   categories: { type: [String], default: [] },
+  images: { type: [String], default: [] }, // Adding images as an array
   featured: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
 });

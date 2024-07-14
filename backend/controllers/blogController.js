@@ -2,13 +2,34 @@ const express = require("express");
 const asyncHandler = require("express-async-handler");
 const Blog = require("../models/Blog");
 const cloudinary = require("../utils/cloudinary");
-
-// Create a new blog
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 const createBlog = asyncHandler(async (req, res) => {
-  const { title, content } = req.body;
+  const { title, content, excerpt, tags, categories, featured } = req.body;
 
   try {
-    const newBlog = await Blog.create({ title, content });
+    // Upload images to Cloudinary
+    let images = [];
+    if (req.files) {
+      for (const file of req.files) {
+        const result = await cloudinary.uploader.upload(file.path, {
+          folder: "blogs",
+        });
+        images.push(result.secure_url);
+      }
+    }
+
+    // Create a new blog
+    const newBlog = await Blog.create({
+      title,
+      content,
+      excerpt,
+      tags,
+      categories,
+      featured,
+      images,
+    });
+
     res.status(201).json(newBlog);
   } catch (error) {
     res
@@ -16,7 +37,6 @@ const createBlog = asyncHandler(async (req, res) => {
       .json({ message: "Failed to create blog", error: error.message });
   }
 });
-
 // Update an existing blog
 const updateBlog = asyncHandler(async (req, res) => {
   const { title, content, excerpt, tags, categories, featured } = req.body;

@@ -9,14 +9,16 @@ const {
   updateTour,
 } = require("../controllers/tourController");
 const { verifyAdmin } = require("../utils/verifyToken");
-
+const multer = require("multer");
+const storage = multer.diskStorage({});
+const upload = multer({ storage });
 const tourRouter = express.Router();
 
 tourRouter.get("/featured", getFeaturedTour);
 tourRouter.get("/:id", getSingleTour);
-tourRouter.put("/:id", verifyAdmin, updateTour);
+tourRouter.put("/:id", upload.single("file"), verifyAdmin, updateTour);
 tourRouter.delete("/:id", deleteTour);
 tourRouter.get("/", getAllTour);
 tourRouter.get("/count", getTourCount);
-tourRouter.get("/create", createTour);
+tourRouter.post("/create", upload.single("file"), createTour);
 module.exports = tourRouter;
