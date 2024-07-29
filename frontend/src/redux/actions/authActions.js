@@ -11,6 +11,8 @@ import {
   FORGOT_PASSWORD_SUCCESS,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAIL,
+  FETCH_USERS_SUCCESS,
+  FETCH_USERS_FAIL,
 } from "../type/types";
 import { setAuthToken } from "../../utils/setAuthToken";
 import { setAlert } from "./alertAction";
@@ -29,7 +31,15 @@ export const loadUser = (user) => async (dispatch) => {
     dispatch({ type: AUTH_ERROR });
   }
 };
-
+export const fetchAllUsers = () => async (dispatch) => {
+  try {
+    const response = await axios.get(`${API_URL}/users/`);
+    dispatch({ type: FETCH_USERS_SUCCESS, payload: response.data });
+  } catch (err) {
+    dispatch({ type: FETCH_USERS_FAIL });
+    console.log(err.response?.data?.message || "Failed to fetch users");
+  }
+};
 // LOG IN USER
 export const logIn = (formValues, navigate) => async (dispatch) => {
   const config = {

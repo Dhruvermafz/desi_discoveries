@@ -1,34 +1,40 @@
-import React from "react";
-import { Card, CardBody } from "react-bootstrap";
+import React, { useState } from "react";
+import { Card, CardBody, Carousel } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "./TourCard.css";
 import calculateAvgRating from "../../utils/avgRating";
-import { useEffect } from "react";
+import "./TourCard.css";
 
 const TourCard = ({ tour }) => {
-  const { _id, title, city, photo, price, reviews } = tour;
+  const { _id, title, city, photos, price, reviews } = tour;
 
   const { totalRating, avgRating } = calculateAvgRating(reviews);
 
   const handleScrollToTop = () => {
-    window.screenTop({
+    window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   return (
     <div className="tour__card">
       <Card>
         <div className="tour__img">
-          <Link to={`/tours/${_id}`}>
-            <div onClick={handleScrollToTop}>
-              <img src={photo} alt="tour" />
-            </div>
-          </Link>
+          <Carousel>
+            {photos.map((photo, index) => (
+              <Carousel.Item key={index}>
+                <Link to={`/tours/${_id}`}>
+                  <div onClick={handleScrollToTop}>
+                    <img
+                      src={photo}
+                      alt={`tour-${index}`}
+                      className="d-block w-100"
+                    />
+                  </div>
+                </Link>
+              </Carousel.Item>
+            ))}
+          </Carousel>
           <span>Featured</span>
         </div>
         <CardBody>
@@ -48,7 +54,7 @@ const TourCard = ({ tour }) => {
           </div>
 
           <h5 className="tour__title">
-            <Link to={`$/tours/${_id}`}>
+            <Link to={`/tours/${_id}`}>
               <div onClick={handleScrollToTop}>{title}</div>
             </Link>
           </h5>
@@ -61,7 +67,7 @@ const TourCard = ({ tour }) => {
             <button className="btn booking__btn">
               <Link to={`/tours/${_id}`}>
                 <div onClick={handleScrollToTop}>Book Now</div>
-              </Link>{" "}
+              </Link>
             </button>
           </div>
         </CardBody>

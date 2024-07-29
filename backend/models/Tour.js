@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+
+// Define the tour schema
 const tourSchema = new mongoose.Schema(
   {
     title: {
@@ -18,10 +20,12 @@ const tourSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    photo: {
-      type: String,
-      required: true,
-    },
+    photos: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
     desc: {
       type: String,
       required: true,
@@ -47,7 +51,6 @@ const tourSchema = new mongoose.Schema(
         },
       },
     ],
-
     featured: {
       type: Boolean,
       default: false,

@@ -1,29 +1,36 @@
 import React, { useState } from "react";
-import { Modal, Form, Button, Row, Col, Image } from "react-bootstrap";
+import {
+  Modal,
+  Form,
+  Button,
+  Row,
+  Col,
+  Image,
+  Carousel,
+} from "react-bootstrap";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { BASE_URL } from "../../../utils/config";
 
 const TourCreate = ({ showModal, handleClose }) => {
-  const [file, setFile] = useState(null);
+  const [files, setFiles] = useState([]);
   const [title, setTitle] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [distance, setDistance] = useState("");
-  const [photo, setPhoto] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
   const [maxGroupSize, setMaxGroupSize] = useState("");
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    setFiles([...files, ...e.target.files]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
-      !file ||
+      files.length === 0 ||
       !title ||
       !city ||
       !address ||
@@ -41,21 +48,25 @@ const TourCreate = ({ showModal, handleClose }) => {
     }
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "upload");
-      const uploadRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/dpgelkpd4/image/upload",
-        formData
+      const imageUrls = await Promise.all(
+        Array.from(files).map(async (file) => {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("upload_preset", "upload");
+          const uploadRes = await axios.post(
+            "https://api.cloudinary.com/v1_1/dpgelkpd4/image/upload",
+            formData
+          );
+          return uploadRes.data.url;
+        })
       );
-      const imgUrl = uploadRes.data.url;
 
       await axios.post(`${BASE_URL}/tours/create`, {
         title,
         city,
         address,
         distance,
-        photo: imgUrl,
+        photos: imageUrls, // Note that `photos` is now an array
         desc,
         price,
         maxGroupSize,
@@ -80,19 +91,32 @@ const TourCreate = ({ showModal, handleClose }) => {
       <Modal.Body>
         <Form>
           <Form.Group>
-            <Form.Label>Add a cover photo for the package</Form.Label>
+            <Form.Label>Add cover photos for the package</Form.Label>
             <div className="mb-3 text-center">
-              <Image
-                src={
-                  file
-                    ? URL.createObjectURL(file)
-                    : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-                }
-                alt="cover"
-                fluid
-              />
+              <Carousel indicators={true}>
+                {files.length > 0 ? (
+                  files.map((file, index) => (
+                    <Carousel.Item key={index}>
+                      <Image
+                        src={URL.createObjectURL(file)}
+                        alt={`cover-${index}`}
+                        fluid
+                      />
+                    </Carousel.Item>
+                  ))
+                ) : (
+                  <Carousel.Item>
+                    <Image
+                      src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                      alt="cover"
+                      fluid
+                    />
+                  </Carousel.Item>
+                )}
+              </Carousel>
               <Form.Control
                 type="file"
+                multiple
                 id="file"
                 name="file"
                 onChange={handleFileChange}

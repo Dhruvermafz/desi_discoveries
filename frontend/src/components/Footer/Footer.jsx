@@ -25,12 +25,12 @@ const quick__links2 = [
     display: "Gallery",
   },
   {
-    path: "/login",
-    display: "Login",
+    path: "/contact",
+    display: "Contact",
   },
   {
-    path: "/register",
-    display: "Register",
+    path: "/faq",
+    display: "FAQS",
   },
 ];
 const Footer = () => {

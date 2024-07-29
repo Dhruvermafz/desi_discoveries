@@ -1,7 +1,13 @@
 import React, { useContext } from "react";
 import { BsPeopleFill } from "react-icons/bs";
 import { MdDashboard } from "react-icons/md";
-import { FaQuestionCircle, FaGlobe, FaBlog, FaStar } from "react-icons/fa"; // Import additional icons
+import {
+  FaQuestionCircle,
+  FaGlobe,
+  FaBlog,
+  FaStar,
+  FaUser,
+} from "react-icons/fa"; // Import additional icons
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Container, Row, Col, Card } from "react-bootstrap";
@@ -46,7 +52,7 @@ const AdminWrapper = (props) => {
       <Row>
         <Col md={12} className="main-content p-4">
           <h5>{user ? user.username : "User"}</h5>
-          <Row className="gx-3 gy-3 ">
+          <Row className="gx-3 gy-3 admin-div">
             {user && (
               <AdminCard
                 to={`/profile/${user.id}`}
@@ -62,6 +68,11 @@ const AdminWrapper = (props) => {
             <AdminCard to="/admin/tours" icon={<FaGlobe />} title="Tours" />
             <AdminCard to="/admin/blogs" icon={<FaBlog />} title="Blogs" />
             <AdminCard to="/admin/reviews" icon={<FaStar />} title="Reviews" />
+            <AdminCard
+              to="/admin/users"
+              icon={<FaUser />}
+              title="Manage Users"
+            />
           </Row>
           {renderAdminNav()}
         </Col>

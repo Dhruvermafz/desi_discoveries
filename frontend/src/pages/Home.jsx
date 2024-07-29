@@ -34,10 +34,10 @@ const Home = () => {
                   <span className="highlight">Memories</span>
                 </h1>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Phasellus tempus massa vitae elit consectetur, ut convallis
-                  massa ultricies. Duis hendrerit turpis quis tincidunt
-                  lobortis. Nullam vel faucibus mauris.
+                  Discover new cultures, experience the beauty of diverse
+                  landscapes, and create unforgettable memories with each trip.
+                  Whether you're seeking adventure or relaxation, traveling has
+                  something for everyone.
                 </p>
               </div>
             </Col>
@@ -62,16 +62,17 @@ const Home = () => {
             <Row className="lg:flex-row flex-col grid-cols-2 gap-10">
               <Col className="experience__content">
                 <Subtitle subtitle={"Explore"} />
-
                 <h1 className="text-4xl md:text-5xl font-bold">
-                  the Wonders of India
+                  The Wonders of India
                 </h1>
                 <h1 className="text-4xl md:text-6xl font-bold text-primary">
-                  with us.
+                  with Us
                 </h1>
                 <p className="mt-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Embark on a journey through the vibrant landscapes of India.
+                  From the bustling streets of Delhi to the serene backwaters of
+                  Kerala, experience the rich culture, history, and natural
+                  beauty that India has to offer.
                 </p>
                 <Button className="bg-primary px-2 py-3 rounded-lg hover:bg-white hover-text-primary hover-border hover-font-bold mt-4">
                   Get started
@@ -124,13 +125,12 @@ const Home = () => {
               <div className="experience__content">
                 <Subtitle subtitle={"Experience"} />
                 <h2>
-                  Will our all experience <br /> we will serve you
+                  With Our Experience <br /> We Will Serve You
                 </h2>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  <br />
-                  Phasellus tempus massa vitae elit consectetur, ut convallis
-                  massa ultricies.
+                  With over a decade of experience in the travel industry, we
+                  pride ourselves on providing exceptional services that ensure
+                  memorable trips. Join our community of happy travelers.
                 </p>
               </div>
 
@@ -164,7 +164,7 @@ const Home = () => {
             <Col lg="12">
               <Subtitle subtitle={"Gallery"} />
               <h2 className="gallery__title">
-                Visit Our Customers Tour Gallery
+                Visit Our Customers' Tour Gallery
               </h2>
             </Col>
             <Col lg="12">
@@ -188,8 +188,8 @@ const Home = () => {
           <Row>
             <Col lg="12">
               <Subtitle subtitle={"Testimonial"} />
-              <h2 className="testmonials__title">
-                What our Customers Say about us
+              <h2 className="testimonials__title">
+                What Our Customers Say About Us
               </h2>
             </Col>
             <Testimonials />
@@ -197,7 +197,6 @@ const Home = () => {
         </Container>
       </section>
       <FAQ />
-      <Contact />
       <Newsletter />
     </>
   );

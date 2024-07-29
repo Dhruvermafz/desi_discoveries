@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Table, Spinner, Alert, Button } from "react-bootstrap";
 import { fetchQueries, deleteQuery } from "../redux/actions/queriesAction";
+import "../styles/queries.css";
 
 const Queries = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const Queries = () => {
 
   if (error) {
     return (
-      <Container className="mt-4">
+      <Container className="queries-container">
         <Alert variant="danger">{error}</Alert>
       </Container>
     );
@@ -41,8 +42,8 @@ const Queries = () => {
   }
 
   return (
-    <Container className="mt-4">
-      <Table striped bordered hover>
+    <Container className="queries-container">
+      <Table striped bordered hover className="queries-table">
         <thead>
           <tr>
             <th>NAME</th>
@@ -62,22 +63,22 @@ const Queries = () => {
               <td>{query.message}</td>
               <td>{new Date(query.createdAt).toLocaleString()}</td>
               <td>
-                <Button
-                  variant="primary"
-                  size="sm"
-                  onClick={() => handleReply(query.email)}
-                  target="_blank"
-                >
-                  Reply
-                </Button>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  className="ml-2"
-                  onClick={() => handleDelete(query._id)}
-                >
-                  Delete
-                </Button>
+                <div className="action-buttons">
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => handleReply(query.email)}
+                  >
+                    Reply
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleDelete(query._id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
               </td>
             </tr>
           ))}

@@ -8,8 +8,8 @@
   --text-color: #6e7074;
   --font-name: "Montserrat", sans-serif;
   --subtitle-font-name: "Island Moments", cursive;
+  --sidebar-width: 250px;
 }
-
 
 * {
   margin: 0;
@@ -155,4 +155,3 @@ ul {
     font-size: 1.3rem;
   }
 }
-

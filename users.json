@@ -1,0 +1,39 @@
+{
+  "success": true,
+  "message": "Users retrieved successfully",
+  "data": [
+    {
+      "photo": "https://firebasestorage.googleapis.com/v0/b/mern-travel-tourism.appspot.com/o/profile-photos%2F1706415975072defaultProfileImgttms125.png?alt=media&token=7f309b9e-7ccf-4a15-ba5c-829c9952a85c",
+      "_id": "66878db33746d96d7f47a6bd",
+      "username": "dhruvermafz",
+      "email": "vermadhruv09112002@gmail.com",
+      "password": "$2b$10$ZdBbPjxYp9AQasqliHp6EuF6xV/WT/yRwFQVpnbALMnpVI92yU2sG",
+      "role": "user",
+      "createdAt": "2024-07-05T06:07:47.968Z",
+      "updatedAt": "2024-07-05T06:07:47.968Z",
+      "__v": 0
+    },
+    {
+      "_id": "668e14167bdbd7fc774a269c",
+      "username": "fleekfr",
+      "email": "hvkj@gmail.com",
+      "password": "$2b$10$rJTUAFqEutKXQQlYw5Dpx.P0A748KQ/rbAF7g7szhle/sQzlz4oKW",
+      "photo": "https://firebasestorage.googleapis.com/v0/b/mern-travel-tourism.appspot.com/o/profile-photos%2F1706415975072defaultProfileImgttms125.png?alt=media&token=7f309b9e-7ccf-4a15-ba5c-829c9952a85c",
+      "role": "user",
+      "createdAt": "2024-07-10T04:54:46.227Z",
+      "updatedAt": "2024-07-10T04:54:46.227Z",
+      "__v": 0
+    },
+    {
+      "_id": "668e1aba713b5fc6f7e440b6",
+      "username": "retro",
+      "email": "thenerdyguy.2002@gmail.com",
+      "password": "$2b$10$ClgAI.6V6EAtXrvxiLeD.OKBArGXVNdMXY7EbwfcWe4RzP/pc42zS",
+      "photo": "https://firebasestorage.googleapis.com/v0/b/mern-travel-tourism.appspot.com/o/profile-photos%2F1706415975072defaultProfileImgttms125.png?alt=media&token=7f309b9e-7ccf-4a15-ba5c-829c9952a85c",
+      "role": "user",
+      "createdAt": "2024-07-10T05:23:07.086Z",
+      "updatedAt": "2024-07-10T05:23:07.086Z",
+      "__v": 0
+    }
+  ]
+}

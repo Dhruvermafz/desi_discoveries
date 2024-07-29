@@ -1,110 +1,110 @@
-import { useEffect, useState } from "react";
-import Toast from "../Utils/Toast";
-import axios from "axios";
+// components/UsersTable.js
+import React, { useEffect, useState } from "react";
+import { Toast, ToastContainer, Modal, Button, Table } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllUsers } from "../../../redux/actions/authActions";
+
 import SingleUserRow from "./SingleUserRow";
-import Modal from "../Utils/Modal";
+import axios from "axios";
+import { createSelector } from "reselect";
+
+const getUsers = (state) => state.users || [];
+
+// Memoized selector
+export const getUserList = createSelector([getUsers], (users) => {
+  return Array.isArray(users) ? users : []; // Ensure users is an array
+});
 
 const UsersTable = () => {
-  const [users, setUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [deletingUser, setDeletingUser] = useState("");
+  const [deletingUser, setDeletingUser] = useState(null);
+  const [toast, setToast] = useState({ show: false, type: "", message: "" });
+
+  const dispatch = useDispatch();
+  const users = useSelector(getUserList); // Use memoized selector
 
   const changeModal = () => {
     setShowModal((prevState) => !prevState);
   };
 
-  const handleSetDeleteUser = async (user) => {
+  const handleSetDeleteUser = (user) => {
     setDeletingUser(user);
+    changeModal();
   };
 
   const handleDeleteUser = async () => {
     try {
-      await axios.delete(`/api/users/${deletingUser._id}`);
+      await axios.delete(`/api/v1/users/${deletingUser._id}`);
+      dispatch(fetchAllUsers()); // Fetch users again to update the list
       changeModal();
-      Toast({ type: "success", message: `User deleted.`, duration: 1000 });
-      fetchUsers();
+      showToast("success", "User deleted.");
     } catch (err) {
-      Toast({
-        type: "error",
-        message: `${err.response.data.message}`,
-        duration: 1000,
-      });
+      showToast(
+        "error",
+        err.response?.data?.message || "Failed to delete user."
+      );
     }
   };
 
-  const fetchUsers = async () => {
-    try {
-      const { data } = await axios.get("/api/users?sort=role");
-      console.log(data.data.data);
-      setUsers(data.data.data);
-    } catch (err) {
-      Toast({
-        type: "error",
-        message: `${err.response.data.message}`,
-        duration: 1000,
-      });
-    }
+  const showToast = (type, message) => {
+    setToast({ show: true, type, message });
+    setTimeout(() => setToast({ show: false, type: "", message: "" }), 3000);
   };
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    dispatch(fetchAllUsers());
+  }, [dispatch]);
 
   return (
     <>
-      <table className="w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden">
-        <thead className="bg-neutral-800">
-          <tr className="text-white text-center">
-            <th className="font-semibold text-sm uppercase px-6 py-4 text-left">
-              {" "}
-              Name{" "}
-            </th>
-            <th className="font-semibold text-sm uppercase px-6 py-4">
-              {" "}
-              Role{" "}
-            </th>
-            <th className="font-semibold text-sm uppercase px-6 py-4">
-              {" "}
-              Created at{" "}
-            </th>
-            <th className="font-semibold text-sm uppercase px-6 py-4">
-              {" "}
-              Updated at{" "}
-            </th>
+      <Table striped bordered hover responsive className="bg-white">
+        <thead className="bg-dark text-white text-center">
+          <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Created at</th>
+            <th>Updated at</th>
+            <th>Actions</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-200">
-          {users.map((user, index) => (
+        <tbody>
+          {users.map((user) => (
             <SingleUserRow
-              key={index}
+              key={user._id}
               user={user}
-              fetchUsers={fetchUsers}
-              changeModal={changeModal}
-              handleDeleteUser={handleSetDeleteUser}
+              fetchUsers={() => dispatch(fetchAllUsers())}
+              changeModal={() => handleSetDeleteUser(user)}
             />
           ))}
         </tbody>
-      </table>
-      <Modal onClose={changeModal} visible={showModal}>
-        <div className="bg-white text-black p-8 rounded">
+      </Table>
+
+      <Modal show={showModal} onHide={changeModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           Do you really want to delete user{" "}
-          <span className="font-bold">{deletingUser.name}</span> ?
-          <div className="flex flex-row gap-2 items-center justify-center mt-4">
-            <button
-              className="p-4 rounded-xl w-full border-2 hover:bg-red-600 hover:text-white"
-              onClick={handleDeleteUser}
-            >
-              Delete
-            </button>
-            <button
-              className="p-4 rounded-xl w-full border-2 hover:bg-yellow-300"
-              onClick={changeModal}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
+          <span className="font-weight-bold">{deletingUser?.username}</span>?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={handleDeleteUser}>
+            Delete
+          </Button>
+          <Button variant="secondary" onClick={changeModal}>
+            Cancel
+          </Button>
+        </Modal.Footer>
       </Modal>
+
+      {toast.show && (
+        <ToastContainer position="top-end" className="p-3">
+          <Toast bg={toast.type === "success" ? "success" : "danger"} autohide>
+            <Toast.Body className="text-white">{toast.message}</Toast.Body>
+          </Toast>
+        </ToastContainer>
+      )}
     </>
   );
 };

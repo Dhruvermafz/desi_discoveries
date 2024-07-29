@@ -1,36 +1,58 @@
-import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Table,
-  Spinner,
-  Row,
-  Col,
-  Alert,
-  Button,
-} from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchTours } from "../../../redux/actions/tourActions";
+import React, { useState } from "react";
+import { Container, Spinner, Row, Col, Alert, Button } from "react-bootstrap";
+import axios from "axios";
 import TourItem from "./TourItem";
-import TourCreate from "./TourCreate"; // Import the TourCreate component
+import TourCreate from "./TourCreate";
+import { BASE_URL } from "../../../utils/config";
+import useFetch from "../../../hooks/useFetch";
 
 const ToursList = () => {
-  const dispatch = useDispatch();
-  const { tours, loading, error } = useSelector((state) => state.tour);
-
+  const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [selectedTour, setSelectedTour] = useState(null);
 
   const handleShow = () => setShowModal(true);
-  const handleClose = () => setShowModal(false);
+  const handleClose = () => {
+    setShowModal(false);
+    setSelectedTour(null);
+  };
 
-  useEffect(() => {
-    dispatch(fetchTours());
-  }, [dispatch]);
+  const { data: fetchedTours, loading, error: fetchError } = useFetch("tours");
+
+  const handleEdit = (id) => {
+    const tour = fetchedTours.find((tour) => tour._id === id);
+    setSelectedTour(tour);
+    handleShow();
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${BASE_URL}/api/v1/tours/${id}`);
+      // Remove deleted tour from state
+      setSelectedTour((prevTours) =>
+        prevTours.filter((tour) => tour._id !== id)
+      );
+    } catch (err) {
+      setError("Error deleting tour. Please try again later.");
+    }
+  };
 
   const renderTours = () => {
-    if (!Array.isArray(tours)) {
-      return null;
+    if (!Array.isArray(fetchedTours) || fetchedTours.length === 0) {
+      return (
+        <Alert variant="warning" className="mt-4">
+          No tours added yet.
+        </Alert>
+      );
     }
-    return tours.map((tour) => <TourItem key={tour._id} {...tour} />);
+    return fetchedTours.map((tour) => (
+      <TourItem
+        key={tour._id}
+        {...tour}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
+    ));
   };
 
   if (loading) {
@@ -44,10 +66,10 @@ const ToursList = () => {
     );
   }
 
-  if (error) {
+  if (fetchError || error) {
     return (
       <Container className="mt-4">
-        <Alert variant="danger">{error}</Alert>
+        <Alert variant="danger">{fetchError || error}</Alert>
       </Container>
     );
   }
@@ -64,23 +86,12 @@ const ToursList = () => {
           </Button>
         </Col>
       </Row>
-      <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Image</th>
-            <th>Title</th>
-            <th>City</th>
-            <th>Address</th>
-            <th>Distance (km)</th>
-            <th>Price</th>
-            <th>Max Group Size</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>{renderTours()}</tbody>
-      </Table>
-      <TourCreate showModal={showModal} handleClose={handleClose} />
+      <Row>{renderTours()}</Row>
+      <TourCreate
+        showModal={showModal}
+        handleClose={handleClose}
+        selectedTour={selectedTour}
+      />
     </Container>
   );
 };

@@ -29,6 +29,7 @@ import UserProfile from "../components/Profile/UserProfile";
 import Queries from "../pages/Queries";
 import BlogPage from "../components/admin/Blogs/BlogPage";
 import BlogCreate from "../components/admin/Blogs/BlogCreate";
+import UsersTable from "../components/admin/Users/UserTable";
 const Router = () => {
   return (
     <>
@@ -47,6 +48,7 @@ const Router = () => {
         <Route path="/admin/blogs" element={<BlogPage />} />
         <Route path="/admin/blog/create" element={<BlogCreate />} />
         <Route path="/admin/reviews" element={<RatingsReviews />} />
+        <Route path="/admin/users" element={<UsersTable />} />
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/profile/:id/edit" element={<Profile />} />
         <Route path="/settings" element={<UserProfile />} />

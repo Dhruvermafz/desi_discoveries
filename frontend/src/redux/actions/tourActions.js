@@ -12,7 +12,7 @@ const API_URL = `${BASE_URL}`;
 // Example of adding error handling to fetchTours action
 export const fetchTours = () => async (dispatch) => {
   try {
-    const response = await axios.get(`${API_URL}/tours`);
+    const response = await axios.get(`${API_URL}/tours/`);
     dispatch({ type: FETCH_TOURS, payload: response.data });
   } catch (error) {
     console.error("Error fetching tours:", error);

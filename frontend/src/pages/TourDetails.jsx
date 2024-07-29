@@ -7,6 +7,7 @@ import {
   ListGroup,
   Alert,
   Spinner,
+  Carousel,
 } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
@@ -58,8 +59,16 @@ const TourDetails = () => {
     );
   }
 
-  const { photo, title, desc, price, city, distance, address, maxGroupSize } =
-    tour;
+  const {
+    photos = [],
+    title,
+    desc,
+    price,
+    city,
+    distance,
+    address,
+    maxGroupSize,
+  } = tour;
   const { totalRating, avgRating } = calculateAvgRating(reviews);
 
   const options = { day: "numeric", month: "long", year: "numeric" };
@@ -99,6 +108,7 @@ const TourDetails = () => {
   const handleRatingClick = (value) => {
     setTourRating((prevRating) => (prevRating === value ? null : value));
   };
+
   return (
     <>
       <section>
@@ -106,7 +116,17 @@ const TourDetails = () => {
           <Row>
             <Col lg="8">
               <div className="tour__content">
-                <img src={photo} alt="" />
+                <Carousel>
+                  {photos.map((photo, index) => (
+                    <Carousel.Item key={index}>
+                      <img
+                        src={photo}
+                        alt={`tour-${index}`}
+                        className="d-block w-100"
+                      />
+                    </Carousel.Item>
+                  ))}
+                </Carousel>
 
                 <div className="tour__info">
                   <h2>{title}</h2>
