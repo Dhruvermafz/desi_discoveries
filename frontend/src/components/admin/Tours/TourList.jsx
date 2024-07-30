@@ -1,15 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Spinner, Row, Col, Alert, Button } from "react-bootstrap";
 import axios from "axios";
 import TourItem from "./TourItem";
 import TourCreate from "./TourCreate";
 import { BASE_URL } from "../../../utils/config";
-import useFetch from "../../../hooks/useFetch";
 
 const ToursList = () => {
+  const [tours, setTours] = useState([]);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedTour, setSelectedTour] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchTours();
+  }, []);
+
+  const fetchTours = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/tours/`);
+      console.log(response.data); // Log the response data
+      setTours(Array.isArray(response.data) ? response.data : []);
+      setLoading(false);
+    } catch (err) {
+      setError("Error fetching tours. Please try again later.");
+      setLoading(false);
+    }
+  };
 
   const handleShow = () => setShowModal(true);
   const handleClose = () => {
@@ -17,35 +34,37 @@ const ToursList = () => {
     setSelectedTour(null);
   };
 
-  const { data: fetchedTours, loading, error: fetchError } = useFetch("tours");
-
   const handleEdit = (id) => {
-    const tour = fetchedTours.find((tour) => tour._id === id);
+    const tour = tours.find((tour) => tour._id === id);
     setSelectedTour(tour);
     handleShow();
   };
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${BASE_URL}/api/v1/tours/${id}`);
-      // Remove deleted tour from state
-      setSelectedTour((prevTours) =>
-        prevTours.filter((tour) => tour._id !== id)
-      );
+      await axios.delete(`${BASE_URL}/tours/${id}`);
+      fetchTours(); // Re-fetch tours to ensure the list is updated
     } catch (err) {
       setError("Error deleting tour. Please try again later.");
     }
   };
 
   const renderTours = () => {
-    if (!Array.isArray(fetchedTours) || fetchedTours.length === 0) {
+    if (!Array.isArray(tours)) {
+      return (
+        <Alert variant="danger" className="mt-4">
+          Unexpected data format.
+        </Alert>
+      );
+    }
+    if (tours.length === 0) {
       return (
         <Alert variant="warning" className="mt-4">
           No tours added yet.
         </Alert>
       );
     }
-    return fetchedTours.map((tour) => (
+    return tours.map((tour) => (
       <TourItem
         key={tour._id}
         {...tour}
@@ -66,10 +85,10 @@ const ToursList = () => {
     );
   }
 
-  if (fetchError || error) {
+  if (error) {
     return (
       <Container className="mt-4">
-        <Alert variant="danger">{fetchError || error}</Alert>
+        <Alert variant="danger">{error}</Alert>
       </Container>
     );
   }
@@ -91,6 +110,7 @@ const ToursList = () => {
         showModal={showModal}
         handleClose={handleClose}
         selectedTour={selectedTour}
+        onTourUpdated={fetchTours}
       />
     </Container>
   );

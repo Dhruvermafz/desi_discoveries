@@ -13,30 +13,15 @@ import { NavLink } from "react-router-dom";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import "../../styles/admin.css";
 import { AuthContext } from "../../context/AuthContext";
+import { BsBookHalf } from "react-icons/bs";
+import { TbCategoryFilled } from "react-icons/tb";
+import { MdNewLabel } from "react-icons/md";
+
 const AdminWrapper = (props) => {
   const { user } = useContext(AuthContext);
 
-  const renderAdminNav = () => {
-    if (!user) {
-      return null;
-    } else if (user.role === "admin") {
-      return (
-        <>
-          <h5 className="mt-4">Admin</h5>
-          <Row className="gx-3 gy-3">
-            <AdminCard
-              to={`/admin/tours`}
-              icon={<BsPeopleFill />}
-              title="Manage Tours"
-            />
-          </Row>
-        </>
-      );
-    }
-  };
-
   const AdminCard = ({ to, icon, title }) => (
-    <Col xs={6} md={4} lg={3} className="admin-card">
+    <Col xs={6} md={2} className="admin-card">
       <Card className="h-100">
         <Card.Body className="d-flex flex-column justify-content-center align-items-center">
           {icon}
@@ -53,13 +38,12 @@ const AdminWrapper = (props) => {
         <Col md={12} className="main-content p-4">
           <h5>{user ? user.username : "User"}</h5>
           <Row className="gx-3 gy-3 admin-div">
-            {user && (
-              <AdminCard
-                to={`/profile/${user.id}`}
-                icon={<MdDashboard />}
-                title="Profile"
-              />
-            )}
+            <AdminCard
+              to={`/profile/${user.id}`}
+              icon={<MdDashboard />}
+              title="Profile"
+            />
+
             <AdminCard
               to="/admin/queries"
               icon={<FaQuestionCircle />}
@@ -73,8 +57,17 @@ const AdminWrapper = (props) => {
               icon={<FaUser />}
               title="Manage Users"
             />
+            <AdminCard
+              to="/admin/bookings"
+              icon={<BsBookHalf />}
+              title="Bookings"
+            />
+            <AdminCard
+              to="/admin/extras"
+              icon={<TbCategoryFilled />}
+              title="Categories & Tags"
+            />
           </Row>
-          {renderAdminNav()}
         </Col>
       </Row>
     </Container>

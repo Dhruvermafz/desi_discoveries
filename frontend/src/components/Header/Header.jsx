@@ -1,9 +1,16 @@
 import React, { useRef, useEffect, useContext, useState } from "react";
-import { Container, Row, Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Button,
+  Dropdown,
+  DropdownButton,
+} from "react-bootstrap";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import "./header.css";
 import { AuthContext } from "../../context/AuthContext";
+
 const nav__links = [
   {
     path: "/",
@@ -93,15 +100,24 @@ const Header = () => {
               <div className="nav__btns d-flex align-items-center gap-4">
                 {user ? (
                   <>
-                    <h5 className="mb-0 p-2 logged__in_h5">
-                      <Link to={`/profile/${user.id}`}>
-                        {user.username.charAt(0).toUpperCase() +
-                          user.username.slice(1)}
-                      </Link>
-                    </h5>
-                    <Button className="btn btn-dark" onClick={logout}>
-                      Logout
-                    </Button>
+                    <DropdownButton
+                      id="dropdown-basic-button"
+                      title={
+                        <img
+                          src={user.photo}
+                          alt="Profile"
+                          className="profile-photo-circle"
+                        />
+                      }
+                    >
+                      <Dropdown.Item as={Link} to={`/profile/${user.id}`}>
+                        Profile
+                      </Dropdown.Item>
+                      <Dropdown.Item as={Link} to="/settings">
+                        Settings
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
+                    </DropdownButton>
                   </>
                 ) : (
                   <>

@@ -12,6 +12,7 @@ const bookingRouter = require("./router/bookings");
 const searchRouter = require("./router/search");
 const blogRouter = require("./router/blog");
 const commentRouter = require("./router/comment");
+const createAdmin = require("./controllers/createAdmin");
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -48,7 +49,7 @@ app.use("/api/v1/booking", bookingRouter);
 app.use("/api/v1/contact", contactRouter);
 app.use("/api/v1/blogs", blogRouter);
 app.use("/api/v1/comment", commentRouter);
-
+createAdmin();
 app.listen(PORT, () => {
   connect();
   console.log("Server is listening on PORT", PORT);

@@ -1,36 +1,36 @@
 import React from "react";
 import { Card, Button, Col, Carousel } from "react-bootstrap";
-import { FaEdit, FaTrash } from "react-icons/fa"; // Optional: For icon buttons
+import { FaEdit, FaTrash } from "react-icons/fa";
 import "../../../styles/TourDetails.css";
-import { useParams } from "react-router-dom";
-import useFetch from "../../../hooks/useFetch";
-const TourItem = ({ desc, onEdit, onDelete }) => {
-  const { id } = useParams();
-  const {
-    data: tour,
-    loading: loadingTour,
-    error: errorTour,
-  } = useFetch(`tours/${id}`);
+
+const TourItem = ({ tour = {}, onEdit, onDelete }) => {
   const {
     photos = [],
-    title,
-    price,
-    city,
-    distance,
-    address,
-    maxGroupSize,
+    title = "",
+    price = 0,
+    city = "",
+    distance = 0,
+    address = "",
+    maxGroupSize = 0,
+    _id = "",
+    desc = "",
   } = tour;
+
+  // Use the first photo or fallback to a placeholder
+  const firstPhoto =
+    photos.length > 0 ? photos[0] : "path/to/placeholder-image.jpg";
+
   return (
     <Col md={4} className="mb-3">
       <Card>
         <Card.Header className="d-flex justify-content-end">
-          <Button variant="outline-primary" onClick={() => onEdit(id)}>
+          <Button variant="outline-primary" onClick={() => onEdit(_id)}>
             <FaEdit /> Edit
           </Button>
           <Button
             variant="outline-danger"
             className="ms-2"
-            onClick={() => onDelete(id)}
+            onClick={() => onDelete(_id)}
           >
             <FaTrash /> Delete
           </Button>
@@ -52,7 +52,7 @@ const TourItem = ({ desc, onEdit, onDelete }) => {
           ) : (
             <Card.Img
               variant="top"
-              src={photos}
+              src={firstPhoto} // Use the first photo or fallback to a placeholder
               alt={title}
               style={{ height: "200px", objectFit: "cover" }}
             />

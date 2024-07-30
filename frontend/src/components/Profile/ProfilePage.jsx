@@ -1,22 +1,20 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { useContext } from "react";
+import React, { useContext } from "react";
+import { Button, Col, Container, Row, Image } from "react-bootstrap";
+import moment from "moment";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/actions/authActions";
-import moment from "moment";
-import { Button, Col, Container, Row, Image } from "react-bootstrap";
 import "../../styles/profile.css";
-import { AuthContext } from "../../context/AuthContext";
-const Profile = () => {
+import { Link } from "react-router-dom";
+const ProfilePage = () => {
   const { user } = useContext(AuthContext);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const createdat = user.createdAt;
   const updatedat = user.updatedAt;
-  const [activePanelId, setActivePanelId] = useState(1);
   const createdatnew = moment(createdat).fromNow();
   const updatedatnew = moment(updatedat).fromNow();
-
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logout(navigate));
@@ -42,10 +40,8 @@ const Profile = () => {
               <div className="avatar-actions d-flex justify-content-between">
                 <Button
                   variant="outline-secondary"
-                  onClick={() => setActivePanelId(3)}
+                  onClick={getUser}
                   className="edit-profile-button"
-                  Link
-                  to={`/profile/${user.id}/edit`}
                 >
                   Edit Profile
                 </Button>
@@ -81,9 +77,9 @@ const Profile = () => {
             <Button
               variant="danger"
               className="update-profile-button"
-              onClick={getUser}
+              onClick={handleLogout}
             >
-              Delete Profile
+              Logout
             </Button>
             {user.isAdmin && (
               <Link to="/pending-activities">
@@ -99,4 +95,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfilePage;

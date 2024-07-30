@@ -1,13 +1,12 @@
-var { User } = require("../models/User");
 const bcrypt = require("bcrypt");
-
+const User = require("../models/User");
 //create admin
-var createadmin = async () => {
+const createadmin = async () => {
   const user = new User({
-    name: "admin",
+    username: "admin",
     password: "admin",
     email: "admin@admin.com",
-    category: "ADMIN",
+    role: "admin",
   });
 
   const salt = await bcrypt.genSalt(10);

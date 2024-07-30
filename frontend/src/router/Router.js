@@ -30,6 +30,9 @@ import Queries from "../pages/Queries";
 import BlogPage from "../components/admin/Blogs/BlogPage";
 import BlogCreate from "../components/admin/Blogs/BlogCreate";
 import UsersTable from "../components/admin/Users/UserTable";
+import Bookings from "../components/admin/Bookings/Bookings";
+import ProfileWrapper from "../components/Profile/ProfileWrapper";
+import CategoriesTags from "../components/admin/Categories";
 const Router = () => {
   return (
     <>
@@ -44,14 +47,15 @@ const Router = () => {
         <Route path="/admin" element={<AdminWrapper />} />
         <Route path="/admin/tours/create" element={<AddTourPackage />} />
         <Route path="/admin/tours/update" element={<UpdateTour />} />
+        <Route path="/admin/bookings" element={<Bookings />} />
         <Route path="/admin/queries" element={<Queries />} />
         <Route path="/admin/blogs" element={<BlogPage />} />
         <Route path="/admin/blog/create" element={<BlogCreate />} />
         <Route path="/admin/reviews" element={<RatingsReviews />} />
         <Route path="/admin/users" element={<UsersTable />} />
-        <Route path="/profile/:id" element={<Profile />} />
+        <Route path="/admin/extras" element={<CategoriesTags />} />
+        <Route path="/profile/:id" element={<ProfileWrapper />} />
         <Route path="/profile/:id/edit" element={<Profile />} />
-        <Route path="/settings" element={<UserProfile />} />
         <Route path="/tours" element={<Tours />} />
         <Route path="/tours/:id" element={<TourDetails />} />
         <Route path="/login" element={<Login />} />

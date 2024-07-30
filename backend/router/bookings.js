@@ -10,6 +10,6 @@ const bookingRouter = express.Router();
 
 bookingRouter.post("/", createBooking);
 bookingRouter.get("/:id", getBooking);
-bookingRouter.post("/", verifyAdmin, getAllBookings);
+bookingRouter.post("/", getAllBookings);
 
 module.exports = bookingRouter;

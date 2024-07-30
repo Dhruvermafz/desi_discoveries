@@ -1,12 +1,47 @@
 .admin-wrapper {
-  min-height: calc(
-    100vh - 60px - 60px
-  ); /* Adjust based on actual header and footer heights */
-  margin-top: 60px; /* Adjust based on actual header height */
+  min-height: calc(100vh - 60px - 60px);
+  margin-top: 60px;
 }
 .admin-div {
   margin-left: 88vh;
 }
+.admin-card {
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  margin-bottom: 10vh;
+  border: 2px solid #000;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin-left: 33px;
+}
+
+.admin-card .card {
+  width: 100%;
+  padding-top: 100%; /* This makes the card a square by setting the padding-top to be equal to the width */
+  position: relative; /* This is required for the absolutely positioned content */
+}
+
+.admin-card .card-body {
+  position: absolute; /* Position the content inside the square */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-card .stretched-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
 /* Sidebar styling */
 .sidebar {
   position: relative;
@@ -40,16 +75,6 @@
 
 h5 {
   margin-left: 1.5rem;
-}
-
-.admin-card {
-  transition: transform 0.3s ease;
-  cursor: pointer;
-  margin-bottom: 10vh;
-  border: 2px solid #000;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  margin-left: 33px;
 }
 
 .admin-card:hover {
