@@ -1,7 +1,6 @@
 /* Footer Styling */
 .footer {
-  padding-top: 70px;
-  padding-bottom: 30px;
+  padding-top: 30px;
   background-color: #f8f9fa; /* Light background for contrast */
   border-top: 1px solid #ddd; /* Subtle border for separation */
   margin-top: auto; /* Pushes the footer to the bottom */

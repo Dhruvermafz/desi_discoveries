@@ -34,6 +34,17 @@
       "createdAt": "2024-07-10T05:23:07.086Z",
       "updatedAt": "2024-07-10T05:23:07.086Z",
       "__v": 0
+    },
+    {
+      "_id": "66a875436428c43273ed7624",
+      "username": "admin",
+      "email": "admin@admin.com",
+      "password": "$2b$10$K8Z/C8YCmoS0//kOZc98HuMvwq8gepXjPBQ6XZl42MOnevsi3r/a.",
+      "photo": "https://firebasestorage.googleapis.com/v0/b/mern-travel-tourism.appspot.com/o/profile-photos%2F1706415975072defaultProfileImgttms125.png?alt=media&token=7f309b9e-7ccf-4a15-ba5c-829c9952a85c",
+      "role": "admin",
+      "createdAt": "2024-07-30T05:08:19.317Z",
+      "updatedAt": "2024-07-30T05:08:19.317Z",
+      "__v": 0
     }
   ]
 }

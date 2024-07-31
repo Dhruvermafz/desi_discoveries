@@ -1,0 +1,29 @@
+.user-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.user-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.user-card .card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.user-card .card-text {
+  font-size: 1rem;
+  color: #6c757d;
+}
+
+.user-card .btn {
+  display: flex;
+  align-items: center;
+}
+
+.user-card .btn svg {
+  margin-right: 5px;
+}

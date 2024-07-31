@@ -1,27 +1,26 @@
-// components/UsersTable.js
-import React, { useEffect, useState } from "react";
-import { Toast, ToastContainer, Modal, Button, Table } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAllUsers } from "../../../redux/actions/authActions";
-
-import SingleUserRow from "./SingleUserRow";
+import React, { useState } from "react";
+import {
+  Toast,
+  ToastContainer,
+  Modal,
+  Button,
+  Container,
+  Row,
+  Col,
+  FormControl,
+  InputGroup,
+} from "react-bootstrap";
+import SingleUserCard from "./SingleUserCard";
 import axios from "axios";
-import { createSelector } from "reselect";
-
-const getUsers = (state) => state.users || [];
-
-// Memoized selector
-export const getUserList = createSelector([getUsers], (users) => {
-  return Array.isArray(users) ? users : []; // Ensure users is an array
-});
+import useFetch from "../../../hooks/useFetch"; // Import the useFetch hook
+import { BASE_URL } from "../../../utils/config";
 
 const UsersTable = () => {
+  const { data: users, loading, error } = useFetch("users"); // Use the useFetch hook
   const [showModal, setShowModal] = useState(false);
   const [deletingUser, setDeletingUser] = useState(null);
   const [toast, setToast] = useState({ show: false, type: "", message: "" });
-
-  const dispatch = useDispatch();
-  const users = useSelector(getUserList); // Use memoized selector
+  const [searchTerm, setSearchTerm] = useState("");
 
   const changeModal = () => {
     setShowModal((prevState) => !prevState);
@@ -34,51 +33,54 @@ const UsersTable = () => {
 
   const handleDeleteUser = async () => {
     try {
-      await axios.delete(`/api/v1/users/${deletingUser._id}`);
-      dispatch(fetchAllUsers()); // Fetch users again to update the list
+      await axios.delete(`${BASE_URL}users/${deletingUser._id}`);
       changeModal();
-      showToast("success", "User deleted.");
+      setToast({ show: true, type: "success", message: "User deleted." });
     } catch (err) {
-      showToast(
-        "error",
-        err.response?.data?.message || "Failed to delete user."
-      );
+      setToast({
+        show: true,
+        type: "error",
+        message: err.response?.data?.message || "Failed to delete user.",
+      });
     }
   };
 
-  const showToast = (type, message) => {
-    setToast({ show: true, type, message });
-    setTimeout(() => setToast({ show: false, type: "", message: "" }), 3000);
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
   };
 
-  useEffect(() => {
-    dispatch(fetchAllUsers());
-  }, [dispatch]);
+  const filteredUsers = users?.filter((user) =>
+    user.username.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error fetching users</div>;
 
   return (
     <>
-      <Table striped bordered hover responsive className="bg-white">
-        <thead className="bg-dark text-white text-center">
-          <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Created at</th>
-            <th>Updated at</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <SingleUserRow
-              key={user._id}
-              user={user}
-              fetchUsers={() => dispatch(fetchAllUsers())}
-              changeModal={() => handleSetDeleteUser(user)}
-            />
+      <Container>
+        <h2>Users</h2>
+        <InputGroup className="mb-3">
+          <FormControl
+            placeholder="Search users"
+            aria-label="Search users"
+            aria-describedby="basic-addon2"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+        </InputGroup>
+        <Row>
+          {filteredUsers.map((user) => (
+            <Col md={6} lg={4} key={user._id}>
+              <SingleUserCard
+                user={user}
+                changeModal={() => handleSetDeleteUser(user)}
+                editUser={() => console.log(`Edit user: ${user._id}`)} // Implement your editUser logic here
+              />
+            </Col>
           ))}
-        </tbody>
-      </Table>
+        </Row>
+      </Container>
 
       <Modal show={showModal} onHide={changeModal}>
         <Modal.Header closeButton>

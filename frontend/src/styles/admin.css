@@ -17,12 +17,12 @@
 
 .admin-card .card {
   width: 100%;
-  padding-top: 100%; /* This makes the card a square by setting the padding-top to be equal to the width */
-  position: relative; /* This is required for the absolutely positioned content */
+  padding-top: 100%;
+  position: relative;
 }
 
 .admin-card .card-body {
-  position: absolute; /* Position the content inside the square */
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;

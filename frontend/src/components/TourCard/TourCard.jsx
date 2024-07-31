@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import calculateAvgRating from "../../utils/avgRating";
 import "./TourCard.css";
 
-const TourCard = ({ tour }) => {
+const TourCard = ({ tour, isAdmin }) => {
   const { _id, title, city, photos, price, reviews } = tour;
 
   const { totalRating, avgRating } = calculateAvgRating(reviews);
@@ -64,16 +64,38 @@ const TourCard = ({ tour }) => {
               <span>/Per Person</span>
             </h5>
 
-            <button className="btn booking__btn">
-              <Link to={`/tours/${_id}`}>
-                <div onClick={handleScrollToTop}>Book Now</div>
-              </Link>
-            </button>
+            {isAdmin ? (
+              <div className="admin-buttons">
+                <button className="btn edit__btn">
+                  <Link to={`/admin/tours/edit/${_id}`}>
+                    <div onClick={handleScrollToTop}>Edit</div>
+                  </Link>
+                </button>
+                <button
+                  className="btn delete__btn"
+                  onClick={() => handleDelete(_id)}
+                >
+                  Delete
+                </button>
+              </div>
+            ) : (
+              <button className="btn booking__btn">
+                <Link to={`/tours/${_id}`}>
+                  <div onClick={handleScrollToTop}>Book Now</div>
+                </Link>
+              </button>
+            )}
           </div>
         </CardBody>
       </Card>
     </div>
   );
+};
+
+// Function to handle delete action (to be implemented)
+const handleDelete = (id) => {
+  // Logic to delete the tour
+  console.log("Delete tour with id:", id);
 };
 
 export default TourCard;

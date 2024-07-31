@@ -49,7 +49,7 @@ app.use("/api/v1/booking", bookingRouter);
 app.use("/api/v1/contact", contactRouter);
 app.use("/api/v1/blogs", blogRouter);
 app.use("/api/v1/comment", commentRouter);
-createAdmin();
+// createAdmin();
 app.listen(PORT, () => {
   connect();
   console.log("Server is listening on PORT", PORT);

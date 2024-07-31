@@ -66,7 +66,7 @@ const TourCreate = ({ showModal, handleClose }) => {
         city,
         address,
         distance,
-        photos: imageUrls, // Note that `photos` is now an array
+        photos: imageUrls,
         desc,
         price,
         maxGroupSize,
