@@ -2,32 +2,39 @@ import React, { useState } from "react";
 import "../styles/FAQ.css";
 import { Container, Row, Col } from "react-bootstrap";
 import Newsletter from "./Newsletter";
+
 const FAQ = () => {
   const faqData = [
     {
-      question: "What is the best time to visit this destination?",
+      question: "What are the must-visit places in India?",
       answer:
-        "The best time to visit this destination is during the months of [insert best months here]. The weather is pleasant, and you can enjoy various outdoor activities without extreme heat or cold.",
+        "India is a diverse country with numerous must-visit places. Some highlights include the Taj Mahal in Agra, the palaces of Rajasthan, the beaches of Goa, the backwaters of Kerala, the Himalayan region, and vibrant cities like Delhi and Mumbai.",
     },
     {
-      question: "How do I book a tour package?",
+      question: "What are the visa requirements for traveling to India?",
       answer:
-        "Booking a tour package is simple. You can either visit our website and book online, or you can contact our customer support team and they will assist you with the booking process.",
+        "Most travelers need a visa to enter India. You can apply for an e-Visa online if you're eligible, or you may need to visit an Indian embassy or consulate for a traditional visa. Ensure your passport is valid for at least six months from your date of entry.",
+    },
+
+    {
+      question: "What type of food can I expect in India?",
+      answer:
+        "India offers a rich variety of cuisine, with each region having its specialties. You'll find everything from spicy curries and street food to delicious vegetarian dishes and sweets. Be sure to try local delicacies and regional specialties during your visit.",
     },
     {
-      question: "Are there any special discounts for group bookings?",
+      question: "What is the best way to get around in India?",
       answer:
-        "Yes, we offer special discounts for group bookings. If you are planning to travel with a group, please get in touch with our customer support team to avail of group discounts.",
+        "Travel options in India include domestic flights, trains, buses, and taxis. For short distances, auto-rickshaws and ride-sharing apps are convenient. Trains are a popular way to travel between cities, and flights can save time for long distances.",
     },
     {
-      question: "What kind of accommodations do you provide?",
+      question: "What should I pack for my trip to India?",
       answer:
-        "We provide a range of accommodations, including luxury hotels, budget-friendly guesthouses, and cozy homestays. You can choose the type of accommodation that suits your preferences and budget.",
+        "Pack lightweight, breathable clothing suitable for the weather and comfortable shoes for exploring. Depending on the region and time of year, you might need warm clothing or rain gear. Also, bring sunscreen, a hat, and any personal medications.",
     },
     {
-      question: "Do you offer travel insurance?",
+      question: "Are there any cultural customs I should be aware of?",
       answer:
-        "Yes, we offer travel insurance for our customers. Travel insurance provides coverage for medical emergencies, trip cancellations, lost baggage, and other unforeseen events during your journey.",
+        "India has diverse cultural practices, so it's important to be respectful of local customs. Dress modestly, especially when visiting religious sites, and remove your shoes before entering temples. It's also polite to greet with a 'Namaste' and avoid public displays of affection.",
     },
   ];
 
@@ -40,6 +47,7 @@ const FAQ = () => {
       setActiveQuestion(index);
     }
   };
+
   return (
     <>
       <section>

@@ -17,7 +17,7 @@ const BlogCreate = () => {
   const [bannerImage, setBannerImage] = useState(null);
   const [bannerImagePreview, setBannerImagePreview] = useState("");
   const [paragraphs, setParagraphs] = useState([]);
-  const [metaFields, setMetaFields] = useState([{ tag: "", attribute: "" }]);
+  const [metaFields, setMetaFields] = useState([]);
   const [isFeatured, setIsFeatured] = useState(false);
 
   const formik = useFormik({
@@ -31,7 +31,6 @@ const BlogCreate = () => {
       permalink: "",
       metaTitle: "",
       metaDescription: "",
-      intro: "",
       published: true,
     },
     validationSchema: Yup.object({
@@ -46,7 +45,6 @@ const BlogCreate = () => {
       permalink: Yup.string().required("Permalink is required"),
       metaTitle: Yup.string(),
       metaDescription: Yup.string(),
-      intro: Yup.string().min(250, "Intro must be at least 250 characters"),
     }),
     onSubmit: async (values) => {
       try {
@@ -60,7 +58,6 @@ const BlogCreate = () => {
         formData.append("permalink", values.permalink);
         formData.append("metaTitle", values.metaTitle);
         formData.append("metaDescription", values.metaDescription);
-        formData.append("intro", values.intro);
         formData.append("published", values.published);
 
         if (bannerImage) formData.append("bannerImage", bannerImage);
@@ -78,7 +75,7 @@ const BlogCreate = () => {
         });
 
         const { data } = await axios.post(
-          "http://localhost:4000/api/v1/blog/post",
+          "http://localhost:4000/api/v1/blog/",
           formData,
           {
             withCredentials: true,
@@ -240,23 +237,6 @@ const BlogCreate = () => {
             )}
           </Form.Group>
 
-          {/* Introduction Field */}
-          <Form.Group controlId="intro" className="mt-3">
-            <Form.Label>Introduction</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={5}
-              name="intro"
-              value={formik.values.intro}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              isInvalid={formik.touched.intro && !!formik.errors.intro}
-            />
-            <Form.Control.Feedback type="invalid">
-              {formik.errors.intro}
-            </Form.Control.Feedback>
-          </Form.Group>
-
           {/* Dynamic Paragraphs */}
           {paragraphs.map((para, index) => (
             <div key={index}>
@@ -305,7 +285,6 @@ const BlogCreate = () => {
                 />
               </Form.Group>
 
-              {/* Image Field */}
               <Form.Group controlId={`para${index}Image`} className="mt-3">
                 <Form.Label>Paragraph {index} Image</Form.Label>
                 <img
@@ -319,22 +298,63 @@ const BlogCreate = () => {
                 />
               </Form.Group>
 
-              {/* Remove Paragraph Button */}
               <Button
                 variant="danger"
                 className="mt-2"
                 onClick={() => removeParagraph(index)}
               >
-                Remove Paragraph {index}
+                Remove Paragraph
               </Button>
             </div>
           ))}
+
+          <Button variant="secondary" className="mt-3" onClick={addParagraph}>
+            Add Paragraph
+          </Button>
+
+          {/* Dynamic Meta Fields */}
+          {metaFields.map((field, index) => (
+            <div key={index}>
+              <Form.Group controlId={`metaTag${index}`} className="mt-3">
+                <Form.Label>Meta Tag {index}</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={field.tag}
+                  onChange={(e) =>
+                    handleMetaFieldChange(index, "tag", e.target.value)
+                  }
+                />
+              </Form.Group>
+
+              <Form.Group controlId={`metaAttribute${index}`} className="mt-3">
+                <Form.Label>Meta Attribute {index}</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={field.attribute}
+                  onChange={(e) =>
+                    handleMetaFieldChange(index, "attribute", e.target.value)
+                  }
+                />
+              </Form.Group>
+
+              <Button
+                variant="danger"
+                className="mt-2"
+                onClick={() => removeMetaField(index)}
+              >
+                Remove Meta Field
+              </Button>
+            </div>
+          ))}
+
+          <Button variant="secondary" className="mt-3" onClick={addMetaField}>
+            Add Meta Field
+          </Button>
         </Col>
 
-        {/* Sidebar */}
-        <Col md={4} className="sidebar">
-          <h3>Sidebar</h3>
-          <Form.Group controlId="categories">
+        <Col md={4}>
+          {/* Other Sidebar Fields */}
+          <Form.Group controlId="categories" className="mt-3">
             <Form.Label>Categories</Form.Label>
             <Form.Control
               type="text"
@@ -342,7 +362,13 @@ const BlogCreate = () => {
               value={formik.values.categories}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              isInvalid={
+                formik.touched.categories && !!formik.errors.categories
+              }
             />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.categories}
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group controlId="tags" className="mt-3">
@@ -353,74 +379,94 @@ const BlogCreate = () => {
               value={formik.values.tags}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              isInvalid={formik.touched.tags && !!formik.errors.tags}
             />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.tags}
+            </Form.Control.Feedback>
           </Form.Group>
 
-          {/* Featured Checkbox */}
           <Form.Group controlId="featured" className="mt-3">
             <Form.Check
               type="checkbox"
-              label="Is this blog featured?"
+              name="featured"
+              label="Featured"
               checked={isFeatured}
-              onChange={() => setIsFeatured(!isFeatured)}
+              onChange={(e) => setIsFeatured(e.target.checked)}
             />
           </Form.Group>
 
-          {/* Dynamic Meta Fields */}
-          <div>
-            <h4>Meta Fields</h4>
-            {metaFields.map((field, index) => (
-              <div key={index} className="mt-3">
-                <Form.Group controlId={`metaTag${index}`}>
-                  <Form.Label>Meta Tag {index}</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={field.tag}
-                    onChange={(e) =>
-                      handleMetaFieldChange(index, "tag", e.target.value)
-                    }
-                  />
-                </Form.Group>
-                <Form.Group
-                  controlId={`metaAttribute${index}`}
-                  className="mt-2"
-                >
-                  <Form.Label>Meta Attribute {index}</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={field.attribute}
-                    onChange={(e) =>
-                      handleMetaFieldChange(index, "attribute", e.target.value)
-                    }
-                  />
-                </Form.Group>
-                <Button
-                  variant="danger"
-                  className="mt-2"
-                  onClick={() => removeMetaField(index)}
-                >
-                  Remove Meta Field {index}
-                </Button>
-              </div>
-            ))}
-            <Button variant="secondary" className="mt-3" onClick={addMetaField}>
-              + Add Meta Field
-            </Button>
-            {/* Add Paragraph Button */}
-            <Button variant="secondary" className="mt-3" onClick={addParagraph}>
-              + Add Paragraph
-            </Button>
-          </div>
+          <Form.Group controlId="permalink" className="mt-3">
+            <Form.Label>Permalink</Form.Label>
+            <Form.Control
+              type="text"
+              name="permalink"
+              value={formik.values.permalink}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isInvalid={formik.touched.permalink && !!formik.errors.permalink}
+            />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.permalink}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-          {/* Submit Button */}
+          <Form.Group controlId="metaTitle" className="mt-3">
+            <Form.Label>Meta Title</Form.Label>
+            <Form.Control
+              type="text"
+              name="metaTitle"
+              value={formik.values.metaTitle}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isInvalid={formik.touched.metaTitle && !!formik.errors.metaTitle}
+            />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.metaTitle}
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group controlId="metaDescription" className="mt-3">
+            <Form.Label>Meta Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              name="metaDescription"
+              value={formik.values.metaDescription}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isInvalid={
+                formik.touched.metaDescription &&
+                !!formik.errors.metaDescription
+              }
+            />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.metaDescription}
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group controlId="published" className="mt-3">
+            <Form.Check
+              type="checkbox"
+              name="published"
+              label="Published"
+              checked={formik.values.published}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isInvalid={formik.touched.published && !!formik.errors.published}
+            />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.published}
+            </Form.Control.Feedback>
+          </Form.Group>
+
           <Button
             variant="primary"
             type="submit"
-            className="mt-3"
+            className="mt-4"
             onClick={formik.handleSubmit}
-            disabled={formik.isSubmitting}
           >
-            {formik.isSubmitting ? "Submitting..." : "Create Blog"}
+            Create Blog
           </Button>
         </Col>
       </Row>

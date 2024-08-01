@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { Card, CardBody, Carousel } from "react-bootstrap";
+import React from "react";
+import { Card, Carousel } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import calculateAvgRating from "../../utils/avgRating";
 import "./TourCard.css";
 
-const TourCard = ({ tour, isAdmin }) => {
+const TourCard = ({ tour, isAdmin, onEdit, onDelete }) => {
   const { _id, title, city, photos, price, reviews } = tour;
-
   const { totalRating, avgRating } = calculateAvgRating(reviews);
 
   const handleScrollToTop = () => {
@@ -35,12 +34,13 @@ const TourCard = ({ tour, isAdmin }) => {
               </Carousel.Item>
             ))}
           </Carousel>
-          <span>Featured</span>
+          {tour.isFeatured && <span>Featured</span>}
         </div>
-        <CardBody>
+        <Card.Body>
           <div className="card__top d-flex align-items-center justify-content-between">
             <span className="tour__location d-flex align-items-center gap-1">
-              <i className="ri-map-pin-line">{city}</i>
+              <i className="ri-map-pin-line"></i>
+              {city}
             </span>
             <span className="tour__rating d-flex align-items-center gap-1">
               <i className="ri-star-fill"></i>
@@ -66,15 +66,10 @@ const TourCard = ({ tour, isAdmin }) => {
 
             {isAdmin ? (
               <div className="admin-buttons">
-                <button className="btn edit__btn">
-                  <Link to={`/admin/tours/edit/${_id}`}>
-                    <div onClick={handleScrollToTop}>Edit</div>
-                  </Link>
+                <button className="btn edit__btn" onClick={onEdit}>
+                  Edit
                 </button>
-                <button
-                  className="btn delete__btn"
-                  onClick={() => handleDelete(_id)}
-                >
+                <button className="btn delete__btn" onClick={onDelete}>
                   Delete
                 </button>
               </div>
@@ -86,16 +81,10 @@ const TourCard = ({ tour, isAdmin }) => {
               </button>
             )}
           </div>
-        </CardBody>
+        </Card.Body>
       </Card>
     </div>
   );
-};
-
-// Function to handle delete action (to be implemented)
-const handleDelete = (id) => {
-  // Logic to delete the tour
-  console.log("Delete tour with id:", id);
 };
 
 export default TourCard;

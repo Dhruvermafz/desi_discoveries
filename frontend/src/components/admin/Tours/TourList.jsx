@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, Spinner, Row, Col, Alert, Button } from "react-bootstrap";
 import axios from "axios";
+import Swal from "sweetalert2";
 import TourCreate from "./TourCreate";
 import TourCard from "../../TourCard/TourCard";
 import useFetch from "../../../hooks/useFetch";
@@ -25,10 +26,28 @@ const ToursList = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${BASE_URL}/tours/${id}`);
-      window.location.reload(); // Reload the page to fetch the updated list of tours
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      });
+
+      if (result.isConfirmed) {
+        await axios.delete(`${BASE_URL}/tours/${id}`);
+        Swal.fire("Deleted!", "The tour has been deleted.", "success");
+        window.location.reload(); // Reload the page to fetch the updated list of tours
+      }
     } catch (err) {
-      console.error("Error deleting tour. Please try again later.", err);
+      Swal.fire(
+        "Error!",
+        "There was an error deleting the tour. Please try again later.",
+        "error"
+      );
+      console.error("Error deleting tour:", err);
     }
   };
 
@@ -94,8 +113,8 @@ const ToursList = () => {
       <TourCreate
         showModal={showModal}
         handleClose={handleClose}
-        selectedTour={selectedTour}
-        onTourUpdated={window.location.reload}
+        tourData={selectedTour}
+        isEditMode={!!selectedTour}
       />
     </Container>
   );

@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
-//create admin
+
 const createadmin = async () => {
   const user = new User({
     username: "admin",

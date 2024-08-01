@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   Form,
@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { BASE_URL } from "../../../utils/config";
 
-const TourCreate = ({ showModal, handleClose }) => {
+const TourCreate = ({ showModal, handleClose, tourData, isEditMode }) => {
   const [files, setFiles] = useState([]);
   const [title, setTitle] = useState("");
   const [city, setCity] = useState("");
@@ -21,9 +21,28 @@ const TourCreate = ({ showModal, handleClose }) => {
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
   const [maxGroupSize, setMaxGroupSize] = useState("");
+  const [isFeatured, setIsFeatured] = useState(false);
+
+  useEffect(() => {
+    if (isEditMode && tourData) {
+      setTitle(tourData.title);
+      setCity(tourData.city);
+      setAddress(tourData.address);
+      setDistance(tourData.distance);
+      setDesc(tourData.desc);
+      setPrice(tourData.price);
+      setMaxGroupSize(tourData.maxGroupSize);
+      setIsFeatured(tourData.isFeatured);
+      setFiles(tourData.photos.map((url, index) => ({ url, index })));
+    }
+  }, [isEditMode, tourData]);
 
   const handleFileChange = (e) => {
-    setFiles([...files, ...e.target.files]);
+    const newFiles = Array.from(e.target.files).map((file, index) => ({
+      file,
+      index,
+    }));
+    setFiles([...files, ...newFiles]);
   };
 
   const handleSubmit = async (e) => {
@@ -49,9 +68,12 @@ const TourCreate = ({ showModal, handleClose }) => {
 
     try {
       const imageUrls = await Promise.all(
-        Array.from(files).map(async (file) => {
+        files.map(async (file) => {
+          if (file.url) {
+            return file.url;
+          }
           const formData = new FormData();
-          formData.append("file", file);
+          formData.append("file", file.file);
           formData.append("upload_preset", "upload");
           const uploadRes = await axios.post(
             "https://api.cloudinary.com/v1_1/dpgelkpd4/image/upload",
@@ -61,7 +83,7 @@ const TourCreate = ({ showModal, handleClose }) => {
         })
       );
 
-      await axios.post(`${BASE_URL}/tours/create`, {
+      const tourPayload = {
         title,
         city,
         address,
@@ -70,9 +92,17 @@ const TourCreate = ({ showModal, handleClose }) => {
         desc,
         price,
         maxGroupSize,
-      });
+        isFeatured,
+      };
 
-      Swal.fire("Tour added successfully!", "", "success");
+      if (isEditMode) {
+        await axios.put(`${BASE_URL}/tours/${tourData._id}`, tourPayload);
+        Swal.fire("Tour updated successfully!", "", "success");
+      } else {
+        await axios.post(`${BASE_URL}/tours/create`, tourPayload);
+        Swal.fire("Tour added successfully!", "", "success");
+      }
+
       handleClose();
     } catch (error) {
       Swal.fire({
@@ -86,7 +116,9 @@ const TourCreate = ({ showModal, handleClose }) => {
   return (
     <Modal show={showModal} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Add Tour Package</Modal.Title>
+        <Modal.Title>
+          {isEditMode ? "Edit Tour Package" : "Add Tour Package"}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -98,7 +130,7 @@ const TourCreate = ({ showModal, handleClose }) => {
                   files.map((file, index) => (
                     <Carousel.Item key={index}>
                       <Image
-                        src={URL.createObjectURL(file)}
+                        src={file.url || URL.createObjectURL(file.file)}
                         alt={`cover-${index}`}
                         fluid
                       />
@@ -210,12 +242,24 @@ const TourCreate = ({ showModal, handleClose }) => {
               </Form.Group>
             </Col>
           </Row>
+          <Row>
+            <Col>
+              <Form.Group>
+                <Form.Check
+                  type="checkbox"
+                  label="Featured Tour"
+                  checked={isFeatured}
+                  onChange={(e) => setIsFeatured(e.target.checked)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
           <div className="mt-4 text-end">
             <Button variant="secondary" onClick={handleClose}>
               Cancel
             </Button>
             <Button variant="primary" className="ms-2" onClick={handleSubmit}>
-              Add Tour
+              {isEditMode ? "Update Tour" : "Add Tour"}
             </Button>
           </div>
         </Form>

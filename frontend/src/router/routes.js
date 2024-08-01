@@ -28,7 +28,7 @@ import UsersTable from "../components/admin/Users/UserTable";
 import Bookings from "../components/admin/Bookings/Bookings";
 import ProfileWrapper from "../components/Profile/ProfileWrapper";
 import CategoriesTags from "../components/admin/Categories";
-
+import PaymentPageWithStripe from "../components/Booking/Payment";
 export const publicRoutes = [
   { path: "/about", element: About },
   { path: "/contact", element: Contact },
@@ -37,6 +37,7 @@ export const publicRoutes = [
   { path: "*", element: PageNotFound },
   { path: "/tours", element: Tours },
   { path: "/tours/:id", element: TourDetails },
+  { path: "/tours/:id/pay", element: PaymentPageWithStripe },
   { path: "/login", element: Login },
   { path: "/forgotpassword", element: ForgotPassword },
   { path: "/register", element: Register },
@@ -51,8 +52,8 @@ export const publicRoutes = [
 ];
 
 export const adminRoutes = [
-  { path: "/admin/tours", element: TourList },
   { path: "/admin", element: AdminWrapper },
+  { path: "/admin/tours", element: TourList },
   { path: "/admin/tours/create", element: AddTourPackage },
   { path: "/admin/tours/update", element: UpdateTour },
   { path: "/admin/bookings", element: Bookings },

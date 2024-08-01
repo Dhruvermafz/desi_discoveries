@@ -1,8 +1,9 @@
 import React from "react";
-import BASE_URL from "../utils/config";
-import { toast } from "react-toastify";
-
+import toast from "react-hot-toast";
+import { BASE_URL } from "../../utils/config";
+import { useLocation } from "react-router-dom";
 const BookingCard = ({ booking }) => {
+  const location = useLocation();
   const {
     tourName,
     fullName,

@@ -8,7 +8,6 @@ import {
   FaStar,
   FaUser,
 } from "react-icons/fa"; // Import additional icons
-import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import "../../styles/admin.css";
@@ -17,33 +16,37 @@ import { BsBookHalf } from "react-icons/bs";
 import { TbCategoryFilled } from "react-icons/tb";
 import { MdNewLabel } from "react-icons/md";
 
-const AdminWrapper = (props) => {
+const AdminWrapper = () => {
   const { user } = useContext(AuthContext);
 
   const AdminCard = ({ to, icon, title }) => (
     <Col xs={6} md={2} className="admin-card">
-      <Card className="h-100">
-        <Card.Body className="d-flex flex-column justify-content-center align-items-center">
-          {icon}
-          <Card.Title className="mt-3">{title}</Card.Title>
-        </Card.Body>
-        <NavLink to={to} className="stretched-link"></NavLink>
-      </Card>
+      <NavLink to={to}>
+        <Card className="h-100">
+          <Card.Body className="d-flex flex-column justify-content-center align-items-center">
+            {icon}
+            <Card.Title className="mt-3">{title}</Card.Title>
+          </Card.Body>
+        </Card>
+      </NavLink>
     </Col>
   );
+
+  // if (!user || user.role !== "admin") {
+  //   return <div>Unauthorized Access</div>;
+  // }
 
   return (
     <Container fluid className="admin-wrapper">
       <Row>
         <Col md={12} className="main-content p-4">
-          <h5>{user ? user.username : "User"}</h5>
+          <h5>{user.username}</h5>
           <Row className="gx-3 gy-3 admin-div">
             <AdminCard
               to={`/profile/${user.id}`}
               icon={<MdDashboard />}
               title="Profile"
             />
-
             <AdminCard
               to="/admin/queries"
               icon={<FaQuestionCircle />}
@@ -74,8 +77,4 @@ const AdminWrapper = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return { isAdmin: state.auth };
-};
-
-export default connect(mapStateToProps)(AdminWrapper);
+export default AdminWrapper;

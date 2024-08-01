@@ -94,47 +94,50 @@ const Header = () => {
                     </NavLink>
                   </li>
                 ))}
+                <li>
+                  <div className="nav__right d-flex align-items-center gap-4">
+                    <div className="nav__btns d-flex align-items-center gap-4">
+                      {user ? (
+                        <>
+                          <DropdownButton
+                            id="dropdown-basic-button"
+                            title={
+                              <img
+                                src={user.photo}
+                                alt="Profile"
+                                className="profile-photo-circle"
+                              />
+                            }
+                          >
+                            <Dropdown.Item as={Link} to={`/profile/${user.id}`}>
+                              Profile
+                            </Dropdown.Item>
+                            <Dropdown.Item as={Link} to="/settings">
+                              Settings
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={logout}>
+                              Logout
+                            </Dropdown.Item>
+                          </DropdownButton>
+                        </>
+                      ) : (
+                        <>
+                          <Button className="btn secondary__btn">
+                            <Link to="/login">Login</Link>
+                          </Button>
+                          <Button className="btn primary__btn">
+                            <Link to="/register">Register</Link>
+                          </Button>
+                        </>
+                      )}
+                    </div>
+
+                    <span className="mobile__menu" onClick={toggleMenu}>
+                      {isMenuOpen ? <FaTimes /> : <FaBars />}
+                    </span>
+                  </div>
+                </li>
               </ul>
-            </div>
-
-            <div className="nav__right d-flex align-items-center gap-4">
-              <div className="nav__btns d-flex align-items-center gap-4">
-                {user ? (
-                  <>
-                    <DropdownButton
-                      id="dropdown-basic-button"
-                      title={
-                        <img
-                          src={user.photo}
-                          alt="Profile"
-                          className="profile-photo-circle"
-                        />
-                      }
-                    >
-                      <Dropdown.Item as={Link} to={`/profile/${user.id}`}>
-                        Profile
-                      </Dropdown.Item>
-                      <Dropdown.Item as={Link} to="/settings">
-                        Settings
-                      </Dropdown.Item>
-                      <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
-                    </DropdownButton>
-                  </>
-                ) : (
-                  <>
-                    <Button className="btn secondary__btn">
-                      <Link to="/login">Login</Link>
-                    </Button>
-                    <Button className="btn primary__btn">
-                      <Link to="/register">Register</Link>
-                    </Button>
-                  </>
-                )}
-              </div>
-
-              <span className="mobile__menu" onClick={toggleMenu}>
-                {isMenuOpen ? <FaTimes /> : <FaBars />}
-              </span>
             </div>
           </div>
         </Row>

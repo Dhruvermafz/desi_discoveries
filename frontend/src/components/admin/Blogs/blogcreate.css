@@ -1,11 +1,10 @@
 /* BlogCreate.css */
 
-/* Container Styles */
-
 /* Sidebar Styles */
 .sidebar {
-  border-left: 1px solid #ddd;
+  border-left: 1px solid #d1d5db;
   padding-left: 1.5rem;
+  background-color: #f9fafb;
 }
 
 /* Form Group Styles */
@@ -14,7 +13,7 @@
 }
 
 .form-group img {
-  border: 1px solid #ddd;
+  border: 1px solid #d1d5db;
   border-radius: 4px;
   margin-top: 0.5rem;
 }
@@ -38,7 +37,7 @@ button.secondary:hover {
 button.primary {
   background-color: #007bff;
   border: 1px solid #007bff;
-  color: #fff;
+  color: #ffffff;
 }
 
 button.primary:hover {
@@ -52,6 +51,7 @@ button.primary:hover {
 }
 
 .meta-fields-container h4 {
+  color: #007bff;
   margin-bottom: 1rem;
 }
 
@@ -59,12 +59,9 @@ button.primary:hover {
   margin-bottom: 1rem;
 }
 
-.meta-fields-container .remove-meta-field-button {
-  margin-top: 0.5rem;
-}
-
+.meta-fields-container .remove-meta-field-button,
 .meta-fields-container .add-meta-field-button {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 /* Paragraph Styles */
@@ -77,7 +74,7 @@ button.primary:hover {
 }
 
 .paragraph-container .image-preview {
-  border: 1px solid #ddd;
+  border: 1px solid #d1d5db;
   border-radius: 4px;
   margin-top: 0.5rem;
 }
@@ -85,18 +82,21 @@ button.primary:hover {
 /* Form Control Styles */
 .form-control {
   border-radius: 4px;
+  border: 1px solid #ced4da;
 }
 
 .form-control:focus {
   box-shadow: none;
   border-color: #007bff;
 }
-/* BlogCreate.css */
+
+/* Additional Styles for Sections */
 .paragraph-section img,
 .paragraph-section textarea,
 .meta-field-section input {
   margin-top: 0.5rem;
 }
+
 .meta-field-section button,
 .category-section button,
 .tag-section button {
