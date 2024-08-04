@@ -38,6 +38,22 @@ const tourSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    fromDate: {
+      type: Date,
+      required: true,
+    },
+    toDate: {
+      type: Date,
+      required: true,
+    },
+    totalDays: {
+      type: Number,
+      required: true,
+    },
+    totalNights: {
+      type: Number,
+      required: true,
+    },
     reviews: [
       {
         username: {

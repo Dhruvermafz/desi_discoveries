@@ -15,20 +15,22 @@ const Blogs = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/blogs`);
-        if (Array.isArray(res.data)) {
-          setBlogs(res.data);
+        const response = await axios.get(`${BASE_URL}/blogs`);
+        // Adjust data extraction based on the API response structure
+        if (response.data.docs && Array.isArray(response.data.docs)) {
+          setBlogs(response.data.docs);
         } else {
           setBlogs([]);
-          console.error("Unexpected response format: ", res.data);
+          console.error("Unexpected response format: ", response.data);
         }
-        setLoading(false);
       } catch (err) {
-        setLoading(false);
-        setError(true);
+        setError("Error loading blog details. Check your network");
         console.error("Error fetching blogs: ", err);
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchBlogs();
   }, []);
 
@@ -42,11 +44,7 @@ const Blogs = () => {
   }
 
   if (error) {
-    return (
-      <div className="error__msg">
-        Error loading blog details. Check your network
-      </div>
-    );
+    return <div className="error__msg">{error}</div>;
   }
 
   if (blogs.length === 0) {

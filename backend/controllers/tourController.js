@@ -8,6 +8,16 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// Helper function to calculate total days and nights
+const calculateTotalDaysAndNights = (fromDate, toDate) => {
+  const start = new Date(fromDate);
+  const end = new Date(toDate);
+  const diffTime = Math.abs(end - start);
+  const totalDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const totalNights = totalDays - 1;
+  return { totalDays, totalNights };
+};
+
 // create new tour
 const createTour = asyncHandler(async (req, res) => {
   let imgUrl;
@@ -16,7 +26,18 @@ const createTour = asyncHandler(async (req, res) => {
     imgUrl = result.secure_url;
   }
 
-  const newTour = new Tour({ ...req.body, photo: imgUrl });
+  const { fromDate, toDate } = req.body;
+  const { totalDays, totalNights } = calculateTotalDaysAndNights(
+    fromDate,
+    toDate
+  );
+
+  const newTour = new Tour({
+    ...req.body,
+    photos: [imgUrl],
+    totalDays,
+    totalNights,
+  });
   const savedTour = await newTour.save();
   res.status(200).json({
     success: true,
@@ -34,8 +55,17 @@ const updateTour = asyncHandler(async (req, res) => {
     imgUrl = result.secure_url;
   }
 
+  const { fromDate, toDate } = req.body;
   const updatedData = { ...req.body };
-  if (imgUrl) updatedData.photo = imgUrl;
+  if (fromDate && toDate) {
+    const { totalDays, totalNights } = calculateTotalDaysAndNights(
+      fromDate,
+      toDate
+    );
+    updatedData.totalDays = totalDays;
+    updatedData.totalNights = totalNights;
+  }
+  if (imgUrl) updatedData.photos = [imgUrl];
 
   const updatedTour = await Tour.findByIdAndUpdate(
     id,

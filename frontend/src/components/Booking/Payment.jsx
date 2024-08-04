@@ -1,159 +1,90 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { Button, Alert, Form } from "react-bootstrap";
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { BASE_URL } from "../../utils/config";
 
-// Load PayPal script dynamically
-const loadPayPalScript = () => {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement("script");
-    script.src = "https://www.paypal.com/sdk/js?client-id=your-client-id-here";
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error("PayPal SDK failed to load"));
-    document.body.appendChild(script);
-  });
-};
-
-const PaymentPage = () => {
+const Payment = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { booking, price } = location.state || {};
 
-  const [paymentMethod, setPaymentMethod] = useState("paypal");
-  const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(false);
-  const [isPaymentFailed, setIsPaymentFailed] = useState(false);
-  const [paypalScriptLoaded, setPaypalScriptLoaded] = useState(false);
+  const handleUPIPayment = async (e) => {
+    e.preventDefault();
 
-  useEffect(() => {
-    const loadScript = async () => {
-      try {
-        await loadPayPalScript();
-        setPaypalScriptLoaded(true);
-      } catch (error) {
-        console.error(error);
-        setIsPaymentFailed(true);
-      }
-    };
+    try {
+      const response = await fetch(`${BASE_URL}/create-upi-payment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          amount: price * 100, // Amount in paisa (INR)
+        }),
+      });
+      const data = await response.json();
 
-    if (paymentMethod === "paypal") {
-      loadScript();
+      // Assuming the response contains a UPI payment URL or QR code
+      const upiPaymentUrl = data.upiPaymentUrl;
+
+      window.location.href = upiPaymentUrl;
+    } catch (error) {
+      console.error("Error processing UPI payment", error);
     }
-  }, [paymentMethod]);
-
-  useEffect(() => {
-    if (paypalScriptLoaded && paymentMethod === "paypal") {
-      window.paypal
-        .Buttons({
-          createOrder: (data, actions) => {
-            return actions.order.create({
-              purchase_units: [
-                {
-                  amount: {
-                    currency_code: "USD",
-                    value: price,
-                  },
-                  description: `Booking for ${booking.tourName} by ${booking.fullName}`,
-                },
-              ],
-            });
-          },
-          onApprove: async (data, actions) => {
-            try {
-              const order = await actions.order.capture();
-              // Notify your server of the successful payment
-              await fetch(`${BASE_URL}/booking`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify(booking),
-              });
-
-              setIsPaymentSuccessful(true);
-              setIsPaymentFailed(false);
-              setTimeout(() => {
-                window.location.href = "/thank-you";
-              }, 1000);
-            } catch (error) {
-              console.error("Payment failed", error);
-              setIsPaymentFailed(true);
-              setIsPaymentSuccessful(false);
-            }
-          },
-          onError: (err) => {
-            console.error("PayPal error", err);
-            setIsPaymentFailed(true);
-            setIsPaymentSuccessful(false);
-          },
-        })
-        .render("#paypal-button-container");
-    }
-  }, [paypalScriptLoaded, price, booking, paymentMethod]);
-
-  const handlePaymentMethodChange = (e) => {
-    setPaymentMethod(e.target.value);
-  };
-
-  const handleUPI = async () => {
-    // Implement UPI payment logic here
-    // You will need to integrate with a UPI payment gateway
-    console.log("UPI payment initiated");
-  };
-
-  const handleCreditCard = async () => {
-    // Implement credit card payment logic here
-    // This would involve integrating with a payment processor like Stripe
-    console.log("Credit Card payment initiated");
   };
 
   return (
-    <div className="payment-page">
-      <h2>Payment for Tour</h2>
+    <div className="payment">
+      <h3>Choose Payment Method</h3>
 
-      {isPaymentSuccessful && (
-        <Alert variant="success">Payment Successful</Alert>
-      )}
-      {isPaymentFailed && (
-        <Alert variant="danger">Payment Failed. Please try again.</Alert>
-      )}
+      <div className="payment__method">
+        <PayPalScriptProvider options={{ "client-id": "your-client-id-here" }}>
+          <PayPalButtons
+            style={{ layout: "vertical" }}
+            createOrder={(data, actions) => {
+              return actions.order.create({
+                purchase_units: [
+                  {
+                    amount: {
+                      value: price.toFixed(2),
+                    },
+                  },
+                ],
+              });
+            }}
+            onApprove={async (data, actions) => {
+              const details = await actions.order.capture();
+              try {
+                await fetch(`${BASE_URL}/booking`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  credentials: "include",
+                  body: JSON.stringify(booking),
+                });
 
-      <Form>
-        <Form.Group controlId="paymentMethod">
-          <Form.Label>Select Payment Method</Form.Label>
-          <Form.Control
-            as="select"
-            value={paymentMethod}
-            onChange={handlePaymentMethodChange}
-          >
-            <option value="paypal">PayPal</option>
-            <option value="upi">UPI</option>
-            <option value="creditCard">Credit/Debit Card</option>
-          </Form.Control>
-        </Form.Group>
-      </Form>
+                navigate("/thank-you");
+              } catch (error) {
+                console.error("Booking creation failed:", error);
+              }
+            }}
+            onError={(err) => {
+              console.error("PayPal Checkout onError:", err);
+            }}
+          />
+        </PayPalScriptProvider>
+      </div>
 
-      {paymentMethod === "paypal" && (
-        <div id="paypal-button-container" className="paypal-buttons">
-          {/* PayPal buttons will be inserted here */}
-        </div>
-      )}
-
-      {paymentMethod === "upi" && (
-        <Button className="btn primary__btn w-100 mt-4" onClick={handleUPI}>
-          Pay with UPI
-        </Button>
-      )}
-
-      {paymentMethod === "creditCard" && (
-        <Button
-          className="btn primary__btn w-100 mt-4"
-          onClick={handleCreditCard}
-        >
-          Pay with Credit/Debit Card
-        </Button>
-      )}
+      <div className="payment__method">
+        <form onSubmit={handleUPIPayment}>
+          <button type="submit" className="btn primary__btn w-100 mt-4">
+            Pay with UPI
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
 
-export default PaymentPage;
+export default Payment;

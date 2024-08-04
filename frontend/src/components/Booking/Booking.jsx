@@ -1,3 +1,5 @@
+// src/components/Booking/Booking.jsx
+
 import React, { useState, useContext } from "react";
 import "./Booking.css";
 import {
@@ -11,24 +13,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../utils/config";
 import { AuthContext } from "../../context/AuthContext";
-import { loadStripe } from "@stripe/stripe-js";
-import {
-  Elements,
-  CardElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
-
-// Set your Stripe public key here
-const stripePromise = loadStripe("your-public-key-here");
 
 const Booking = ({ tour, avgRating, totalRating, reviews }) => {
   const { price, title } = tour;
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-
-  const stripe = useStripe();
-  const elements = useElements();
 
   const [booking, setBooking] = useState({
     userId: user && user.username,
@@ -36,96 +25,22 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
     tourName: title,
     fullName: "",
     phone: "",
-    bookAt: "",
-    groupSize: "",
   });
 
   const [isBookingSuccessful, setIsBookingSuccessful] = useState(false);
   const [isBookingFailed, setIsBookingFailed] = useState(false);
   const [isLoginAlertVisible, setIsLoginAlertVisible] = useState(false);
-  const [clientSecret, setClientSecret] = useState(""); // For Stripe
 
   const handleChange = (e) => {
     setBooking((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!user) {
-      setIsLoginAlertVisible(true);
-      return;
-    }
-
-    try {
-      // Create a payment intent on the server and get the client secret
-      const response = await fetch(`${BASE_URL}/create-payment-intent`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          amount: price * (booking.groupSize || 1) * 100, // Amount in cents
-        }),
-      });
-      const data = await response.json();
-      setClientSecret(data.clientSecret);
-
-      // Process payment
-      const { error, paymentIntent } = await stripe.confirmCardPayment(
-        clientSecret,
-        {
-          payment_method: {
-            card: elements.getElement(CardElement),
-            billing_details: {
-              name: booking.fullName,
-              email: user.email,
-            },
-          },
-        }
-      );
-
-      if (error) {
-        setIsBookingFailed(true);
-        setIsBookingSuccessful(false);
-      } else if (paymentIntent.status === "succeeded") {
-        // Create booking on the server
-        await fetch(`${BASE_URL}/booking`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify(booking),
-        });
-
-        setIsBookingSuccessful(true);
-        setIsBookingFailed(false);
-        setBooking({
-          ...booking,
-          fullName: "",
-          phone: "",
-          bookAt: "",
-          groupSize: "",
-        });
-        setTimeout(() => {
-          navigate("/thank-you");
-        }, 1000);
-      } else {
-        setIsBookingFailed(true);
-        setIsBookingSuccessful(false);
-      }
-    } catch (error) {
-      setIsBookingFailed(true);
-      setIsBookingSuccessful(false);
-    }
+  const handlePayPalPayment = () => {
+    navigate(`/tours/${tour._id}/payment`, { state: { booking, price } });
   };
 
-  const currentDate = new Date();
-  const formattedDate = currentDate.toISOString().split("T")[0];
-
-  const taxes = (0.05 * price * (booking.groupSize || 1)).toFixed(2);
-  const total = (price * (booking.groupSize || 1) * 1.05).toFixed(2);
+  const taxes = (0.05 * price).toFixed(2);
+  const total = (price * 1.05).toFixed(2);
 
   return (
     <div className="booking">
@@ -160,7 +75,7 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
 
       <div className="booking__form">
         <h5>Information</h5>
-        <Form className="booking__info-form" onSubmit={handleSubmit}>
+        <Form className="booking__info-form">
           <FormGroup>
             <Form.Control
               type="text"
@@ -181,28 +96,11 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
               value={booking.phone}
             />
           </FormGroup>
-          <FormGroup className="d-flex align-items-center gap-3">
-            <Form.Control
-              type="date"
-              placeholder="Date"
-              id="bookAt"
-              required
-              onChange={handleChange}
-              value={booking.bookAt}
-              min={formattedDate}
-            />
-            <Form.Control
-              type="number"
-              placeholder="Group Size"
-              id="groupSize"
-              required
-              onChange={handleChange}
-              value={booking.groupSize}
-            />
-          </FormGroup>
-          <CardElement className="my-4" />
-          <Button className="btn primary__btn w-100 mt-4" type="submit">
-            Book Now
+          <Button
+            className="btn primary__btn w-100 mt-4"
+            onClick={handlePayPalPayment}
+          >
+            Proceed to Payment
           </Button>
         </Form>
       </div>
@@ -211,10 +109,9 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
         <ListGroup>
           <ListGroupItem className="border-0 px-0">
             <h5 className="d-flex align-items-center gap-1">
-              ${price} <i className="ri-close-line"></i>
-              {booking.groupSize || 1} Person
+              ${price} <i className="ri-close-line"></i> 1 Person
             </h5>
-            <span>${price * (booking.groupSize || 1)}</span>
+            <span>${price}</span>
           </ListGroupItem>
           <ListGroupItem className="border-0 px-0">
             <h5>Taxes</h5>
@@ -230,10 +127,4 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
   );
 };
 
-const BookingWithStripe = (props) => (
-  <Elements stripe={stripePromise}>
-    <Booking {...props} />
-  </Elements>
-);
-
-export default BookingWithStripe;
+export default Booking;
