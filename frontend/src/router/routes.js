@@ -29,12 +29,16 @@ import Bookings from "../components/admin/Bookings/Bookings";
 import ProfileWrapper from "../components/Profile/ProfileWrapper";
 import CategoriesTags from "../components/admin/Categories";
 import Payment from "../components/Booking/Payment";
+import TermsAndConditions from "../pages/Terms&Conditions";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
 export const publicRoutes = [
   { path: "/about", element: About },
   { path: "/contact", element: Contact },
   { path: "/", element: Home },
   { path: "/thankyou", element: ThankYou },
   { path: "*", element: PageNotFound },
+  { path: "/terms-and-conditions", element: TermsAndConditions },
+  { path: "/privacy-policy", element: PrivacyPolicy },
   { path: "/tours", element: Tours },
   { path: "/tours/:id", element: TourDetails },
   { path: "/tours/:id/payment", element: Payment },
