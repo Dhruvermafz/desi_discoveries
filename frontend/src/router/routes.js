@@ -31,6 +31,7 @@ import CategoriesTags from "../components/admin/Categories";
 import Payment from "../components/Booking/Payment";
 import TermsAndConditions from "../pages/Terms&Conditions";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
+import ProfileEdit from "../components/Profile/ProfileEdit";
 export const publicRoutes = [
   { path: "/about", element: About },
   { path: "/contact", element: Contact },
@@ -52,7 +53,7 @@ export const publicRoutes = [
   { path: "/blogs", element: Blogs },
   { path: "/blogs/:id", element: BlogDetails },
   { path: "/profile/:id", element: ProfileWrapper },
-  { path: "/profile/:id/edit", element: Profile },
+  { path: "/profile/:id/edit", element: ProfileEdit },
 ];
 
 export const adminRoutes = [

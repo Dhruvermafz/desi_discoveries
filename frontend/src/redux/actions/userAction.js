@@ -26,7 +26,7 @@ export const fetchAllUsers = () => async (dispatch) => {
 // Update user profile photo
 export const updateProfilePhoto = (userId, photo) => async (dispatch) => {
   try {
-    const response = await axios.patch(`${API_URL}/${userId}/updatePhoto`, {
+    const response = await axios.patch(`${API_URL}/${userId}/photo`, {
       avatar: photo,
     });
     dispatch({ type: UPDATE_USER_SUCCESS, payload: response.data.user });
@@ -43,10 +43,10 @@ export const updateProfilePhoto = (userId, photo) => async (dispatch) => {
 export const updateUserPassword =
   (userId, oldPassword, newPassword) => async (dispatch) => {
     try {
-      const response = await axios.patch(
-        `${API_URL}/${userId}/updatePassword`,
-        { oldPassword, newPassword }
-      );
+      const response = await axios.patch(`${API_URL}/${userId}/password`, {
+        oldPassword,
+        newPassword,
+      });
       dispatch({ type: UPDATE_USER_SUCCESS, payload: response.data.user });
       dispatch(setAlert("Password updated successfully", "success"));
     } catch (err) {
