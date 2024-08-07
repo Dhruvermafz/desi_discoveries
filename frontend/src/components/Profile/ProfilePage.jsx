@@ -27,9 +27,7 @@ const ProfilePage = () => {
   const updatedatnew = moment(updatedat).fromNow();
 
   const handleLogout = () => {
-    // Handle logout functionality
-    // Example: Clear user data, redirect to login, etc.
-    navigate("/login"); // Adjust according to your application's routing
+    navigate("/login");
   };
 
   const handleImageChange = (e) => {
@@ -44,24 +42,6 @@ const ProfilePage = () => {
     }
   };
 
-  const handlePhotoSubmit = async () => {
-    const formData = new FormData();
-    if (img) {
-      formData.append("photo", img);
-    }
-
-    try {
-      await axios.put(`${BASE_URL}/users/${user.id}/photo`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Adjust according to your authentication method
-        },
-      });
-    } catch (error) {
-      console.error("Error updating profile photo:", error);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -70,16 +50,29 @@ const ProfilePage = () => {
     formData.append("mobile", mobile);
     formData.append("state", state);
     formData.append("country", country);
+    if (img) {
+      formData.append("photo", img);
+    }
 
     try {
-      await axios.put(`${BASE_URL}/users/${user.id}`, formData, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Adjust according to your authentication method
-        },
-      });
-      if (img) {
-        await handlePhotoSubmit(); // Update the photo if a new one is selected
+      const response = await axios.put(
+        `${BASE_URL}/users/${user.id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      // Update user context with new data
+      user.username = response.data.data.username;
+      user.email = response.data.data.email;
+      user.mobile = response.data.data.mobile;
+      user.state = response.data.data.state;
+      user.country = response.data.data.country;
+      if (response.data.data.photo) {
+        user.img = response.data.data.photo;
       }
       setIsEditing(false);
     } catch (error) {
@@ -121,13 +114,6 @@ const ProfilePage = () => {
                       />
                     )}
                   </Form.Group>
-                  <Button
-                    variant="primary"
-                    onClick={handlePhotoSubmit}
-                    className="mt-3"
-                  >
-                    Update Photo
-                  </Button>
                 </>
               ) : (
                 <>
@@ -168,7 +154,7 @@ const ProfilePage = () => {
               <Form.Group controlId="formMobile">
                 <Form.Label>Mobile</Form.Label>
                 <Form.Control
-                  type="text"
+                  type="number"
                   value={mobile}
                   onChange={(e) => setMobile(e.target.value)}
                 />

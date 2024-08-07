@@ -23,7 +23,8 @@ const tourSchema = new mongoose.Schema(
     photos: [
       {
         type: String,
-        required: true,
+        // Set required to false if photos are optional
+        required: false,
       },
     ],
     desc: {
@@ -37,6 +38,10 @@ const tourSchema = new mongoose.Schema(
     maxGroupSize: {
       type: Number,
       required: true,
+    },
+    bookedSize: {
+      type: Number,
+      default: 0, // Initialize with 0 booked size
     },
     fromDate: {
       type: Date,

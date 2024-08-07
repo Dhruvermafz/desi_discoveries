@@ -12,23 +12,8 @@ import {
   FaMapMarkerAlt,
 } from "react-icons/fa";
 import logo from "../../assets/images/logo.png";
-
+import "./footer.css";
 const quick__links = [
-  {
-    path: "/",
-    display: "Home",
-  },
-  {
-    path: "/about",
-    display: "About",
-  },
-  {
-    path: "/tours",
-    display: "Tours",
-  },
-];
-
-const quick__links2 = [
   {
     path: "/gallery",
     display: "Gallery",
@@ -40,6 +25,21 @@ const quick__links2 = [
   {
     path: "/faq",
     display: "FAQS",
+  },
+];
+
+const quick__links2 = [
+  {
+    path: "/terms-and-conditions",
+    display: "Terms And Conditions",
+  },
+  {
+    path: "/privacy-policy",
+    display: "Privacy Policy",
+  },
+  {
+    path: "/refund-policy",
+    display: "Refund Policy",
   },
 ];
 
@@ -114,10 +114,10 @@ const Footer = () => {
                 </div>
                 <p className="mb-0">
                   <Link
-                    to="mailto:support@desidiscoveries.com"
+                    to="mailto:davidteotia@gmail.com"
                     className="color-text"
                   >
-                    support@desidiscoveries.com
+                    davidteotia@gmail.com
                   </Link>
                 </p>
               </ListGroupItem>

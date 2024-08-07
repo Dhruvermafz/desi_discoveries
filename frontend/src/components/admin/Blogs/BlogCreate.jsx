@@ -6,6 +6,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import "./blogcreate.css";
+import { BASE_URL } from "../../../utils/config";
 
 const BlogCreate = () => {
   const dispatch = useDispatch();
@@ -125,15 +126,14 @@ const BlogCreate = () => {
         formData.append(`metaAttribute${index}`, field.attribute);
       });
 
-      const { data } = await axios.post(
-        "http://localhost:4000/api/v1/blogs/",
-        formData,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      const { data } = await axios.post(`${BASE_URL}/blogs/`, formData, {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
       Swal.fire("Success", data.message, "success");
+
+      // Reset form values
       setFormValues({
         title: "",
         excerpt: "",

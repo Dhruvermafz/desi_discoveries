@@ -6,6 +6,33 @@ const errorHandler = (res, statusCode, message) => {
   return res.status(statusCode).json({ message });
 };
 
+const verifyUser = (req, res, next) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
+  if (!token) {
+    return res.status(403).json({
+      success: false,
+      message: "No token provided",
+    });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({
+        success: false,
+        message: "Failed to authenticate token",
+      });
+    }
+    req.user = decoded;
+    if (req.user.id !== req.params.id && req.user.role !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to perform this action",
+      });
+    }
+    next();
+  });
+};
+
 const verifyToken = async (req, res, next) => {
   const token = req.headers.authorization;
 
@@ -32,23 +59,30 @@ const verifyToken = async (req, res, next) => {
 };
 
 const verifyAdmin = (req, res, next) => {
-  if (
-    req.user &&
-    req.user.email === adminCredentials.adminEmail &&
-    req.user.password === adminCredentials.adminPassword
-  ) {
-    next();
-  } else {
-    return errorHandler(res, 403, "Access denied");
+  const token = req.headers["authorization"]?.split(" ")[1];
+  if (!token) {
+    return res.status(403).json({
+      success: false,
+      message: "No token provided",
+    });
   }
-};
 
-const verifyUser = (req, res, next) => {
-  if (req.user) {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({
+        success: false,
+        message: "Failed to authenticate token",
+      });
+    }
+    req.user = decoded;
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to perform this action",
+      });
+    }
     next();
-  } else {
-    return errorHandler(res, 403, "Access denied");
-  }
+  });
 };
 
 module.exports = {

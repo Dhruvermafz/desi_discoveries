@@ -4,8 +4,46 @@ import Subtitle from "../components/Subtitle";
 import "../styles/About.css";
 import worldImg from "../assets/images/world.png";
 import logo1 from "../assets/images/logo1.png";
-
 import Newsletter from "../components/Newsletter";
+import { FaGuilded, FaServicestack } from "react-icons/fa";
+import { MdDashboardCustomize, MdFlightTakeoff } from "react-icons/md";
+import "../components/Services/ServiceCard.css";
+
+const ServiceItem = ({ item }) => {
+  const { imgUrl: Icon, title, desc } = item;
+  return (
+    <div className="service__item">
+      <div className="service__img">
+        <Icon />
+      </div>
+      <h5>{title}</h5>
+      <p>{desc}</p>
+    </div>
+  );
+};
+
+const serviceData = [
+  {
+    imgUrl: FaServicestack,
+    title: "Personalized Service",
+    desc: "We tailor our services to meet your specific needs and preferences, ensuring a unique and memorable travel experience.",
+  },
+  {
+    imgUrl: FaGuilded,
+    title: "Expert Knowledge",
+    desc: "Our team of travel experts has extensive knowledge and experience, providing you with insider tips and recommendations.",
+  },
+  {
+    imgUrl: MdDashboardCustomize,
+    title: "Exceptional Support",
+    desc: "We offer 24/7 support to ensure that your travel experience is smooth and hassle-free from start to finish.",
+  },
+  {
+    imgUrl: MdFlightTakeoff,
+    title: "Comprehensive Planning",
+    desc: "We handle all aspects of your trip planning, from flights and accommodations to activities and excursions.",
+  },
+];
 
 const About = () => {
   return (
@@ -41,7 +79,7 @@ const About = () => {
         </Container>
       </section>
 
-      <section className="our-team">
+      {/* <section className="our-team">
         <Container>
           <Row>
             <Col lg="12" className="text-center">
@@ -77,7 +115,7 @@ const About = () => {
             </Col>
           </Row>
         </Container>
-      </section>
+      </section> */}
 
       <section className="why-choose-us">
         <Container>
@@ -86,35 +124,11 @@ const About = () => {
               <Subtitle subtitle={"Why Choose Us"} />
               <h2>Experience the Difference with Us</h2>
             </Col>
-            <Col lg="4" className="mb-4">
-              <div className="why-choose-us__item">
-                <h3>Personalized Service</h3>
-                <p>
-                  We tailor our services to meet your specific needs and
-                  preferences, ensuring a unique and memorable travel
-                  experience.
-                </p>
-              </div>
-            </Col>
-            <Col lg="4" className="mb-4">
-              <div className="why-choose-us__item">
-                <h3>Expert Knowledge</h3>
-                <p>
-                  Our team of travel experts has extensive knowledge and
-                  experience, providing you with insider tips and
-                  recommendations.
-                </p>
-              </div>
-            </Col>
-            <Col lg="4" className="mb-4">
-              <div className="why-choose-us__item">
-                <h3>Exceptional Support</h3>
-                <p>
-                  We offer 24/7 support to ensure that your travel experience is
-                  smooth and hassle-free from start to finish.
-                </p>
-              </div>
-            </Col>
+            {serviceData.map((item, index) => (
+              <Col lg="3" md="6" sm="12" className="mb-4" key={index}>
+                <ServiceItem item={item} />
+              </Col>
+            ))}
           </Row>
         </Container>
       </section>

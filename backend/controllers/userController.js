@@ -1,12 +1,14 @@
 const User = require("../models/User");
 const bcryptjs = require("bcryptjs");
 const cloudinary = require("cloudinary").v2;
+const fs = require("fs");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
 // Create user
 const createUser = async (req, res) => {
   try {
@@ -77,6 +79,15 @@ const getUserById = async (req, res) => {
 const updateUser = async (req, res) => {
   const userId = req.params.id;
   try {
+    // If there's a file, upload it to Cloudinary
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      req.body.photo = result.secure_url;
+
+      // Remove file from server after upload
+      fs.unlinkSync(req.file.path);
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { $set: req.body },
@@ -111,58 +122,6 @@ const deleteUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Failed to delete user!",
-      error: err.message,
-    });
-  }
-};
-const updateProfilePhoto = async (req, res) => {
-  try {
-    if (req.user.id !== req.params.id) {
-      return res.status(401).json({
-        success: false,
-        message:
-          "You can only update your own account photo. Please login again!",
-      });
-    }
-
-    // Check if the request contains a file
-    if (!req.file) {
-      return res.status(400).json({
-        success: false,
-        message: "No file uploaded!",
-      });
-    }
-
-    // Upload image to Cloudinary
-    const result = await cloudinary.uploader.upload(req.file.path);
-
-    // Update the user's profile photo URL
-    const updatedProfilePhoto = await User.findByIdAndUpdate(
-      req.params.id,
-      { $set: { photo: result.secure_url } }, // Store the Cloudinary URL
-      { new: true }
-    );
-
-    if (updatedProfilePhoto) {
-      // Remove file from server after upload
-      fs.unlinkSync(req.file.path);
-
-      return res.status(200).json({
-        success: true,
-        message: "Profile photo updated",
-        user: updatedProfilePhoto,
-      });
-    } else {
-      return res.status(500).json({
-        success: false,
-        message: "Something went wrong!",
-      });
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      success: false,
-      message: "Failed to update profile photo!",
       error: err.message,
     });
   }
@@ -229,6 +188,5 @@ module.exports = {
   getUserById,
   updateUser,
   deleteUser,
-  updateProfilePhoto,
   updateUserPassword,
 };

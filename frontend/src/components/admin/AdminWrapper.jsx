@@ -13,7 +13,7 @@ import { Container, Row, Col, Card } from "react-bootstrap";
 import "../../styles/admin.css";
 import { AuthContext } from "../../context/AuthContext";
 import { BsBookHalf } from "react-icons/bs";
-import { TbCategoryFilled } from "react-icons/tb";
+import { TbCategoryFilled, TbReceiptRefund } from "react-icons/tb";
 import { MdNewLabel } from "react-icons/md";
 
 const AdminWrapper = () => {
@@ -54,7 +54,11 @@ const AdminWrapper = () => {
             />
             <AdminCard to="/admin/tours" icon={<FaGlobe />} title="Tours" />
             <AdminCard to="/admin/blogs" icon={<FaBlog />} title="Blogs" />
-            <AdminCard to="/admin/reviews" icon={<FaStar />} title="Reviews" />
+            <AdminCard
+              to="/admin/comments-reviews"
+              icon={<FaStar />}
+              title="Comments & Reviews"
+            />
             <AdminCard
               to="/admin/users"
               icon={<FaUser />}
@@ -69,6 +73,11 @@ const AdminWrapper = () => {
               to="/admin/extras"
               icon={<TbCategoryFilled />}
               title="Categories & Tags"
+            />
+            <AdminCard
+              to="/admin/refund"
+              icon={<TbReceiptRefund />}
+              title="Refund"
             />
           </Row>
         </Col>

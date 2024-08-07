@@ -10,11 +10,11 @@ import ImagesGallery from "../components/Gallery/ImagesGallery";
 import Testimonials from "../components/Testimonials/Testimonials";
 import Newsletter from "../components/Newsletter";
 import Contact from "./Contact";
-import heroImg from "../assets/images/hero-img01.jpg";
+import heroImg from "../assets/images/backwaters.webp";
 import heroImg2 from "../assets/images/hero-img02.jpg";
-import heroVideo from "../assets/images/hero-video.mp4";
+import heroVideo from "../assets/images/promo.mp4";
 import worldImg from "../assets/images/world.png";
-import experienceImage from "../assets/images/experience.png";
+import experienceImage from "../assets/images/experience_1.webp";
 import FAQ from "../components/FAQ";
 
 const Home = () => {
@@ -136,15 +136,15 @@ const Home = () => {
 
               <div className="couter__wrapper d-flex align-items-center gap-5">
                 <div className="counter__box">
-                  <span>12k+</span>
+                  <span>20+ trips</span>
                   <h6>Successful Trips</h6>
                 </div>
                 <div className="counter__box">
-                  <span>2k+</span>
+                  <span>100+</span>
                   <h6>Regular Clients</h6>
                 </div>
                 <div className="counter__box">
-                  <span>15+</span>
+                  <span>1+</span>
                   <h6>Years Experience</h6>
                 </div>
               </div>

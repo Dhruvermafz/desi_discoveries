@@ -19,7 +19,7 @@ import TourList from "../components/admin/Tours/TourList";
 import AddTourPackage from "../components/admin/Tours/AddTourPackage";
 import UpdateTour from "../components/admin/Tours/UpdateTour";
 import Profile from "../components/Profile/ProfilePage";
-import RatingsReviews from "../components/admin/Reviews/Reviews";
+
 import UserProfile from "../components/Profile/UserProfile";
 import Queries from "../pages/Queries";
 import BlogPage from "../components/admin/Blogs/BlogPage";
@@ -32,6 +32,8 @@ import Payment from "../components/Booking/Payment";
 import TermsAndConditions from "../pages/Terms&Conditions";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
 import ProfileEdit from "../components/Profile/ProfileEdit";
+import RefundPolicy from "../pages/RefundPolicy";
+import CommentsReviews from "../components/admin/Reviews/Reviews";
 export const publicRoutes = [
   { path: "/about", element: About },
   { path: "/contact", element: Contact },
@@ -40,6 +42,7 @@ export const publicRoutes = [
   { path: "*", element: PageNotFound },
   { path: "/terms-and-conditions", element: TermsAndConditions },
   { path: "/privacy-policy", element: PrivacyPolicy },
+  { path: "/refund-policy", element: RefundPolicy },
   { path: "/tours", element: Tours },
   { path: "/tours/:id", element: TourDetails },
   { path: "/tours/:id/payment", element: Payment },
@@ -65,7 +68,7 @@ export const adminRoutes = [
   { path: "/admin/queries", element: Queries },
   { path: "/admin/blogs", element: BlogPage },
   { path: "/admin/blog/create", element: BlogCreate },
-  { path: "/admin/reviews", element: RatingsReviews },
+  { path: "/admin/reviews", element: CommentsReviews },
   { path: "/admin/users", element: UsersTable },
   { path: "/admin/extras", element: CategoriesTags },
 ];

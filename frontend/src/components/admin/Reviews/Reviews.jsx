@@ -10,31 +10,32 @@ import {
   Spinner,
 } from "react-bootstrap";
 import Rating from "./Rating";
-const RatingsReviews = () => {
-  const [packages, setPackages] = useState([]);
+
+const CommentsReviews = () => {
+  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [showMoreBtn, setShowMoreBtn] = useState(false);
 
-  const getPackages = async () => {
-    setPackages([]);
+  const getComments = async () => {
+    setComments([]);
     try {
       setLoading(true);
       let url =
         filter === "most" // most rated
-          ? `/api/package/get-packages?searchTerm=${search}&sort=packageTotalRatings`
-          : `/api/package/get-packages?searchTerm=${search}&sort=packageRating`; // all
+          ? `/api/tour/get-comments?searchTerm=${search}&sort=totalRatings`
+          : `/api/tour/get-comments?searchTerm=${search}&sort=rating`; // all
       const res = await fetch(url);
       const data = await res.json();
       if (data?.success) {
-        setPackages(data?.packages);
+        setComments(data?.comments);
         setLoading(false);
       } else {
         setLoading(false);
         alert(data?.message || "Something went wrong!");
       }
-      if (data?.packages?.length > 8) {
+      if (data?.comments?.length > 8) {
         setShowMoreBtn(true);
       } else {
         setShowMoreBtn(false);
@@ -45,22 +46,22 @@ const RatingsReviews = () => {
   };
 
   useEffect(() => {
-    getPackages();
+    getComments();
   }, [filter, search]);
 
-  const onShowMoreSClick = async () => {
-    const numberOfPackages = packages.length;
-    const startIndex = numberOfPackages;
+  const onShowMoreClick = async () => {
+    const numberOfComments = comments.length;
+    const startIndex = numberOfComments;
     let url =
       filter === "most" // most rated
-        ? `/api/package/get-packages?searchTerm=${search}&sort=packageTotalRatings&startIndex=${startIndex}`
-        : `/api/package/get-packages?searchTerm=${search}&sort=packageRating&startIndex=${startIndex}`; // all
+        ? `/api/tour/get-comments?searchTerm=${search}&sort=totalRatings&startIndex=${startIndex}`
+        : `/api/tour/get-comments?searchTerm=${search}&sort=rating&startIndex=${startIndex}`; // all
     const res = await fetch(url);
     const data = await res.json();
-    if (data?.packages?.length < 9) {
+    if (data?.comments?.length < 9) {
       setShowMoreBtn(false);
     }
-    setPackages([...packages, ...data?.packages]);
+    setComments([...comments, ...data?.comments]);
   };
 
   return (
@@ -72,7 +73,7 @@ const RatingsReviews = () => {
           className="d-block mx-auto"
         />
       )}
-      {packages && (
+      {comments && (
         <>
           <Form className="mb-4">
             <Form.Control
@@ -110,38 +111,39 @@ const RatingsReviews = () => {
           </ListGroup>
         </>
       )}
-      {packages ? (
-        packages.map((pack, i) => (
-          <ListGroup.Item
-            className="border rounded-lg p-3 d-flex justify-content-between align-items-center mb-2"
-            key={i}
-          >
-            <Link to={`/package/ratings/${pack._id}`}>
-              <img
-                src={pack?.packageImages[0]}
-                alt="image"
-                className="img-thumbnail"
-                style={{ width: "80px", height: "80px" }}
-              />
-            </Link>
-            <Link
-              to={`/package/ratings/${pack._id}`}
-              className="flex-grow-1 mx-3"
-            >
-              <p className="font-weight-bold mb-0">{pack?.packageName}</p>
-            </Link>
-            <div className="d-flex align-items-center">
-              <Rating value={pack?.packageRating} />
-              <span className="ml-2">({pack?.packageTotalRatings})</span>
-            </div>
+      {comments ? (
+        comments.map((comment, i) => (
+          <ListGroup.Item className="border rounded-lg p-3 mb-2" key={i}>
+            <Row>
+              <Col lg={5}>
+                <Link to={`/tour/comments/${comment.tourId}`}>
+                  <img
+                    src={comment.tourImage}
+                    alt="Tour"
+                    className="img-thumbnail"
+                    style={{ width: "100%", height: "auto" }}
+                  />
+                </Link>
+              </Col>
+              <Col lg={7}>
+                <Link to={`/tour/comments/${comment.tourId}`}>
+                  <h5 className="font-weight-bold mb-2">{comment.tourName}</h5>
+                </Link>
+                <p>{comment.commentText}</p>
+                <div className="d-flex align-items-center">
+                  <Rating value={comment.rating} />
+                  <span className="ml-2">({comment.totalRatings})</span>
+                </div>
+              </Col>
+            </Row>
           </ListGroup.Item>
         ))
       ) : (
-        <h1 className="text-center">No Ratings Available!</h1>
+        <h1 className="text-center">No Comments Available!</h1>
       )}
       {showMoreBtn && (
         <Button
-          onClick={onShowMoreSClick}
+          onClick={onShowMoreClick}
           variant="success"
           className="d-block mx-auto mt-3"
         >
@@ -152,4 +154,4 @@ const RatingsReviews = () => {
   );
 };
 
-export default RatingsReviews;
+export default CommentsReviews;

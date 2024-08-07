@@ -20,11 +20,12 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
   const { user } = useContext(AuthContext);
 
   const [booking, setBooking] = useState({
-    userId: user && user.username,
-    userEmail: user && user.email,
+    userId: user?.username || "",
+    userEmail: user?.email || "",
     tourName: title,
     fullName: "",
     phone: "",
+    groupSize: 1,
   });
 
   const [isBookingSuccessful, setIsBookingSuccessful] = useState(false);
@@ -39,8 +40,8 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
     navigate(`/tours/${tour._id}/payment`, { state: { booking, price } });
   };
 
-  const taxes = (0.05 * price).toFixed(2);
-  const total = (price * 1.05).toFixed(2);
+  const taxes = (0.05 * price * booking.groupSize).toFixed(2);
+  const total = (price * booking.groupSize * 1.05).toFixed(2);
 
   return (
     <div className="booking">
@@ -96,6 +97,17 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
               value={booking.phone}
             />
           </FormGroup>
+          <FormGroup>
+            <Form.Control
+              type="number"
+              placeholder="Group Size"
+              id="groupSize"
+              required
+              onChange={handleChange}
+              value={booking.groupSize}
+              min="1"
+            />
+          </FormGroup>
           <Button
             className="btn primary__btn w-100 mt-4"
             onClick={handlePayPalPayment}
@@ -109,9 +121,10 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
         <ListGroup>
           <ListGroupItem className="border-0 px-0">
             <h5 className="d-flex align-items-center gap-1">
-              ${price} <i className="ri-close-line"></i> 1 Person
+              ${price} <i className="ri-close-line"></i> {booking.groupSize}{" "}
+              {booking.groupSize > 1 ? "People" : "Person"}
             </h5>
-            <span>${price}</span>
+            <span>${(price * booking.groupSize).toFixed(2)}</span>
           </ListGroupItem>
           <ListGroupItem className="border-0 px-0">
             <h5>Taxes</h5>
