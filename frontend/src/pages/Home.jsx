@@ -136,7 +136,7 @@ const Home = () => {
 
               <div className="couter__wrapper d-flex align-items-center gap-5">
                 <div className="counter__box">
-                  <span>20+ trips</span>
+                  <span>20+</span>
                   <h6>Successful Trips</h6>
                 </div>
                 <div className="counter__box">
