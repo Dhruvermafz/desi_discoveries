@@ -1,55 +1,12 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const Schema = mongoose.Schema;
+const PaymentDetailsSchema = mongoose.Schema({
+  razorpayDetails: {
+    orderId: { type: String, required: true },
+    paymentId: { type: String, required: true },
+    signature: { type: String, required: true },
+  },
+  success: { type: Boolean, default: false },
+});
 
-const paymentSchema = new Schema({
-
-    reference: {
-        type: String,
-        required: true
-
-    },
-    name: {
-        type: String,
-        required: true
-
-    },
-
-    method: {
-        type: String,
-        required: true
-
-    },
-    card: {
-        type: Number,
-        required: true
-
-    },
-    time: {
-        type: String,
-        required: true
-
-    },
-    no: {
-        type: Number,
-        required: true
-
-    },
-    amount: {
-        type: Number,
-        required: true
-    },
-    payf:{
-        type:String,
-        required: true
-    },
-    pdate:{
-        type:Date,
-        default:Date.now
-    },
-   
-})
-
-const Payment = mongoose.model("Payment",paymentSchema);
-
-module.exports = Payment;
+module.exports = mongoose.model("PaymentDetails", PaymentDetailsSchema);

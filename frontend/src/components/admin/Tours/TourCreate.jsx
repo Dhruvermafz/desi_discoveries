@@ -175,7 +175,10 @@ const TourCreate = ({ showModal, handleClose, tourData, isEditMode }) => {
                   files.map((file, index) => (
                     <Carousel.Item key={index}>
                       <Image
-                        src={file.url || URL.createObjectURL(file.file)}
+                        src={
+                          file.url ||
+                          (file.file && URL.createObjectURL(file.file))
+                        }
                         alt={`cover-${index}`}
                         fluid
                       />

@@ -16,6 +16,7 @@ import heroVideo from "../assets/images/promo.mp4";
 import worldImg from "../assets/images/world.png";
 import experienceImage from "../assets/images/experience_1.webp";
 import FAQ from "../components/FAQ";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -65,17 +66,15 @@ const Home = () => {
                 <h1 className="text-4xl md:text-5xl font-bold">
                   The Wonders of India
                 </h1>
-                <h1 className="text-4xl md:text-6xl font-bold text-primary">
-                  with Us
-                </h1>
+                <h1 className="highlight">with Us</h1>
                 <p className="mt-4">
                   Embark on a journey through the vibrant landscapes of India.
                   From the bustling streets of Delhi to the serene backwaters of
                   Kerala, experience the rich culture, history, and natural
                   beauty that India has to offer.
                 </p>
-                <Button className="bg-primary px-2 py-3 rounded-lg hover:bg-white hover-text-primary hover-border hover-font-bold mt-4">
-                  Get started
+                <Button className="btn primary__btn">
+                  <Link to="/tours">Get started</Link>
                 </Button>
               </Col>
               <Col>

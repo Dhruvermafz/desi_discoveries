@@ -1,5 +1,3 @@
-// src/components/Booking/Booking.jsx
-
 import React, { useState, useContext } from "react";
 import "./Booking.css";
 import {
@@ -15,7 +13,7 @@ import { BASE_URL } from "../../utils/config";
 import { AuthContext } from "../../context/AuthContext";
 
 const Booking = ({ tour, avgRating, totalRating, reviews }) => {
-  const { price, title } = tour;
+  const { price, title, destination } = tour; // Ensure destination is included in the tour object
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
@@ -23,6 +21,7 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
     userId: user?.username || "",
     userEmail: user?.email || "",
     tourName: title,
+    destination: destination || "", // Add destination to booking
     fullName: "",
     phone: "",
     groupSize: 1,
@@ -36,8 +35,20 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
     setBooking((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
-  const handlePayPalPayment = () => {
-    navigate(`/tours/${tour._id}/payment`, { state: { booking, price } });
+  const handlePayment = () => {
+    // Calculate taxes and total amount
+    const taxes = (0.05 * price * booking.groupSize).toFixed(2);
+    const total = (price * booking.groupSize * 1.05).toFixed(2);
+
+    // Pass all relevant details to the Payment component
+    navigate(`/tours/${tour._id}/payment`, {
+      state: {
+        booking,
+        price,
+        taxes: parseFloat(taxes), // Send taxes as a number
+        total: parseFloat(total), // Send total as a number
+      },
+    });
   };
 
   const taxes = (0.05 * price * booking.groupSize).toFixed(2);
@@ -61,7 +72,7 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
 
       <div className="booking__top d-flex align-items-center justify-content-between">
         <h3>
-          ${price} <span>/Per Person</span>
+          ₹{price} <span>/Per Person</span>
         </h3>
         <span className="tour__rating d-flex align-items-center gap-1">
           <i className="ri-star-fill"></i>
@@ -110,7 +121,7 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
           </FormGroup>
           <Button
             className="btn primary__btn w-100 mt-4"
-            onClick={handlePayPalPayment}
+            onClick={handlePayment}
           >
             Proceed to Payment
           </Button>
@@ -121,18 +132,18 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
         <ListGroup>
           <ListGroupItem className="border-0 px-0">
             <h5 className="d-flex align-items-center gap-1">
-              ${price} <i className="ri-close-line"></i> {booking.groupSize}{" "}
+              ₹{price} <i className="ri-close-line"></i> {booking.groupSize}{" "}
               {booking.groupSize > 1 ? "People" : "Person"}
             </h5>
-            <span>${(price * booking.groupSize).toFixed(2)}</span>
+            <span>₹{(price * booking.groupSize).toFixed(2)}</span>
           </ListGroupItem>
           <ListGroupItem className="border-0 px-0">
             <h5>Taxes</h5>
-            <span>${taxes}</span>
+            <span>₹{taxes}</span>
           </ListGroupItem>
           <ListGroupItem className="border-0 px-0 total">
             <h5>Total</h5>
-            <span>${total}</span>
+            <span>₹{total}</span>
           </ListGroupItem>
         </ListGroup>
       </div>
