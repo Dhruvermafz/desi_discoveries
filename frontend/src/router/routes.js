@@ -34,6 +34,7 @@ import PrivacyPolicy from "../pages/PrivacyPolicy";
 import ProfileEdit from "../components/Profile/ProfileEdit";
 import RefundPolicy from "../pages/RefundPolicy";
 import CommentsReviews from "../components/admin/Reviews/Reviews";
+import ReviewsCard from "../components/admin/CommentsReviews/ReviewsCard";
 export const publicRoutes = [
   { path: "/about", element: About },
   { path: "/contact", element: Contact },
@@ -62,6 +63,7 @@ export const publicRoutes = [
 export const adminRoutes = [
   { path: "/admin", element: AdminWrapper },
   { path: "/admin/tours", element: TourList },
+  { path: "/admin/comments-reviews", element: ReviewsCard },
   { path: "/admin/tours/create", element: AddTourPackage },
   { path: "/admin/tours/update", element: UpdateTour },
   { path: "/admin/bookings", element: Bookings },

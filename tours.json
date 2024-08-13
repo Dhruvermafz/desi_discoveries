@@ -1,0 +1,103 @@
+{
+  "success": true,
+  "count": 4,
+  "message": "Tours retrieved successfully",
+  "data": [
+    {
+      "_id": "66a71ee53ee5d6d368aaaba8",
+      "title": "TITLE",
+      "city": "Jaipur",
+      "address": "efewfwefwef",
+      "distance": 2132,
+      "photos": [
+        "http://res.cloudinary.com/dpgelkpd4/image/upload/v1722228451/upload/rz5yicmko3c9dzih2i7i.jpg",
+        "http://res.cloudinary.com/dpgelkpd4/image/upload/v1722228451/upload/fseqy7d34yt388gvuigt.jpg"
+      ],
+      "desc": "adsasdo",
+      "price": 1233,
+      "maxGroupSize": 235,
+      "featured": true,
+      "reviews": [
+        {
+          "username": "retro",
+          "rating": 3,
+          "reviewText": "ljhlkjhl",
+          "_id": "66b9be755d16be94e0f62ac9"
+        }
+      ],
+      "createdAt": "2024-07-29T04:47:33.114Z",
+      "updatedAt": "2024-08-12T07:49:09.457Z",
+      "__v": 1,
+      "fromDate": "2024-08-15T00:00:00.000Z",
+      "toDate": "2024-08-19T00:00:00.000Z",
+      "totalDays": 4,
+      "totalNights": 3,
+      "bookedSize": 0
+    },
+    {
+      "bookedSize": 0,
+      "_id": "66ab2f7454428208bdf37535",
+      "title": "Stackoverflow",
+      "city": "Mumbai",
+      "address": "dfsdfsdfsdf",
+      "distance": 2314,
+      "photos": [
+        "http://res.cloudinary.com/dpgelkpd4/image/upload/v1722494829/upload/xr8junriephbjvkr6m9i.jpg"
+      ],
+      "desc": "efweffDfdff",
+      "price": 123,
+      "maxGroupSize": 12,
+      "featured": true,
+      "reviews": [],
+      "createdAt": "2024-08-01T06:47:16.713Z",
+      "updatedAt": "2024-08-06T09:31:06.708Z",
+      "__v": 0,
+      "fromDate": "2024-08-16T00:00:00.000Z",
+      "toDate": "2024-08-19T00:00:00.000Z",
+      "totalDays": 3,
+      "totalNights": 2
+    },
+    {
+      "_id": "66b9d647bcf7f0391e6a35e4",
+      "title": "Gujarat - 2024",
+      "city": "Gujarat",
+      "address": "andher nagri , Gujarat, Ahmedabad",
+      "distance": 3424,
+      "photos": [null],
+      "desc": "\nDwarka Somnath Tour Packages\nTour Name:\tDwarka Somnath Tour Packages\nTour Duration:\t04 Nights / 05 Days\nDestinations Covered:\tAhmedabad-Dwarka-Bet Dwarka -Porbandar -Somnath  -Virpur -Gondal.\nTour Price:\tRs.10,500/- Per Person+5%GST(6 person applicable)\nDwarka Somnath Tour Packages\nOverview Itinerary Price Enquiry\nOverview\nA dwarka somnath diu tour is a wonderful way to experience the culture, history, and nature of Gujarat and Daman and Diu. This tour covers the three major destinations of Dwarka, Somnath, and Diu, which are known for their religious, historical, and scenic significance. A dwarka somnath gir package can also include a visit to the Gir National Park, which is the home of the Asiatic lions and other wildlife. A dwarka somnath tour hours can vary depending on the itinerary and the mode of travel. A typical dwarka somnath tour packages can range from 4 days to 7 days, covering the main attractions and activities in each place. A somnath trip plan can start from Ahmedabad or Rajkot and include visits to places such as Porbandar, Veraval, Junagadh, and Sasan Gir. A dwarka somnath diu tour package can be booked online or through a travel agent at affordable prices. A dwarka somnath itinerary 3 days can be an ideal option for those who have limited time but want to explore the best of these places.\n\nItinerary Details\nDwarka Somnath Tour\n\nDay 1: Ahmedabad – Dwarka ( 450km / 8hrs )\nToday, proceed to the sacred town of Dwarka. Visit Dwarkadeesh Temple. Take a holy dip  in\nthe Gomti river. Overnight stay at the hotel.\n\n \n\nDwarka\n\nDay 02: Dwarka- Excursion to bet Dwarka (km/hrs)\nIn the morning leave to visit Nageshwar Jyotirling, Gopi Talav, Bet Dwarka, and on way back do visit Rukmani Temple, evening visit other temples on the coastal area, attend evening aarti at Dwarkadish temple. Overnight stay at the hotel.\n\n \n\n \n\nPorbandar\n\nDay 03: Dwarka – Porbandar – Somnath ( 200km / 4hrs )\nIn the morning depart to Porbandar (75km/1.5hrs) at Porbandar visit Kirti Mandir – the place where Gandhiji was born and Sudama Temple – The only Sudama Temple in the world. Later proceed to Somnath (130km/2.5hrs) on arrival visit Bhalka Tirth, Triveni Sagam, Geeta Mandir Chopati & Somnath Temple. In the evening attend Aarti and later watch light and Sound show. Overnight stay at the hotel.\n\n \n\nSomnath Temple\n\nDay 04: Somnath – Virpur – Gondal – Rajkot ( 200km / 4hrs ) \nToday, proceed to Rajkot. Enroute visit Junagadh fort at Junagadh, Jalaram Temple at Virpur and Swaminarayan temple, Navlakha Palace and Vintage Car Museum at Gondal. In the late evening arrive at Rajkot. Overnight stay at the hotel.\n\n \n\n \n\nAkshardham Temple\n\nDay 05: Rajkot – Akshardham – Ahmedabad ( 230km / 4hrs )\nToday, proceed to Ahmedabad. On arrival at Ahmedabad visit Adalaj Stepwell, Akshardham Temple (Closed on Monday) & Gandhi Ashram. Evening Drop at Railway station or Airport.\n\nNOTE: Indicated kms and journey time are approx and does not include sightseeing times.",
+      "price": 2345,
+      "maxGroupSize": 21,
+      "bookedSize": 0,
+      "fromDate": "2024-08-21T00:00:00.000Z",
+      "toDate": "2024-08-27T00:00:00.000Z",
+      "totalDays": 6,
+      "totalNights": 5,
+      "featured": true,
+      "reviews": [],
+      "createdAt": "2024-08-12T09:30:47.693Z",
+      "updatedAt": "2024-08-12T09:30:47.693Z",
+      "__v": 0
+    },
+    {
+      "_id": "66badb41bcf7f0391e6a3626",
+      "title": "13 Reasons Why",
+      "city": "Riverdale",
+      "address": "Saidas Colony",
+      "distance": 1234,
+      "photos": [null],
+      "desc": "Delhi is both a union territory within India, as well as a city, and features two very different worlds: New Delhi and Old Delhi. The former, inaugurated by the British in 1931 to serve as the imperial capital, is the nation's modern capital and seat of government, while Old Delhi is considered by many as the symbolic heart of the greater metropolitan area.\n\nOne of the most populous regions in the world – it boasts a population of nearly 20 million people – Delhi is a heady mix of tradition and modernity, and is important as both a religious center and India's busiest international gateway. Its history is as old as the ancient Yamuna River, one of the most sacred rivers in Hinduism and a natural dividing line between New Delhi to the west and Old Delhi to the east.\n\nThings to see and do in Delhi and New Delhi are plentiful and include experiencing its diverse arts and crafts industry, its many magnificent monuments, and countless performing arts venues. The area is also well known for its excellent cuisine, which includes delicacies from every corner of India. Delhi is also a shopper's paradise with numerous bazaars and markets, including Chandni Chowk, the country's most famous commercial area.\n\nFind the best places to visit in this bustling, vibrant city with our list of the top tourist attractions in Delhi, India.\n\n",
+      "price": 234,
+      "maxGroupSize": 16,
+      "bookedSize": 0,
+      "fromDate": "2024-08-15T00:00:00.000Z",
+      "toDate": "2024-08-19T00:00:00.000Z",
+      "totalDays": 4,
+      "totalNights": 3,
+      "featured": true,
+      "reviews": [],
+      "createdAt": "2024-08-13T04:04:17.906Z",
+      "updatedAt": "2024-08-13T04:04:17.906Z",
+      "__v": 0
+    }
+  ]
+}

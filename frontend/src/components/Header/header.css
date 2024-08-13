@@ -270,3 +270,17 @@
     transform: translateX(0);
   }
 }
+.mobile__header-lines {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 24px;
+  width: 30px;
+  cursor: pointer;
+}
+
+.mobile__header-line {
+  background-color: #333;
+  height: 3px;
+  border-radius: 2px;
+}

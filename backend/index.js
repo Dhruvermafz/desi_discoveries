@@ -33,7 +33,17 @@ async function connect() {
     console.log(err, "MONGODB Database Connection Failed!");
   }
 }
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLIENT_NAME,
+  api_key: process.env.CLOUDINARY_CLIENT_API,
+  api_secret: process.env.CLOUDINARY_CLIENT_SECRET,
+});
 
+export const instance = new Razorpay({
+  key_id: process.env.KEY,
+  _ID,
+  key_secret: process.env.KEY_SECRET,
+});
 const corsOptions = {
   origin: true,
   credentials: true,

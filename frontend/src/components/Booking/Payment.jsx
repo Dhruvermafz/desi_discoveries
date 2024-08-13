@@ -42,7 +42,7 @@ const Payment = () => {
 
       const options = {
         key: "rzp_live_hDOS5nsBQ7ZRER", // Replace with your Razorpay Key ID
-        amount: amount.toString(),
+        amount: amount,
         currency: currency,
         name: "Desi Discoveries",
         description: "Booking Payment",
@@ -65,6 +65,7 @@ const Payment = () => {
             navigate("/thank-you");
           } catch (error) {
             console.error("Payment verification failed:", error);
+            // Handle payment verification failure
           }
         },
         prefill: {
@@ -84,6 +85,7 @@ const Payment = () => {
       rzp1.open();
     } catch (error) {
       console.error("Error processing UPI payment", error);
+      // Handle payment processing failure
     }
   };
 

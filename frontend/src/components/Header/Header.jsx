@@ -7,7 +7,7 @@ import {
   DropdownButton,
 } from "react-bootstrap";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 import logo from "../../assets/images/logo.png";
 import "./header.css";
 import { AuthContext } from "../../context/AuthContext";
@@ -133,7 +133,15 @@ const Header = () => {
                     </div>
 
                     <span className="mobile__menu" onClick={toggleMenu}>
-                      {isMenuOpen ? <FaTimes /> : <FaBars />}
+                      {isMenuOpen ? (
+                        <FaTimes />
+                      ) : (
+                        <div className="mobile__header-lines">
+                          <div className="mobile__header-line"></div>
+                          <div className="mobile__header-line"></div>
+                          <div className="mobile__header-line"></div>
+                        </div>
+                      )}
                     </span>
                   </div>
                 </li>

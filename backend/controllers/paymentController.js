@@ -70,3 +70,10 @@ exports.verifyPayment = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+exports.getRazorPayKey = async (req, res, next) => {
+  res.status(200).json({
+    success: true,
+    key: process.env.RAZORPAY_API_KEY,
+  });
+};

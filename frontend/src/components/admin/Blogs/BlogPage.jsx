@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Container,
   Row,
@@ -13,32 +13,15 @@ import { deleteBlog } from "../../../redux/actions/blogActions";
 import BlogCard from "../../BlogCard/BlogCard";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios";
-import { BASE_URL } from "../../../utils/config";
+import useFetch from "../../../hooks/useFetch"; // Ensure correct path
 import BlogPageSidebar from "./BlogPageSidebar"; // Adjust the import path as needed
 
 const AdminBlogPage = () => {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}/api/v1/blogs`);
-        setBlogs(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError("Error fetching blogs. Please try again later.");
-        setLoading(false);
-        console.error("Error fetching blogs:", err);
-      }
-    };
-
-    fetchBlogs();
-  }, []);
+  // Fetch blogs using useFetch hook
+  const { data: blogs, loading, error } = useFetch("blogs");
 
   const handleDelete = async (id) => {
     try {
@@ -57,7 +40,8 @@ const AdminBlogPage = () => {
         Swal.fire("Deleted!", "The blog has been deleted.", "success");
 
         // Refresh the blog list
-        setBlogs(blogs.filter((blog) => blog._id !== id));
+        // Use setBlogs only if you need to update the local state
+        // Otherwise, the useFetch hook will handle refetching or state updates
       }
     } catch (err) {
       Swal.fire(
@@ -69,9 +53,11 @@ const AdminBlogPage = () => {
     }
   };
 
-  const filteredBlogs = blogs.filter((blog) =>
-    blog.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredBlogs = blogs
+    ? blogs.filter((blog) =>
+        blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
