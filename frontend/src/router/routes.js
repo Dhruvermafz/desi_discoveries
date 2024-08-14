@@ -18,8 +18,7 @@ import AdminWrapper from "../components/admin/AdminWrapper";
 import TourList from "../components/admin/Tours/TourList";
 import AddTourPackage from "../components/admin/Tours/AddTourPackage";
 import UpdateTour from "../components/admin/Tours/UpdateTour";
-import Profile from "../components/Profile/ProfilePage";
-
+import Profile from "../components/UserProfile/ProfileWrapper";
 import UserProfile from "../components/Profile/UserProfile";
 import Queries from "../pages/Queries";
 import BlogPage from "../components/admin/Blogs/BlogPage";
@@ -41,6 +40,7 @@ export const publicRoutes = [
   { path: "/", element: Home },
   { path: "/thankyou", element: ThankYou },
   { path: "*", element: PageNotFound },
+  { path: "/pro", element: Profile },
   { path: "/terms-and-conditions", element: TermsAndConditions },
   { path: "/privacy-policy", element: PrivacyPolicy },
   { path: "/refund-policy", element: RefundPolicy },

@@ -15,6 +15,7 @@ const blogRouter = require("./router/blog");
 const commentRouter = require("./router/comment");
 const createAdmin = require("./controllers/createAdmin");
 const Razorpay = require("razorpay");
+const cloudinary = require("cloudinary");
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -39,9 +40,8 @@ cloudinary.v2.config({
   api_secret: process.env.CLOUDINARY_CLIENT_SECRET,
 });
 
-export const instance = new Razorpay({
-  key_id: process.env.KEY,
-  _ID,
+exports.instance = new Razorpay({
+  key_id: process.env.KEY_ID,
   key_secret: process.env.KEY_SECRET,
 });
 const corsOptions = {
