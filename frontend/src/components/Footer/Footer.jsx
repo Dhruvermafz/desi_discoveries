@@ -114,10 +114,10 @@ const Footer = () => {
                 </div>
                 <p className="mb-0">
                   <Link
-                    to="mailto:davidteotia@gmail.com"
+                    to="mailto:info@desidiscoveries.in"
                     className="color-text"
                   >
-                    davidteotia@gmail.com
+                    info@desidiscoveries.in
                   </Link>
                 </p>
               </ListGroupItem>

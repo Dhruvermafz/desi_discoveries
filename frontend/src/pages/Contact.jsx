@@ -96,10 +96,11 @@ const Contact = () => {
                 <strong>Phone:</strong> 7838686544
               </p>
               <p>
-                <strong>Email:</strong> contact@example.com
+                <strong>Email:</strong> info@desidiscoveries.in
               </p>
               <p>
-                <strong>Address:</strong> 123 Example Street, City, Country
+                <strong>Address:</strong>H-82, Kunwar Singh Nagar, Nangloi, New
+                Delhi-110041
               </p>
             </div>
 
