@@ -34,6 +34,8 @@ import ProfileEdit from "../components/Profile/ProfileEdit";
 import RefundPolicy from "../pages/RefundPolicy";
 import CommentsReviews from "../components/admin/Reviews/Reviews";
 import ReviewsCard from "../components/admin/CommentsReviews/ReviewsCard";
+import BookingCheckout from "../components/Booking/BookingCheckout";
+import BlogDetailsMap from "../pages/BlogDetailsMarkdown";
 export const publicRoutes = [
   { path: "/about", element: About },
   { path: "/contact", element: Contact },
@@ -55,9 +57,10 @@ export const publicRoutes = [
   { path: "/faq", element: FAQ },
   { path: "/gallery", element: Gallery },
   { path: "/blogs", element: Blogs },
-  { path: "/blogs/:id", element: BlogDetails },
+  { path: "/blogs/:id", element: BlogDetailsMap },
   { path: "/profile/:id", element: ProfileWrapper },
   { path: "/profile/:id/edit", element: ProfileEdit },
+  { path: "/booking/checkout", element: BookingCheckout },
 ];
 
 export const adminRoutes = [

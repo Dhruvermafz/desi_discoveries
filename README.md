@@ -16,6 +16,4 @@ Complete with
 
 ### Sneak peak
 
-![Tours](./public/screenshots/tours.png)
-![Admin Page](./public/screenshots/createtour.png)
-![Stripe](./public/screenshots/stripe.png)
+![1724675017393](images/README/1724675017393.png)
