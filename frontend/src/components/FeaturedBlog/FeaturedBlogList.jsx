@@ -1,9 +1,16 @@
 import React from "react";
 import { Button, Col, NavLink } from "react-bootstrap";
-import useFetch from "../../hooks/useFetch";
-import BlogCard from "../BlogCard/BlogCard";
+import BlogCardMap from "../BlogCard/BlogCardMap";
+import blogs from "../../assets/data/blogs";
+
 const FeaturedBlogsList = ({ lg, sm, md }) => {
-  const { data: featuredBlogs, loading } = useFetch(`blogs/featured`);
+  // Filter and limit to 4 featured blogs
+  const featuredBlogs = blogs
+    .filter((blog) => blog.featured === true)
+    .slice(0, 3);
+
+  // Loading state (replace with your actual loading logic if needed)
+  const loading = false; // Set this according to your actual loading logic
 
   if (loading) {
     return (
@@ -18,8 +25,9 @@ const FeaturedBlogsList = ({ lg, sm, md }) => {
     <>
       {Array.isArray(featuredBlogs) &&
         featuredBlogs.map((blog) => (
-          <Col lg={lg} md={md} sm={sm} className="mb-4" key={blog._id}>
-            <BlogCard blog={blog} />
+          <Col lg={lg} md={md} sm={sm} className="mb-4" key={blog.id}>
+            {/* Apply a custom class for reduced size */}
+            <BlogCardMap blog={blog} customClass="small-blog-card" />
           </Col>
         ))}
       <div className="viall__btn">

@@ -1,29 +1,28 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Container, Row, Col, Alert, Form, ListGroup } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Form, ListGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
 import FeaturedBlogsList from "../components/FeaturedBlog/FeaturedBlogList";
 import Subtitle from "../components/Subtitle";
 import Newsletter from "../components/Newsletter";
+import avtar from "../assets/images/avatar.jpg"; // Ensure this path is correct
 import blogs from "../assets/data/blogs"; // Ensure this is the correct path
-import avtar from "../assets/images/avatar.jpg"; // Make sure this path is correct
 
 const BlogDetailsMap = () => {
   const { id } = useParams(); // Get blog ID from URL parameters
+  const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { user } = useContext(AuthContext); // Use AuthContext to get user information if needed
-
-  const [selectedBlog, setSelectedBlog] = useState(null);
 
   useEffect(() => {
-    const blog = blogs.find((blog) => blog.id === parseInt(id));
-    if (blog) {
-      setSelectedBlog(blog);
+    // Find the blog based on the ID from URL
+    const foundBlog = blogs.find((b) => b.id === id);
+    if (foundBlog) {
+      setBlog(foundBlog);
+      setLoading(false);
     } else {
       setError("Blog not found.");
+      setLoading(false);
     }
-    setLoading(false);
   }, [id]);
 
   if (loading) {
@@ -35,22 +34,23 @@ const BlogDetailsMap = () => {
     );
   }
 
-  if (error || !selectedBlog) {
+  if (error || !blog) {
     return <div className="error__msg">Blog not found.</div>;
   }
 
   const {
     title,
-    content,
-    image,
-    publishDate,
-    description,
-    excerpt,
     author,
-    createdAt,
-    comments,
+    publishDate,
+    image,
+    excerpt,
+    content,
+    comments = [],
     photo,
-  } = selectedBlog;
+  } = blog;
+
+  // Convert new lines to <br> tags
+  const formattedContent = content.replace(/\n/g, "<br />");
 
   const options = { day: "numeric", month: "long", year: "numeric" };
 
@@ -60,10 +60,11 @@ const BlogDetailsMap = () => {
         <Container>
           <Row>
             <Col lg="8">
+              {/* Blog Content */}
               <div className="blog__content">
+                {/* Blog Info */}
                 <div className="blog__info">
                   <h2>{title}</h2>
-
                   <div className="d-flex align-items-center gap-5">
                     <span className="blog__rating d-flex align-items-center gap-1">
                       <span>
@@ -72,39 +73,47 @@ const BlogDetailsMap = () => {
                       </span>
                     </span>
                   </div>
+                  {/* Blog Extra Details */}
                   <div className="blog__extra-details">
                     <span>
                       <i className="ri-calendar-line"></i>
-                      {new Date(createdAt).toLocaleDateString("en-in", options)}
+                      {new Date(publishDate).toLocaleDateString(
+                        "en-US",
+                        options
+                      )}
                     </span>
                     <span>
                       <i className="ri-chat-3-line"></i>
-                      {comments?.length || 0}{" "}
-                      {comments?.length === 1 ? "Comment" : "Comments"}
+                      {comments.length}{" "}
+                      {comments.length === 1 ? "Comment" : "Comments"}
                     </span>
                   </div>
-                  <h5>Blog Content</h5>
-                  <p>{content}</p>
+                  {/* Blog Content */}
+
+                  <div dangerouslySetInnerHTML={{ __html: formattedContent }} />
                   {photo && <img src={photo} alt={title} />}
                 </div>
 
+                {/* Blog Comments Section */}
                 <div className="blog__reviews mt-4">
                   <h4>Comments</h4>
+                  {/* Comments Form */}
                   <Form>
                     <div className="review__input">
                       <input
                         type="text"
                         placeholder="Share your thoughts"
                         required
-                        // Add form logic here
                       />
                       <button className="primary__btn text-white" type="submit">
                         Submit
                       </button>
                     </div>
                   </Form>
+
+                  {/* Render Comments */}
                   <ListGroup className="user__reviews">
-                    {comments?.map((comment, index) => (
+                    {comments.map((comment, index) => (
                       <div className="review__item" key={index}>
                         <img src={avtar} alt="avatar" />
                         <div className="w-100">
@@ -113,7 +122,7 @@ const BlogDetailsMap = () => {
                               <h5>{comment.username}</h5>
                               <p>
                                 {new Date(comment.createdAt).toLocaleDateString(
-                                  "en-in",
+                                  "en-US",
                                   options
                                 )}
                               </p>
@@ -127,6 +136,8 @@ const BlogDetailsMap = () => {
                 </div>
               </div>
             </Col>
+
+            {/* Sidebar for Featured Blogs */}
             <Col lg="4">
               <div className="Featured__blogs">
                 <div className="title">

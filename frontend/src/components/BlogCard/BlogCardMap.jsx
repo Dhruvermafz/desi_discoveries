@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./Blogcard.css";
 import blogs from "../../assets/data/blogs";
 const BlogCardMap = ({ blog, isAdmin, onDelete }) => {
-  const { id, title, author, publishDate, photo, excerpt, content } = blog;
+  const { id, title, author, publishDate, image, excerpt, content } = blog;
 
   const handleScrollToTop = () => {
     window.scrollTo({
@@ -17,11 +17,11 @@ const BlogCardMap = ({ blog, isAdmin, onDelete }) => {
     <div className="blog__card">
       <Card>
         {/* Carousel for blog images if there are multiple photos */}
-        {photo && (
+        {image && (
           <Carousel>
             <Carousel.Item>
               <Link to={`/blogs/${id}`} onClick={handleScrollToTop}>
-                <img src={photo} alt="blog" className="d-block w-100" />
+                <img src={image} alt="blog" className="d-block w-100" />
               </Link>
             </Carousel.Item>
           </Carousel>
