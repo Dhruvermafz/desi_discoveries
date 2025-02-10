@@ -106,7 +106,7 @@ const Payment = () => {
         </div>
       </div>
 
-      <h3>Choose Payment Method</h3>
+      <h3>Complete the Payment</h3>
       <div className="payment__method">
         <form onSubmit={handleUPIPayment}>
           <button type="submit" className="btn primary__btn w-100 mt-4">

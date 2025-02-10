@@ -13,6 +13,7 @@ const searchRouter = require("./router/search");
 const paymentRouter = require("./router/payment");
 const blogRouter = require("./router/blog");
 const commentRouter = require("./router/comment");
+const categoryTagRouter = require("./router/category");
 const createAdmin = require("./controllers/createAdmin");
 const Razorpay = require("razorpay");
 const cloudinary = require("cloudinary");
@@ -35,9 +36,9 @@ async function connect() {
   }
 }
 cloudinary.v2.config({
-  cloud_name: process.env.CLOUDINARY_CLIENT_NAME,
-  api_key: process.env.CLOUDINARY_CLIENT_API,
-  api_secret: process.env.CLOUDINARY_CLIENT_SECRET,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 exports.instance = new Razorpay({
@@ -62,6 +63,7 @@ app.use("/api/v1/contact", contactRouter);
 app.use("/api/v1/blogs", blogRouter);
 app.use("/api/v1/comment", commentRouter);
 app.use("/api/v1/payment", paymentRouter);
+app.use("/api/v1/categoryTag", categoryTagRouter);
 // createAdmin();
 app.listen(PORT, () => {
   connect();

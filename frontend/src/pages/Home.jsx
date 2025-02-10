@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/Home.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Subtitle from "../components/Subtitle";
@@ -17,10 +17,21 @@ import worldImg from "../assets/images/world.png";
 import experienceImage from "../assets/images/experience_1.webp";
 import FAQ from "../components/FAQ";
 import { Link } from "react-router-dom";
-
+import PopUp from "../components/PopUp";
 const Home = () => {
+  const [showPopup, setShowPopup] = useState(false);
+
+  // Show popup after 3 seconds when the component mounts
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPopup(true);
+    }, 3000); // Show the popup after 3 seconds
+
+    return () => clearTimeout(timer); // Cleanup the timer on component unmount
+  }, []);
   return (
     <>
+      {showPopup && <PopUp />}
       <section>
         <Container>
           <Row>

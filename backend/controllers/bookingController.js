@@ -103,9 +103,29 @@ const getAllBookings = asyncHandler(async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to get bookings" });
   }
 });
+const getAllUserBookings = asyncHandler(async (req, res) => {
+  try {
+    const userId = req.user.id; // Extract user ID from auth middleware
+    const bookings = await Booking.find({ user: userId });
+
+    res.status(200).json({
+      success: true,
+      message: "User bookings retrieved successfully",
+      data: bookings,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve user bookings",
+      error: err.message,
+    });
+  }
+});
 
 module.exports = {
   createBooking,
   getBooking,
   getAllBookings,
+  getAllUserBookings,
 };

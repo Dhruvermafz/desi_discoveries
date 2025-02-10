@@ -42,7 +42,6 @@ export const publicRoutes = [
   { path: "/", element: Home },
   { path: "/thankyou", element: ThankYou },
   { path: "*", element: PageNotFound },
-  { path: "/pro", element: Profile },
   { path: "/terms-and-conditions", element: TermsAndConditions },
   { path: "/privacy-policy", element: PrivacyPolicy },
   { path: "/refund-policy", element: RefundPolicy },
@@ -58,7 +57,7 @@ export const publicRoutes = [
   { path: "/gallery", element: Gallery },
   { path: "/blogs", element: Blogs },
   { path: "/blogs/:id", element: BlogDetailsMap },
-  { path: "/profile/:id", element: ProfileWrapper },
+  { path: "/profile/:id", element: Profile },
   { path: "/profile/:id/edit", element: ProfileEdit },
   { path: "/booking/checkout", element: BookingCheckout },
 ];

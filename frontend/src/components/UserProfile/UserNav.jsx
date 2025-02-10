@@ -31,12 +31,12 @@ const UserNav = () => {
       case "MyBooking":
         return <MyBookings />;
 
-      case "PaymentDetails":
-        return <PaymentDetails />;
-      case "MyWishlist":
-        return <MyWishList />;
-      case "Settings":
-        return <Settings />;
+      // case "PaymentDetails":
+      //   return <PaymentDetails />;
+      // case "MyWishlist":
+      //   return <MyWishList />;
+      // case "Settings":
+      //   return <Settings />;
       case "DeleteProfile":
         return <DeleteProfile />;
 
@@ -71,7 +71,7 @@ const UserNav = () => {
                   </Nav.Link>
                 </Nav.Item>
 
-                <Nav.Item>
+                {/* <Nav.Item>
                   <Nav.Link
                     onClick={() => setActiveComponent("PaymentDetails")}
                     className={
@@ -99,7 +99,7 @@ const UserNav = () => {
                     <FontAwesomeIcon icon={faSliders} className="me-2" />{" "}
                     Settings
                   </Nav.Link>
-                </Nav.Item>
+                </Nav.Item> */}
                 <Nav.Item>
                   <Nav.Link
                     onClick={() => setActiveComponent("DeleteProfile")}

@@ -46,7 +46,6 @@ const BlogDetailsMap = () => {
     excerpt,
     content,
     comments = [],
-    photo,
   } = blog;
 
   // Convert new lines to <br> tags
@@ -88,10 +87,10 @@ const BlogDetailsMap = () => {
                       {comments.length === 1 ? "Comment" : "Comments"}
                     </span>
                   </div>
+                  {image && <img src={image} alt={title} />}
                   {/* Blog Content */}
 
                   <div dangerouslySetInnerHTML={{ __html: formattedContent }} />
-                  {photo && <img src={photo} alt={title} />}
                 </div>
 
                 {/* Blog Comments Section */}
