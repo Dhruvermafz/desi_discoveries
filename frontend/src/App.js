@@ -1,6 +1,7 @@
 import "./App.css";
-import Layout from "./Layout";
-
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
+import Router from "./router/Router";
 function App() {
   // useEffect(() => {
   //   store.dispatch(loadUser());
@@ -8,7 +9,13 @@ function App() {
   //     //cleanup
   //   };
   // }, []);
-  return <Layout />;
+  return (
+    <>
+      <Header />
+      <Router />
+      <Footer />
+    </>
+  );
 }
 
 export default App;
